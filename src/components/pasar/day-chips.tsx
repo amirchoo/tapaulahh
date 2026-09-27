@@ -14,7 +14,7 @@ export function DayChips({
   value: DayFilter;
   onChange: (value: DayFilter) => void;
 }) {
-  const t = useTranslations("Home");
+  const t = useTranslations("PasarMap");
   const tDays = useTranslations("Days");
 
   const chip = (key: DayFilter, label: string, title?: string) => {

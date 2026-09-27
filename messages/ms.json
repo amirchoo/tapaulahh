@@ -5,11 +5,11 @@
   },
   "Nav": {
     "main": "Navigasi utama",
-    "home": "Tapaulahh, ke peta pasar",
+    "home": "Tapaulahh, ke laman utama",
     "pasar": "Pasar",
     "kedai": "Kedai Rumah",
-    "cari": "Cari",
-    "akaun": "Akaun"
+    "akaun": "Akaun",
+    "utama": "Utama"
   },
   "Theme": {
     "label": "Tema: {mode}. Tekan untuk tukar.",
@@ -24,18 +24,6 @@
   "Common": {
     "comingSoon": "Akan datang",
     "mapPlaceholder": "Peta akan muncul di sini"
-  },
-  "Home": {
-    "title": "Pasar malam",
-    "subtitle": "Cari pasar malam sekitar Shah Alam.",
-    "today": "Hari ni",
-    "dayFilter": "Pilih hari",
-    "empty": "Tiada pasar malam dalam senarai kami untuk hari ni.",
-    "emptyDay": "Tiada pasar malam dalam senarai kami pada hari {day}.",
-    "loading": "Tengah muat…",
-    "count": "{count, plural, other {# pasar}}",
-    "sampleNote": "Data contoh. Hari dan waktu belum disahkan.",
-    "viewPasar": "Tengok pasar"
   },
   "Pasar": {
     "eyebrow": "Pasar malam",
@@ -120,5 +108,34 @@
     "locationDenied": "Tak dapat lokasi. Peta masih boleh guna.",
     "away": "{distance} km",
     "you": "Lokasi kau"
+  },
+  "PasarMap": {
+    "title": "Pasar malam",
+    "subtitle": "Cari pasar malam sekitar KL dan Lembah Klang.",
+    "today": "Hari ni",
+    "dayFilter": "Pilih hari",
+    "empty": "Tiada pasar malam dalam senarai kami untuk hari ni.",
+    "emptyDay": "Tiada pasar malam dalam senarai kami pada hari {day}.",
+    "loading": "Tengah muat…",
+    "count": "{count, plural, other {# pasar}}",
+    "sampleNote": "Data contoh. Hari dan waktu belum disahkan.",
+    "viewPasar": "Tengok pasar",
+    "metaTitle": "Peta pasar malam"
+  },
+  "Landing": {
+    "greeting": "Nak tapau apa malam ni?",
+    "intro": "Cari pasar malam yang buka hari ni dan kedai rumah sekitar KL dan Lembah Klang.",
+    "searchButton": "Cari",
+    "tonightTitle": "Buka malam ni",
+    "seeMap": "Tengok peta",
+    "sectionPasarTitle": "Pasar malam",
+    "sectionPasarBody": "{count} pasar sekitar Lembah Klang, lengkap dengan hari dan waktu buka.",
+    "sectionKedaiBody": "Kek, lauk, frozen food dan macam-macam lagi, terus dari rumah.",
+    "foodTitle": "Tengah craving?",
+    "areasTitle": "Pasar malam ikut kawasan",
+    "areaCount": "{count} pasar",
+    "ctaTitle": "Ada gerai atau bisnes dari rumah?",
+    "ctaBody": "Daftar dan biar orang sekitar kau jumpa kau.",
+    "ctaButton": "Daftar sekarang"
   }
 }

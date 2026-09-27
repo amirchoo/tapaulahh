@@ -34,7 +34,11 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ## 4. Core features (Phase 1)
 
-### 4.1 Pasar map (main screen)
+### 4.0 Home (`/`)
+
+- Answers "where can I tapau tonight?" on its own: greeting + search, "Buka malam ni" (pasars running today with live status), entry cards for Pasar malam (amber) and Kedai Rumah (teal), popular food search chips, pasar-by-area list (server-rendered, for SEO), and one "Daftar sekarang" CTA for stalls and home businesses.
+
+### 4.1 Pasar map (`/pasar`)
 
 - Full-screen map, pasar markers clustered when zoomed out.
 - Default filter: **"Hari ini"** (pasar operating today). Chips for each day of the week.
@@ -125,7 +129,8 @@ Useful RPCs: `pasars_near(lat, lng, radius_m, day_of_week)`, `search_all(query)`
 BM routes have no prefix; English mirrors them under `/en` (e.g. `/en/pasar/[slug]`).
 
 ```
-/                       Map (pasar)
+/                       Home
+/pasar                  Map (pasar)
 /pasar/[slug]           Pasar page
 /pasar/[slug]/[vendor]  Vendor page
 /kedai                  Home business list + map
@@ -161,7 +166,7 @@ BM routes have no prefix; English mirrors them under `/en` (e.g. `/en/pasar/[slu
 - One CTA colour only. Status colours are for status only.
 - **Phone is the main device; desktop is supported.** Design and test at 375px first, then scale up.
   - Breakpoint: `< 768px` = mobile layout, `≥ 1024px` = desktop layout (tablet can use either, keep it usable).
-  - **Mobile:** full-screen map, bottom tab bar (Pasar | Kedai Rumah | Cari | Akaun), draggable bottom sheet for details, thumb-reachable controls, 44px min tap targets.
+  - **Mobile:** full-screen map, bottom tab bar (Utama | Pasar | Kedai Rumah | Akaun; search lives at the top of Utama), draggable bottom sheet for details, thumb-reachable controls, 44px min tap targets.
   - **Desktop:** top nav bar, map on the right with a ~400px left side panel for lists and details (no bottom sheets), hover states, keyboard-friendly search.
   - Same routes and data on both; only the layout changes. Fast on slow 4G.
 
@@ -186,3 +191,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Reports: login required
 - Domain: tapaulahh.com
 - Logo: Cho provides; use a text wordmark placeholder until then
+- Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Kedai Rumah | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28

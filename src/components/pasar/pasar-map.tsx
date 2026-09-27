@@ -4,12 +4,19 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection, Point } from "geojson";
 import {
   getVersion,
+  type Map as MapLibreMap,
   setWorkerUrl,
   type GeoJSONSource,
   type MapLayerMouseEvent,
 } from "maplibre-gl";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import Map, {
   AttributionControl,
   Layer,
@@ -28,6 +35,16 @@ const MAP_STYLES = {
   light: "https://tiles.openfreemap.org/styles/positron",
   dark: "https://tiles.openfreemap.org/styles/fiord",
 } as const;
+
+/**
+ * Opening view: centred on KL (3.139, 101.687), wide enough to cover the Klang
+ * Valley from Setia Alam and Klang in the west to Ampang in the east.
+ * [[west, south], [east, north]]
+ */
+const START_BOUNDS: [[number, number], [number, number]] = [
+  [101.42, 2.98],
+  [101.95, 3.3],
+];
 
 const SOURCE_ID = "pasars";
 const CLUSTER_LAYER = "pasar-clusters";
@@ -51,6 +68,19 @@ function subscribeHtmlClass(onChange: () => void) {
   return () => observer.disconnect();
 }
 const isDarkClass = () => document.documentElement.classList.contains("dark");
+
+/**
+ * OpenFreeMap's fiord style asks for "circle-11" but its sprite names the icon
+ * "circle_11". Serve the underscore icon under the requested id.
+ */
+function aliasMissingIcons(map: MapLibreMap) {
+  map.setMissingStyleImageResolver((id) => {
+    const alias = id.replaceAll("-", "_");
+    if (alias === id || !map.hasImage(alias)) return;
+    const { data, pixelRatio, sdf } = map.getImage(alias);
+    map.addImage(id, data, { pixelRatio, sdf });
+  });
+}
 
 /** Palette tokens from globals.css, read at runtime so no hex lives here. */
 function readColors() {
@@ -80,14 +110,12 @@ function cameraPadding(container: HTMLElement) {
 
 export default function PasarMap({
   views,
-  allLocations,
   selectedId,
   onSelect,
   focus,
   userLocation,
 }: {
   views: PasarView[];
-  allLocations: LatLng[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   focus: MapFocus | null;
@@ -100,7 +128,13 @@ export default function PasarMap({
     () => false,
   );
   const theme = isDark ? "dark" : "light";
-  const mapRef = useRef<MapRef>(null);
+  const mapRef = useRef<MapRef | null>(null);
+
+  // react-map-gl creates the map asynchronously; this runs once it exists.
+  const setMapRef = useCallback((ref: MapRef | null) => {
+    mapRef.current = ref;
+    if (ref) aliasMissingIcons(ref.getMap());
+  }, []);
 
   // `theme` is a cache key: the values come from the <html> class, now already swapped.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,15 +232,6 @@ export default function PasarMap({
     ];
   }, [colors]);
 
-  const initialBounds = useMemo(() => {
-    const lats = allLocations.map((l) => l.lat);
-    const lngs = allLocations.map((l) => l.lng);
-    return [
-      [Math.min(...lngs), Math.min(...lats)],
-      [Math.max(...lngs), Math.max(...lats)],
-    ] as [[number, number], [number, number]];
-  }, [allLocations]);
-
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !focus) return;
@@ -243,12 +268,12 @@ export default function PasarMap({
 
   return (
     <Map
-      ref={mapRef}
+      ref={setMapRef}
       mapStyle={MAP_STYLES[theme]}
-      initialViewState={{ bounds: initialBounds }}
+      initialViewState={{ bounds: START_BOUNDS }}
       onLoad={(e) => {
         const map = e.target;
-        map.fitBounds(initialBounds, {
+        map.fitBounds(START_BOUNDS, {
           padding: cameraPadding(map.getContainer()),
           duration: 0,
         });

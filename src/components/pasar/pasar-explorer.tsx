@@ -23,7 +23,7 @@ const PasarMap = dynamic(() => import("./pasar-map"), {
 type Locating = "idle" | "locating" | "denied";
 
 export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
-  const t = useTranslations("Home");
+  const t = useTranslations("PasarMap");
   const tMap = useTranslations("Map");
   const tDays = useTranslations("Days");
   const now = useMalaysiaNow();
@@ -44,7 +44,6 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
         : buildPasarViews(pasars, day, now, isToday, userLocation),
     [pasars, day, now, isToday, userLocation],
   );
-  const allLocations = useMemo(() => pasars.map((p) => p.location), [pasars]);
 
   function flyTo(location: LatLng, zoom: number) {
     setFocus((prev) => ({ location, zoom, key: (prev?.key ?? 0) + 1 }));
@@ -94,7 +93,6 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
         <section aria-label={tMap("label")} className="h-full">
           <PasarMap
             views={views}
-            allLocations={allLocations}
             selectedId={selectedId}
             onSelect={selectPasar}
             focus={focus}

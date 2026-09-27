@@ -11,6 +11,8 @@
 
 The full product brief is in [`VISION.md`](VISION.md) and the build order is in [`BUILD_PLAN.md`](BUILD_PLAN.md). Read those before making product decisions.
 
+Coming from Bolahh? [`docs/BOLAHH_TO_TAPAULAHH.md`](docs/BOLAHH_TO_TAPAULAHH.md) maps each Bolahh habit (React Router, i18next, inline styles, Supabase client) to its Tapaulahh equivalent.
+
 ---
 
 ## Contents
@@ -139,12 +141,13 @@ It's a separate Supabase project from Bolahh, in the same organisation.
 │   ├── app/
 │   │   ├── globals.css        Lampu Malam colour tokens (the only place for hex values)
 │   │   └── [locale]/          All routes, BM at / and English at /en
-│   │       ├── page.tsx       Pasar map (home)
-│   │       ├── pasar/[slug]/[vendor]/
+│   │       ├── page.tsx       Home
+│   │       ├── pasar/         Pasar map, plus [slug]/[vendor]/ pages
 │   │       ├── kedai/[slug]/
 │   │       ├── cari/  login/  akaun/kedai/  admin/
 │   │       └── not-found.tsx
 │   ├── components/
+│   │   ├── home/              Home page client parts
 │   │   ├── layout/            SplitView (map pages), ContentPage, panels
 │   │   ├── pasar/             Map, list, day chips, explorer
 │   │   ├── shell/             Header, tab bars, theme and language toggles
@@ -160,18 +163,19 @@ It's a separate Supabase project from Bolahh, in the same organisation.
 
 BM routes have no prefix; English mirrors them under `/en`.
 
-| Route                    | Page                           |
-| ------------------------ | ------------------------------ |
-| `/`                      | Pasar map                      |
-| `/pasar/[slug]`          | Pasar page                     |
-| `/pasar/[slug]/[vendor]` | Vendor page                    |
-| `/kedai`                 | Home business list and map     |
-| `/kedai/[slug]`          | Business page                  |
-| `/cari`                  | Search                         |
-| `/login`                 | Log in                         |
-| `/akaun`                 | My account and favourites      |
-| `/akaun/kedai`           | Manage my business and catalog |
-| `/admin/…`               | Admin area                     |
+| Route                    | Page                                                       |
+| ------------------------ | ---------------------------------------------------------- |
+| `/`                      | Home: search, pasars open tonight, sections, pasar by area |
+| `/pasar`                 | Pasar map                                                  |
+| `/pasar/[slug]`          | Pasar page                                                 |
+| `/pasar/[slug]/[vendor]` | Vendor page                                                |
+| `/kedai`                 | Home business list and map                                 |
+| `/kedai/[slug]`          | Business page                                              |
+| `/cari`                  | Search                                                     |
+| `/login`                 | Log in                                                     |
+| `/akaun`                 | My account and favourites                                  |
+| `/akaun/kedai`           | Manage my business and catalog                             |
+| `/admin/…`               | Admin area                                                 |
 
 ---
 
@@ -257,7 +261,7 @@ The **"Lampu Malam"** palette (night sky and warm stall lights) comes in light a
 | `--kedai`      | `#0B7A6E` | `#2EC4B6` | Kedai Rumah section         |
 
 - **Pasar is amber and Kedai Rumah is teal,** so users always know which section they're in.
-- **Phones come first:** design at 375px, with a bottom tab bar, a bottom sheet and 44px tap targets. Desktop has a top nav, a 400px left panel and the map on the right.
+- **Phones come first:** design at 375px, with a bottom tab bar (Utama, Pasar, Kedai Rumah, Akaun), a bottom sheet and 44px tap targets. Desktop has a top nav, a 400px left panel and the map on the right.
 
 ---
 
@@ -284,17 +288,17 @@ RPCs: `pasars_near(lat, lng, radius_m, day_of_week)` and `search_all(query)`.
 
 ## Roadmap
 
-| Part | Scope                                                                    | Status                   |
-| ---- | ------------------------------------------------------------------------ | ------------------------ |
-| 1    | Foundation: Next.js, theme, i18n, responsive shell, placeholder routes   | ✅ Done                  |
-| 2    | Supabase schema, RLS, RPCs, seed data, typed clients                     | ⏳ Next                  |
-| 3    | Pasar map: markers, clustering, day chips, open status, near me          | ✅ Done (on sample data) |
-| 4    | Pasar detail sheet and panel, vendor list, SSR pasar and vendor pages    | ⬜                       |
-| 5    | Auth (Google and magic link), account, favourites                        | ⬜                       |
-| 6    | Kedai Rumah: list, map, business page, owner catalog management          | ⬜                       |
-| 7    | Vendor register and claim, "report wrong info"                           | ⬜                       |
-| 8    | Admin: pasar CRUD and moderation queues                                  | ⬜                       |
-| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, deploy to tapaulahh.com | ⬜                       |
+| Part | Scope                                                                             | Status                   |
+| ---- | --------------------------------------------------------------------------------- | ------------------------ |
+| 1    | Foundation: Next.js, theme, i18n, responsive shell, placeholder routes, home page | ✅ Done                  |
+| 2    | Supabase schema, RLS, RPCs, seed data, typed clients                              | ⏳ Next                  |
+| 3    | Pasar map: markers, clustering, day chips, open status, near me                   | ✅ Done (on sample data) |
+| 4    | Pasar detail sheet and panel, vendor list, SSR pasar and vendor pages             | ⬜                       |
+| 5    | Auth (Google and magic link), account, favourites                                 | ⬜                       |
+| 6    | Kedai Rumah: list, map, business page, owner catalog management                   | ⬜                       |
+| 7    | Vendor register and claim, "report wrong info"                                    | ⬜                       |
+| 8    | Admin: pasar CRUD and moderation queues                                           | ⬜                       |
+| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, deploy to tapaulahh.com          | ⬜                       |
 
 Part 3 was built before Part 2 using temporary sample data in `src/lib/pasar/sample-data.ts`. **Its days, hours and coordinates haven't been verified.** Part 2 replaces it with Supabase.
 

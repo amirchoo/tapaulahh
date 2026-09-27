@@ -2,6 +2,7 @@
 
 # Tapaulahh
 
+- The owner knows Bolahh (Vite + React Router + i18next + inline styles, JS). `docs/BOLAHH_TO_TAPAULAHH.md` maps it to this stack; explain new concepts in those terms and keep that doc current.
 - Read `VISION.md` (product + tech decisions) and `BUILD_PLAN.md` (build order) first.
 - Build one part at a time; stop and summarise at the end of each part.
 - Next.js 16: middleware is `src/proxy.ts`; `params` are async.

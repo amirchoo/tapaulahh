@@ -39,7 +39,7 @@ function PasarRow({
   selected: boolean;
   onSelect: () => void;
 }) {
-  const t = useTranslations("Home");
+  const t = useTranslations("PasarMap");
   const tMap = useTranslations("Map");
   const locale = useLocale();
   const { pasar, distance } = view;
@@ -82,7 +82,7 @@ function PasarRow({
   );
 }
 
-function StatusLine({ view }: { view: PasarView }) {
+export function StatusLine({ view }: { view: PasarView }) {
   const t = useTranslations("Status");
   const locale = useLocale();
   const { status, sessions } = view;

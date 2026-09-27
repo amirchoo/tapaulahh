@@ -5,11 +5,11 @@
   },
   "Nav": {
     "main": "Main navigation",
-    "home": "Tapaulahh, go to pasar map",
+    "home": "Tapaulahh, go to home",
     "pasar": "Pasar",
     "kedai": "Kedai Rumah",
-    "cari": "Search",
-    "akaun": "Account"
+    "akaun": "Account",
+    "utama": "Home"
   },
   "Theme": {
     "label": "Theme: {mode}. Press to change.",
@@ -24,18 +24,6 @@
   "Common": {
     "comingSoon": "Coming soon",
     "mapPlaceholder": "The map will show up here"
-  },
-  "Home": {
-    "title": "Pasar malam",
-    "subtitle": "Find night markets around Shah Alam.",
-    "today": "Today",
-    "dayFilter": "Pick a day",
-    "empty": "No pasar malam in our list for today.",
-    "emptyDay": "No pasar malam in our list on {day}.",
-    "loading": "Loading…",
-    "count": "{count, plural, one {# pasar} other {# pasar}}",
-    "sampleNote": "Sample data. Days and hours not verified yet.",
-    "viewPasar": "View pasar"
   },
   "Pasar": {
     "eyebrow": "Pasar malam",
@@ -120,5 +108,34 @@
     "locationDenied": "Couldn't get your location. The map still works.",
     "away": "{distance} km",
     "you": "Your location"
+  },
+  "PasarMap": {
+    "title": "Pasar malam",
+    "subtitle": "Find night markets around KL and the Klang Valley.",
+    "today": "Today",
+    "dayFilter": "Pick a day",
+    "empty": "No pasar malam in our list for today.",
+    "emptyDay": "No pasar malam in our list on {day}.",
+    "loading": "Loading…",
+    "count": "{count, plural, one {# pasar} other {# pasar}}",
+    "sampleNote": "Sample data. Days and hours not verified yet.",
+    "viewPasar": "View pasar",
+    "metaTitle": "Pasar malam map"
+  },
+  "Landing": {
+    "greeting": "What's for tapau tonight?",
+    "intro": "Find pasar malam on today and home businesses around KL and the Klang Valley.",
+    "searchButton": "Search",
+    "tonightTitle": "On tonight",
+    "seeMap": "See map",
+    "sectionPasarTitle": "Pasar malam",
+    "sectionPasarBody": "{count} pasar around the Klang Valley, with days and opening times.",
+    "sectionKedaiBody": "Cakes, lauk, frozen food and more, straight from home kitchens.",
+    "foodTitle": "Craving something?",
+    "areasTitle": "Pasar malam by area",
+    "areaCount": "{count} pasar",
+    "ctaTitle": "Got a stall or a home business?",
+    "ctaBody": "Sign up and let people nearby find you.",
+    "ctaButton": "Sign up now"
   }
 }
