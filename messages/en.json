@@ -1,0 +1,124 @@
+{
+  "Metadata": {
+    "title": "Tapaulahh — night markets near you",
+    "description": "Map of pasar malam and home businesses in Shah Alam and the Klang Valley. See which pasar is on today and what stalls are there."
+  },
+  "Nav": {
+    "main": "Main navigation",
+    "home": "Tapaulahh, go to pasar map",
+    "pasar": "Pasar",
+    "kedai": "Kedai Rumah",
+    "cari": "Search",
+    "akaun": "Account"
+  },
+  "Theme": {
+    "label": "Theme: {mode}. Press to change.",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Language": {
+    "short": "BM",
+    "label": "Tukar ke Bahasa Melayu"
+  },
+  "Common": {
+    "comingSoon": "Coming soon",
+    "mapPlaceholder": "The map will show up here"
+  },
+  "Home": {
+    "title": "Pasar malam",
+    "subtitle": "Find night markets around Shah Alam.",
+    "today": "Today",
+    "dayFilter": "Pick a day",
+    "empty": "No pasar malam in our list for today.",
+    "emptyDay": "No pasar malam in our list on {day}.",
+    "loading": "Loading…",
+    "count": "{count, plural, one {# pasar} other {# pasar}}",
+    "sampleNote": "Sample data. Days and hours not verified yet.",
+    "viewPasar": "View pasar"
+  },
+  "Pasar": {
+    "eyebrow": "Pasar malam",
+    "placeholder": "Days, hours, address, parking and the stall list will show up here.",
+    "vendors": "Stalls"
+  },
+  "Vendor": {
+    "eyebrow": "Stall",
+    "placeholder": "What they sell, rough prices, photos and usual days will show up here.",
+    "back": "Back to pasar"
+  },
+  "Kedai": {
+    "title": "Kedai Rumah",
+    "subtitle": "Home businesses around you.",
+    "placeholder": "The home business list will show up here.",
+    "mapNote": "Shop locations are approximate only."
+  },
+  "KedaiDetail": {
+    "eyebrow": "Kedai Rumah",
+    "placeholder": "Catalog, opening hours and a WhatsApp button will show up here."
+  },
+  "Cari": {
+    "title": "Search",
+    "label": "Search pasar, area or food",
+    "placeholder": "E.g. apam balik, Seksyen 7",
+    "hint": "Search is coming soon."
+  },
+  "Login": {
+    "title": "Log in",
+    "subtitle": "Log in to save favourites and manage your shop.",
+    "note": "You don't need to log in to browse pasar."
+  },
+  "Akaun": {
+    "title": "My account",
+    "placeholder": "Your favourites and account settings will show up here.",
+    "manageKedai": "Manage my shop"
+  },
+  "AkaunKedai": {
+    "title": "My shop",
+    "placeholder": "Register your shop and manage your catalog here."
+  },
+  "Admin": {
+    "title": "Admin",
+    "placeholder": "Manage pasar, schedules, stalls and reports here."
+  },
+  "NotFound": {
+    "title": "Alamak, page not found",
+    "body": "The link might be old or mistyped.",
+    "home": "Back to the map"
+  },
+  "Status": {
+    "open": "Open now",
+    "openUntil": "Open now · until {time}",
+    "later": "Opens at {time}",
+    "closed": "Closed for today",
+    "hours": "{start} – {end}"
+  },
+  "Days": {
+    "short": {
+      "0": "Sun",
+      "1": "Mon",
+      "2": "Tue",
+      "3": "Wed",
+      "4": "Thu",
+      "5": "Fri",
+      "6": "Sat"
+    },
+    "long": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    }
+  },
+  "Map": {
+    "label": "Pasar malam map",
+    "nearMe": "Near me",
+    "locating": "Finding your location…",
+    "locationDenied": "Couldn't get your location. The map still works.",
+    "away": "{distance} km",
+    "you": "Your location"
+  }
+}

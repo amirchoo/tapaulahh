@@ -1,26 +1,140 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * "Lampu Malam" palette (VISION §9). This file is the only place hex values
+ * live — components use the semantic utilities below (bg-pasar, text-kedai…).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fff6e9;
+  --card: #ffffff;
+  --border: #eadfcc;
+  --text: #1b1f3b;
+  --text-muted: #5a5f7a;
+  --pasar: #f5a623;
+  --on-pasar: #1b1f3b;
+  --pasar-text: #8a5a00;
+  --cta: #c8431c;
+  --on-cta: #ffffff;
+  --open: #2e7d3a;
+  --kedai: #0b7a6e;
+  --on-kedai: #ffffff;
+  --shadow: rgb(27 31 59 / 0.12);
+
+  /* shadcn/ui aliases */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card-foreground: var(--text);
+  --popover: var(--card);
+  --popover-foreground: var(--text);
+  --primary: var(--cta);
+  --primary-foreground: var(--on-cta);
+  --secondary: color-mix(in oklab, var(--text) 6%, var(--card));
+  --secondary-foreground: var(--text);
+  --muted: color-mix(in oklab, var(--text) 6%, var(--card));
+  --muted-foreground: var(--text-muted);
+  --accent: color-mix(in oklab, var(--text) 6%, var(--card));
+  --accent-foreground: var(--text);
+  --destructive: oklch(0.577 0.245 27.325);
+  --input: var(--border);
+  --ring: var(--text-muted);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --bg: #12152b;
+  --card: #1b1f3b;
+  --border: #2e3355;
+  --text: #fff6e9;
+  --text-muted: #b8b6c9;
+  --pasar: #f5a623;
+  --on-pasar: #12152b;
+  --pasar-text: #f5a623;
+  --cta: #ff6b45;
+  --on-cta: #12152b;
+  --open: #4cc262;
+  --kedai: #2ec4b6;
+  --on-kedai: #12152b;
+  --shadow: rgb(0 0 0 / 0.45);
+
+  --secondary: color-mix(in oklab, var(--text) 8%, var(--card));
+  --muted: color-mix(in oklab, var(--text) 8%, var(--card));
+  --accent: color-mix(in oklab, var(--text) 8%, var(--card));
+  --destructive: oklch(0.704 0.191 22.216);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Tapaulahh semantic colours */
+  --color-pasar: var(--pasar);
+  --color-on-pasar: var(--on-pasar);
+  --color-pasar-text: var(--pasar-text);
+  --color-cta: var(--cta);
+  --color-on-cta: var(--on-cta);
+  --color-open: var(--open);
+  --color-kedai: var(--kedai);
+  --color-on-kedai: var(--on-kedai);
+
+  --shadow-sheet: 0 -8px 24px var(--shadow);
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* MapLibre controls follow the palette. Unlayered: maplibre-gl.css is unlayered too. */
+.maplibregl-map .maplibregl-ctrl.maplibregl-ctrl-attrib {
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  color: var(--text-muted);
+}
+.maplibregl-map .maplibregl-ctrl-attrib a {
+  color: var(--text);
+}
+.dark .maplibregl-map .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
 }

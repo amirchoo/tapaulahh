@@ -1,0 +1,124 @@
+{
+  "Metadata": {
+    "title": "Tapaulahh — pasar malam dekat kau",
+    "description": "Peta pasar malam dan kedai rumah di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
+  },
+  "Nav": {
+    "main": "Navigasi utama",
+    "home": "Tapaulahh, ke peta pasar",
+    "pasar": "Pasar",
+    "kedai": "Kedai Rumah",
+    "cari": "Cari",
+    "akaun": "Akaun"
+  },
+  "Theme": {
+    "label": "Tema: {mode}. Tekan untuk tukar.",
+    "light": "Cerah",
+    "dark": "Gelap",
+    "system": "Ikut sistem"
+  },
+  "Language": {
+    "short": "EN",
+    "label": "Switch to English"
+  },
+  "Common": {
+    "comingSoon": "Akan datang",
+    "mapPlaceholder": "Peta akan muncul di sini"
+  },
+  "Home": {
+    "title": "Pasar malam",
+    "subtitle": "Cari pasar malam sekitar Shah Alam.",
+    "today": "Hari ni",
+    "dayFilter": "Pilih hari",
+    "empty": "Tiada pasar malam dalam senarai kami untuk hari ni.",
+    "emptyDay": "Tiada pasar malam dalam senarai kami pada hari {day}.",
+    "loading": "Tengah muat…",
+    "count": "{count, plural, other {# pasar}}",
+    "sampleNote": "Data contoh. Hari dan waktu belum disahkan.",
+    "viewPasar": "Tengok pasar"
+  },
+  "Pasar": {
+    "eyebrow": "Pasar malam",
+    "placeholder": "Hari buka, waktu, alamat, parking dan senarai gerai akan muncul di sini.",
+    "vendors": "Gerai"
+  },
+  "Vendor": {
+    "eyebrow": "Gerai",
+    "placeholder": "Apa yang dijual, anggaran harga, gambar dan hari biasa ada akan muncul di sini.",
+    "back": "Balik ke pasar"
+  },
+  "Kedai": {
+    "title": "Kedai Rumah",
+    "subtitle": "Bisnes dari rumah sekitar kau.",
+    "placeholder": "Senarai kedai rumah akan muncul di sini.",
+    "mapNote": "Lokasi kedai ditunjuk anggaran sahaja."
+  },
+  "KedaiDetail": {
+    "eyebrow": "Kedai Rumah",
+    "placeholder": "Katalog, waktu operasi dan butang WhatsApp akan muncul di sini."
+  },
+  "Cari": {
+    "title": "Cari",
+    "label": "Cari pasar, kawasan atau makanan",
+    "placeholder": "Cth. apam balik, Seksyen 7",
+    "hint": "Carian akan berfungsi tak lama lagi."
+  },
+  "Login": {
+    "title": "Log masuk",
+    "subtitle": "Log masuk untuk simpan kegemaran dan urus kedai kau.",
+    "note": "Nak tengok pasar tak perlu log masuk."
+  },
+  "Akaun": {
+    "title": "Akaun saya",
+    "placeholder": "Kegemaran dan tetapan akaun akan muncul di sini.",
+    "manageKedai": "Urus kedai saya"
+  },
+  "AkaunKedai": {
+    "title": "Kedai saya",
+    "placeholder": "Daftar kedai dan urus katalog kau di sini."
+  },
+  "Admin": {
+    "title": "Admin",
+    "placeholder": "Urus pasar, jadual, gerai dan laporan di sini."
+  },
+  "NotFound": {
+    "title": "Alamak, halaman ni tak jumpa",
+    "body": "Mungkin pautan dah lama atau salah taip.",
+    "home": "Balik ke peta"
+  },
+  "Status": {
+    "open": "Buka sekarang",
+    "openUntil": "Buka sekarang · tutup {time}",
+    "later": "Buka pukul {time}",
+    "closed": "Dah tutup hari ni",
+    "hours": "{start} – {end}"
+  },
+  "Days": {
+    "short": {
+      "0": "Ahd",
+      "1": "Isn",
+      "2": "Sel",
+      "3": "Rab",
+      "4": "Kha",
+      "5": "Jum",
+      "6": "Sab"
+    },
+    "long": {
+      "0": "Ahad",
+      "1": "Isnin",
+      "2": "Selasa",
+      "3": "Rabu",
+      "4": "Khamis",
+      "5": "Jumaat",
+      "6": "Sabtu"
+    }
+  },
+  "Map": {
+    "label": "Peta pasar malam",
+    "nearMe": "Dekat saya",
+    "locating": "Tengah cari lokasi kau…",
+    "locationDenied": "Tak dapat lokasi. Peta masih boleh guna.",
+    "away": "{distance} km",
+    "you": "Lokasi kau"
+  }
+}
