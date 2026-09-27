@@ -11,6 +11,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 - Launch area: **Shah Alam / Klang Valley** first, then expand.
 - Domain: **tapaulahh.com**
 - Languages: **Bahasa Melayu (default) + English**, user can switch.
+- Audience: **locals first, plus tourists and visitors unfamiliar with an area.** English must be complete and natural, not an afterthought, and food and place names should make sense to someone who doesn't know them.
 
 ## 2. Phases
 
@@ -23,12 +24,13 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ## 3. Users
 
-| User                | Needs                                                             | Login required?  |
-| ------------------- | ----------------------------------------------------------------- | ---------------- |
-| Visitor             | Find pasar malam near them, see which day it runs, browse vendors | **No**           |
-| Home business owner | Create and manage a shop page + catalog                           | Yes              |
-| Pasar vendor        | Register a new stall or claim an existing one, edit its info      | Yes              |
-| Admin (founder)     | Add/edit pasar data, approve businesses, handle reports           | Yes (admin role) |
+| User                                              | Needs                                                                                    | Login required?  |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
+| Visitor (locals, tourists, people new to an area) | Find pasar malam near them, see which day it runs, browse vendors before going           | **No**           |
+| Home business owner                               | Create and manage a shop page + catalog                                                  | Yes              |
+| Pasar vendor                                      | Register a new stall or claim an existing one, edit its info                             | Yes              |
+| Admin (founder)                                   | Add/edit pasar data, approve businesses, handle reports                                  | Yes (admin role) |
+| Pasar organiser                                   | Share information about their pasar with visitors (see Open questions for Phase 1 scope) | Yes              |
 
 **Core rule: all public info is readable without an account.** Login is only for creating/managing content (and later, Phase 2 riders/ordering).
 
@@ -183,7 +185,12 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - UI copy: short, casual, sentence case. Every string in both BM and English.
 - **Build one part at a time from `BUILD_PLAN.md`.** Stop at the end of each part and summarise; don't start the next part until asked.
 
-## 12. Decisions log
+## 12. Open questions
+
+- **Pasar organisers:** what can they do in Phase 1? For example: claim a pasar (like vendors claim stalls), edit its days and hours, post "cancelled tonight" notices, manage the vendor list. Needs a decision before Parts 7–8, and the data model would need an organiser link on `pasars` (e.g. `organiser_id` or a `pasar_claims` table).
+- **Tourists:** does serving tourists need anything beyond good English (e.g. short explanations of dishes, "what is a pasar malam" help)? Not planned yet.
+
+## 13. Decisions log
 
 - Languages: BM (default) + English toggle
 - Inside a pasar: vendor list only, no per-stall pins (Phase 1)
@@ -192,3 +199,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Domain: tapaulahh.com
 - Logo: Cho provides; use a text wordmark placeholder until then
 - Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Kedai Rumah | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28
+- Audience widened: tourists and visitors unfamiliar with an area, plus pasar organisers as a user type (scope open) — 2026-09-28

@@ -24,6 +24,7 @@ Coming from Bolahh? [`docs/BOLAHH_TO_TAPAULAHH.md`](docs/BOLAHH_TO_TAPAULAHH.md)
 - [Architecture](#architecture)
 - [Project structure](#project-structure)
 - [Getting started](#getting-started)
+- [Branches](#branches)
 - [Environment variables](#environment-variables)
 - [Scripts](#scripts)
 - [Conventions](#conventions)
@@ -32,7 +33,9 @@ Coming from Bolahh? [`docs/BOLAHH_TO_TAPAULAHH.md`](docs/BOLAHH_TO_TAPAULAHH.md)
 - [Roadmap](#roadmap)
 
 ---
+
 ## Why Tapaulahh?
+
 Finding a particular pasar malam stall can be difficult. Stall locations and operating hours may change, while information about vendors is often scattered across social media or shared by word of mouth. Small vendors may also have limited ways to promote their food online.
 
 Tapaulahh aims to make local food easier to discover, especially for tourists and people unfamiliar with an area. Visitors can explore night markets and see what stalls offer before deciding where to go. Vendors, including home-based businesses in Kedai Rumah, can showcase their products and reach more customers.
@@ -50,12 +53,13 @@ Tapaulahh aims to make local food easier to discover, especially for tourists an
 
 ## What it does
 
-| Who                 | What they can do                                                                                | Login?           |
-| ------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
-| Visitor             | Find pasar malam near them, see which days they run and whether they're open now, browse stalls | No               |
-| Home business owner | Create a shop page with a catalog, WhatsApp and Instagram links                                 | Yes              |
-| Pasar vendor        | Register a new stall or claim an existing one                                                   | Yes              |
-| Admin               | Manage pasar data, approve businesses and stalls, handle reports                                | Yes (admin role) |
+| Who                           | What they can do                                                                                | Login?           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
+| Visitor (locals and tourists) | Find pasar malam near them, see which days they run and whether they're open now, browse stalls | No               |
+| Home business owner           | Create a shop page with a catalog, WhatsApp and Instagram links                                 | Yes              |
+| Pasar vendor                  | Register a new stall or claim an existing one                                                   | Yes              |
+| Admin                         | Manage pasar data, approve businesses and stalls, handle reports                                | Yes (admin role) |
+| Pasar organiser               | Share information about their pasar with visitors (Phase 1 scope still open)                    | Yes              |
 
 **Core rule:** everything public can be read without an account. Login is only for creating and managing content.
 
@@ -211,6 +215,20 @@ npm run dev
 Open <http://localhost:3000> for BM or <http://localhost:3000/en> for English.
 
 To check the phone layout, use your browser's device mode at **375px** wide. The desktop layout starts at **1024px**.
+
+---
+
+## Branches
+
+- **`dev`** is where all work goes. Commit and push to `dev`.
+- **`main`** only gets changes merged in from `dev`. Please don't commit to `main` directly.
+
+```bash
+git switch dev
+git pull
+# …make changes…
+git push
+```
 
 ---
 
