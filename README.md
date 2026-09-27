@@ -15,6 +15,8 @@ The full product brief is in [`VISION.md`](VISION.md) and the build order is in 
 
 ## Contents
 
+- [Why Tapaulahh?](#why-tapaulahh)
+- [Who it's for](#who-its-for)
 - [What it does](#what-it-does)
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
@@ -26,6 +28,21 @@ The full product brief is in [`VISION.md`](VISION.md) and the build order is in 
 - [Design system](#design-system)
 - [Data model](#data-model)
 - [Roadmap](#roadmap)
+
+---
+## Why Tapaulahh?
+Finding a particular pasar malam stall can be difficult. Stall locations and operating hours may change, while information about vendors is often scattered across social media or shared by word of mouth. Small vendors may also have limited ways to promote their food online.
+
+Tapaulahh aims to make local food easier to discover, especially for tourists and people unfamiliar with an area. Visitors can explore night markets and see what stalls offer before deciding where to go. Vendors, including home-based businesses in Kedai Rumah, can showcase their products and reach more customers.
+
+---
+
+## Who it's for
+
+- People looking for local food and night markets, especially tourists and visitors unfamiliar with the area
+- People who want to explore the food and products available at a night market before they visit
+- Small food vendors who want to be easier to find and promote their products
+- Night market organisers who want to share information with visitors
 
 ---
 
