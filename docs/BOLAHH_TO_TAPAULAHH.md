@@ -51,11 +51,22 @@ import GameDetailPage from "./pages/GameDetailPage";
 <Route path="/game/:id" element={<GameDetailPage />} />;
 ```
 
-**Tapaulahh:** create a folder with a `page.tsx`. That's it.
+**Tapaulahh:** create a folder with a `page.tsx`, then add its path to `pathnames` in `src/i18n/routing.ts` (that's where the English URL is set).
 
 ```
 src/app/[locale]/pasar/[slug]/page.tsx   →   /pasar/seksyen-7   and   /en/pasar/seksyen-7
+src/app/[locale]/cari/page.tsx           →   /cari              and   /en/search
 ```
+
+```ts
+// src/i18n/routing.ts
+pathnames: {
+  "/pasar/[slug]": "/pasar/[slug]",          // same in both languages
+  "/cari": { ms: "/cari", en: "/search" },    // translated for English
+}
+```
+
+Folders and code always use the **BM** path. English URLs come from this list automatically.
 
 `[slug]` in the folder name is the same as `:slug` in a React Router path.
 
@@ -84,16 +95,19 @@ export default async function PasarPage({
 
 ### Links and navigation
 
-| Bolahh (`react-router-dom`)          | Tapaulahh (`@/i18n/navigation`)                             |
-| ------------------------------------ | ----------------------------------------------------------- |
-| `<Link to="/game/12">`               | `<Link href="/pasar/seksyen-7">`                            |
-| `const navigate = useNavigate()`     | `const router = useRouter()`                                |
-| `navigate('/home')`                  | `router.push("/")`                                          |
-| `<Navigate to="/login" />`           | `redirect({ href: "/login", locale })` (server)             |
-| `NotFoundPage` route with `path="*"` | call `notFound()`; the page is `app/[locale]/not-found.tsx` |
-| `useLocation().pathname`             | `usePathname()`                                             |
+| Bolahh (`react-router-dom`)          | Tapaulahh (`@/i18n/navigation`)                                 |
+| ------------------------------------ | --------------------------------------------------------------- |
+| `<Link to="/cari">`                  | `<Link href="/cari">`                                           |
+| ``<Link to={`/game/${id}`}>``        | `<Link href={{ pathname: "/pasar/[slug]", params: { slug } }}>` |
+| `const navigate = useNavigate()`     | `const router = useRouter()`                                    |
+| `navigate('/home')`                  | `router.push("/")`                                              |
+| `<Navigate to="/login" />`           | `redirect({ href: "/login", locale })` (server)                 |
+| `NotFoundPage` route with `path="*"` | call `notFound()`; the page is `app/[locale]/not-found.tsx`     |
+| `useLocation().pathname`             | `usePathname()`                                                 |
 
 **Import `Link`, `useRouter`, `usePathname` and `redirect` from `@/i18n/navigation`, not from `next/link` or `next/navigation`.** Ours automatically keep the user in BM or English (`/pasar` vs `/en/pasar`).
+
+For pages with a `[slug]`, pass the route plus params instead of building the string yourself. That way English gets the right URL, and TypeScript checks that the route exists and every param is filled in. `usePathname()` also returns the route (`"/pasar/[slug]"`), not the real path.
 
 ---
 
@@ -317,8 +331,10 @@ Two clients exist because server components can't reach `localStorage`. The serv
 1. **`params` must be awaited:** `const { slug } = await params;`. It's a Promise in Next.js 16.
 2. **Start pages with `await initLocale(params)`,** or the page can render in the wrong language.
 3. **Import `Link` from `@/i18n/navigation`,** not `next/link`.
-4. **Hooks need `"use client"`** at the top of the file.
-5. **No hardcoded text:** use `t("…")`, with the key in both JSON files.
-6. **No hex colours in components:** use the colour classes in section 6.
-7. **Middleware is called `proxy.ts`** in Next.js 16 (`src/proxy.ts`).
-8. **Map changes may need a hard refresh** (`Cmd + Shift + R`), because the map only reads its starting view on first load.
+4. **New page? Add it to `pathnames`** in `src/i18n/routing.ts`, or links to it won't type-check and English won't get a URL.
+5. **Links to `[slug]` pages use an object:** `href={{ pathname: "/pasar/[slug]", params: { slug } }}`, not a template string.
+6. **Hooks need `"use client"`** at the top of the file.
+7. **No hardcoded text:** use `t("…")`, with the key in both JSON files.
+8. **No hex colours in components:** use the colour classes in section 6.
+9. **Middleware is called `proxy.ts`** in Next.js 16 (`src/proxy.ts`).
+10. **Map changes may need a hard refresh** (`Cmd + Shift + R`), because the map only reads its starting view on first load.

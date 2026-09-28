@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getPathname, usePathname } from "@/i18n/navigation";
@@ -10,7 +11,9 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
 export function LanguageToggle() {
   const t = useTranslations("Language");
   const locale = useLocale();
+  // With translated paths this is the route template, e.g. "/pasar/[slug]".
   const pathname = usePathname();
+  const params = useParams<Record<string, string>>();
 
   const next: Locale = locale === "ms" ? "en" : "ms";
 
@@ -19,7 +22,11 @@ export function LanguageToggle() {
     document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
     // Full load rather than router.replace: the client segment cache keeps the
     // old locale's route tree and its prefetches 404 after a soft switch.
-    const target = getPathname({ href: pathname, locale: next });
+    const target = getPathname({
+      // Params of the current page (slug, vendor) fill the same template.
+      href: { pathname, params } as Parameters<typeof getPathname>[0]["href"],
+      locale: next,
+    });
     window.location.assign(
       target + window.location.search + window.location.hash,
     );

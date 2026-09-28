@@ -126,22 +126,23 @@ Useful RPCs: `pasars_near(lat, lng, radius_m, day_of_week)`, `search_all(query)`
 - Never expose exact home addresses; only `public_location` is readable.
 - Storage buckets: `pasar-photos` (admin write), `business-photos` (owner write to their own folder), all public read.
 
-## 8. Suggested routes
+## 8. Routes
 
-BM routes have no prefix; English mirrors them under `/en` (e.g. `/en/pasar/[slug]`).
+BM routes have no prefix. English lives under `/en` with translated paths, except the brand words "pasar" and "kedai", which stay the same in both languages. The mapping is in `src/i18n/routing.ts` (`pathnames`).
 
 ```
-/                       Home
-/pasar                  Map (pasar)
-/pasar/[slug]           Pasar page
-/pasar/[slug]/[vendor]  Vendor page
-/kedai                  Home business list + map
-/kedai/[slug]           Business page
-/cari                   Search
-/login
-/akaun                  My account, favourites
-/akaun/kedai            Manage my business + catalog
-/admin/...              Admin area
+BM                      English                    Page
+/                       /en                        Home
+/pasar                  /en/pasar                  Map (pasar)
+/pasar/[slug]           /en/pasar/[slug]           Pasar page
+/pasar/[slug]/[vendor]  /en/pasar/[slug]/[vendor]  Vendor page
+/kedai                  /en/kedai                  Home business list + map
+/kedai/[slug]           /en/kedai/[slug]           Business page
+/cari                   /en/search                 Search
+/login                  /en/login
+/akaun                  /en/account                My account, favourites
+/akaun/kedai            /en/account/shop           Manage my business + catalog
+/admin/...              /en/admin/...              Admin area
 ```
 
 ## 9. Design direction
@@ -200,3 +201,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Logo: Cho provides; use a text wordmark placeholder until then
 - Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Kedai Rumah | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28
 - Audience widened: tourists and visitors unfamiliar with an area, plus pasar organisers as a user type (scope open) — 2026-09-28
+- English URLs translated (`/en/search`, `/en/account`, `/en/account/shop`); "pasar" and "kedai" kept as brand words in both languages — 2026-09-28

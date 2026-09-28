@@ -10,8 +10,24 @@ export const routing = defineRouting({
   // (remembered in LOCALE_COOKIE, handled in src/proxy.ts).
   localeDetection: false,
   localeCookie: false,
+  // Folders are in BM; English gets translated paths. "pasar" and "kedai" are
+  // brand words and stay the same. Every new page needs an entry here.
+  pathnames: {
+    "/": "/",
+    "/pasar": "/pasar",
+    "/pasar/[slug]": "/pasar/[slug]",
+    "/pasar/[slug]/[vendor]": "/pasar/[slug]/[vendor]",
+    "/kedai": "/kedai",
+    "/kedai/[slug]": "/kedai/[slug]",
+    "/cari": { ms: "/cari", en: "/search" },
+    "/login": "/login",
+    "/akaun": { ms: "/akaun", en: "/account" },
+    "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
+    "/admin": "/admin",
+  },
 });
 
 export type Locale = (typeof routing.locales)[number];
+export type Pathname = keyof typeof routing.pathnames;
 
 export const LOCALE_COOKIE = "tapau_locale";

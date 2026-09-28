@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { hasLocale } from "next-intl";
 import { NextResponse, type NextRequest } from "next/server";
+import { translateDefaultPath } from "@/i18n/localize-path";
 import { LOCALE_COOKIE, routing } from "@/i18n/routing";
 
 const handleI18n = createMiddleware(routing);
@@ -19,7 +20,8 @@ export default function proxy(request: NextRequest) {
     hasLocale(routing.locales, preferred)
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${preferred}${pathname === "/" ? "" : pathname}`;
+    const localized = translateDefaultPath(pathname, preferred);
+    url.pathname = `/${preferred}${localized === "/" ? "" : localized}`;
     return NextResponse.redirect(url);
   }
 

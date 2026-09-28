@@ -182,21 +182,21 @@ It's a separate Supabase project from Bolahh, in the same organisation.
 
 ### Routes
 
-BM routes have no prefix; English mirrors them under `/en`.
+BM has no prefix; English is under `/en` with translated paths. "pasar" and "kedai" are brand words and stay the same in both. To add a page, create the folder **and** add it to `pathnames` in `src/i18n/routing.ts`.
 
-| Route                    | Page                                                       |
-| ------------------------ | ---------------------------------------------------------- |
-| `/`                      | Home: search, pasars open tonight, sections, pasar by area |
-| `/pasar`                 | Pasar map                                                  |
-| `/pasar/[slug]`          | Pasar page                                                 |
-| `/pasar/[slug]/[vendor]` | Vendor page                                                |
-| `/kedai`                 | Home business list and map                                 |
-| `/kedai/[slug]`          | Business page                                              |
-| `/cari`                  | Search                                                     |
-| `/login`                 | Log in                                                     |
-| `/akaun`                 | My account and favourites                                  |
-| `/akaun/kedai`           | Manage my business and catalog                             |
-| `/admin/…`               | Admin area                                                 |
+| BM                       | English                     | Page                                                       |
+| ------------------------ | --------------------------- | ---------------------------------------------------------- |
+| `/`                      | `/en`                       | Home: search, pasars open tonight, sections, pasar by area |
+| `/pasar`                 | `/en/pasar`                 | Pasar map                                                  |
+| `/pasar/[slug]`          | `/en/pasar/[slug]`          | Pasar page                                                 |
+| `/pasar/[slug]/[vendor]` | `/en/pasar/[slug]/[vendor]` | Vendor page                                                |
+| `/kedai`                 | `/en/kedai`                 | Home business list and map                                 |
+| `/kedai/[slug]`          | `/en/kedai/[slug]`          | Business page                                              |
+| `/cari`                  | `/en/search`                | Search                                                     |
+| `/login`                 | `/en/login`                 | Log in                                                     |
+| `/akaun`                 | `/en/account`               | My account and favourites                                  |
+| `/akaun/kedai`           | `/en/account/shop`          | Manage my business and catalog                             |
+| `/admin/…`               | `/en/admin/…`               | Admin area                                                 |
 
 ---
 

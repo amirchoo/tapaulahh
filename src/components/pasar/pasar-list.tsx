@@ -72,7 +72,7 @@ function PasarRow({
         </span>
       </button>
       <Link
-        href={`/pasar/${pasar.slug}`}
+        href={{ pathname: "/pasar/[slug]", params: { slug: pasar.slug } }}
         className="flex h-11 items-center justify-between rounded-b-xl border-t px-4 text-sm font-semibold text-pasar-text outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         {t("viewPasar")}

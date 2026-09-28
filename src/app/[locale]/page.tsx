@@ -171,7 +171,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               {list.map((pasar) => (
                 <li key={pasar.id} className="border-b">
                   <Link
-                    href={`/pasar/${pasar.slug}`}
+                    href={{
+                      pathname: "/pasar/[slug]",
+                      params: { slug: pasar.slug },
+                    }}
                     className="flex min-h-11 items-center justify-between gap-3 py-2 outline-none hover:text-pasar-text focus-visible:ring-3 focus-visible:ring-ring/50"
                   >
                     <span className="font-semibold">{pasar.name}</span>

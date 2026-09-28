@@ -29,7 +29,7 @@ export default async function VendorPage({
         <>
           <div className="px-2 pt-2 lg:px-4 lg:pt-4">
             <Link
-              href={`/pasar/${slug}`}
+              href={{ pathname: "/pasar/[slug]", params: { slug } }}
               className="inline-flex h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <ChevronLeft className="size-4" aria-hidden />

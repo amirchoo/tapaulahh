@@ -39,7 +39,10 @@ export function TonightPasars({ pasars }: { pasars: Pasar[] }) {
       {views.map((view) => (
         <li key={view.pasar.id} className="w-64 shrink-0 snap-start lg:w-auto">
           <Link
-            href={`/pasar/${view.pasar.slug}`}
+            href={{
+              pathname: "/pasar/[slug]",
+              params: { slug: view.pasar.slug },
+            }}
             className="block h-full rounded-xl border bg-card p-4 transition-colors outline-none hover:border-pasar focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <span className="block font-bold">{view.pasar.name}</span>
