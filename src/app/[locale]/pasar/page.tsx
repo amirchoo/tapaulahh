@@ -4,6 +4,9 @@ import { PasarExplorer } from "@/components/pasar/pasar-explorer";
 import { initLocale } from "@/i18n/server";
 import { getPasars } from "@/lib/pasar/queries";
 
+// Pasar data comes from Supabase; rebuild the page at most every 5 minutes.
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/pasar">): Promise<Metadata> {

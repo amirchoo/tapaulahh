@@ -1,0 +1,3 @@
+-- Local development seed (runs on `supabase db reset` with Docker).
+-- Intentionally empty: real pasar data will be entered through the admin area
+-- (Part 8). Reference data such as categories lives in the migrations.

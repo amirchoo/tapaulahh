@@ -118,7 +118,6 @@
     "emptyDay": "Tiada pasar malam dalam senarai kami pada hari {day}.",
     "loading": "Tengah muat…",
     "count": "{count, plural, other {# pasar}}",
-    "sampleNote": "Data contoh. Hari dan waktu belum disahkan.",
     "viewPasar": "Tengok pasar",
     "metaTitle": "Peta pasar malam"
   },
@@ -130,6 +129,7 @@
     "seeMap": "Tengok peta",
     "sectionPasarTitle": "Pasar malam",
     "sectionPasarBody": "{count} pasar sekitar Lembah Klang, lengkap dengan hari dan waktu buka.",
+    "sectionPasarEmpty": "Senarai pasar malam sekitar Lembah Klang akan datang tak lama lagi.",
     "sectionKedaiBody": "Kek, lauk, frozen food dan macam-macam lagi, terus dari rumah.",
     "foodTitle": "Tengah craving?",
     "areasTitle": "Pasar malam ikut kawasan",

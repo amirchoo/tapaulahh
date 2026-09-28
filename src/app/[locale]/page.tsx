@@ -9,6 +9,9 @@ import { getPasars } from "@/lib/pasar/queries";
 import { WEEK } from "@/lib/pasar/schedule";
 import type { Pasar } from "@/lib/pasar/types";
 
+// Pasar data comes from Supabase; rebuild the page at most every 5 minutes.
+export const revalidate = 300;
+
 function groupByDistrict(pasars: Pasar[]): [string, Pasar[]][] {
   const groups: Record<string, Pasar[]> = {};
   for (const pasar of pasars) (groups[pasar.district] ??= []).push(pasar);
@@ -115,7 +118,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             />
           </span>
           <span className="mt-1 block text-sm text-muted-foreground">
-            {t("sectionPasarBody", { count: pasars.length })}
+            {pasars.length > 0
+              ? t("sectionPasarBody", { count: pasars.length })
+              : t("sectionPasarEmpty")}
           </span>
         </Link>
         <Link
@@ -158,36 +163,38 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </section>
 
       {/* Pasar by area: server-rendered text for search engines */}
-      <section aria-labelledby="areas" className="space-y-4">
-        <h2 id="areas" className="text-xl font-extrabold tracking-tight">
-          {t("areasTitle")}
-        </h2>
-        {groupByDistrict(pasars).map(([district, list]) => (
-          <div key={district}>
-            <h3 className="mb-2 text-sm font-bold text-muted-foreground">
-              {district} · {t("areaCount", { count: list.length })}
-            </h3>
-            <ul className="grid gap-x-6 sm:grid-cols-2">
-              {list.map((pasar) => (
-                <li key={pasar.id} className="border-b">
-                  <Link
-                    href={{
-                      pathname: "/pasar/[slug]",
-                      params: { slug: pasar.slug },
-                    }}
-                    className="flex min-h-11 items-center justify-between gap-3 py-2 outline-none hover:text-pasar-text focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    <span className="font-semibold">{pasar.name}</span>
-                    <span className="shrink-0 text-sm text-muted-foreground">
-                      {days(pasar)}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
+      {pasars.length > 0 && (
+        <section aria-labelledby="areas" className="space-y-4">
+          <h2 id="areas" className="text-xl font-extrabold tracking-tight">
+            {t("areasTitle")}
+          </h2>
+          {groupByDistrict(pasars).map(([district, list]) => (
+            <div key={district}>
+              <h3 className="mb-2 text-sm font-bold text-muted-foreground">
+                {district} · {t("areaCount", { count: list.length })}
+              </h3>
+              <ul className="grid gap-x-6 sm:grid-cols-2">
+                {list.map((pasar) => (
+                  <li key={pasar.id} className="border-b">
+                    <Link
+                      href={{
+                        pathname: "/pasar/[slug]",
+                        params: { slug: pasar.slug },
+                      }}
+                      className="flex min-h-11 items-center justify-between gap-3 py-2 outline-none hover:text-pasar-text focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                      <span className="font-semibold">{pasar.name}</span>
+                      <span className="shrink-0 text-sm text-muted-foreground">
+                        {days(pasar)}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
 
       {/* Join */}
       <section className="rounded-2xl border bg-card p-6 lg:flex lg:items-center lg:justify-between lg:p-8">

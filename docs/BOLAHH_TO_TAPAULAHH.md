@@ -311,20 +311,36 @@ const { data, error } = await supabase
   .single();
 ```
 
-What changes (set up in Part 2):
+What's different:
 
-| Bolahh                                                | Tapaulahh                                                         |
-| ----------------------------------------------------- | ----------------------------------------------------------------- |
-| One client, `lib/supabaseClient.js`                   | Two clients: `createClient()` for the server, one for the browser |
-| `import.meta.env.VITE_SUPABASE_URL`                   | `process.env.NEXT_PUBLIC_SUPABASE_URL`                            |
-| `VITE_SUPABASE_ANON_KEY`                              | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`                            |
-| Session in `localStorage` / `sessionStorage`          | Session in cookies, so the server knows who's logged in           |
-| `PrivateRoute` / `AdminRoute` wrappers                | Check the user at the top of the page, then `redirect()`          |
-| `supabase` CLI, `migrations/`, `seed.sql`, `db reset` | Same                                                              |
+| Bolahh                                       | Tapaulahh                                                                         |
+| -------------------------------------------- | --------------------------------------------------------------------------------- |
+| One client, `lib/supabaseClient.js`          | Three clients in `src/lib/supabase/` (below)                                      |
+| `import.meta.env.VITE_SUPABASE_URL`          | `process.env.NEXT_PUBLIC_SUPABASE_URL` (in `.env.local`)                          |
+| `VITE_SUPABASE_ANON_KEY`                     | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase's newer name for the same thing) |
+| Session in `localStorage` / `sessionStorage` | Session in cookies, so the server knows who's logged in (Part 5)                  |
+| `PrivateRoute` / `AdminRoute` wrappers       | Check the user at the top of the page, then `redirect()` (Part 5)                 |
+| No generated types                           | `npm run db:types` writes types for every table; typos in column names are errors |
+| `supabase` CLI, `migrations/`, `db push`     | Same, plus `npm run db:push` and `npm run test:db`                                |
+| Local ports 54321–54329                      | 55321–55329, so both projects can run locally at once                             |
 
-Two clients exist because server components can't reach `localStorage`. The server client reads the login cookie instead.
+**Which client do I use?**
 
----
+| File                     | Use it for                                              | Where               |
+| ------------------------ | ------------------------------------------------------- | ------------------- |
+| `lib/supabase/public.ts` | Public data anyone can see (pasars, approved shops)     | Server components   |
+| `lib/supabase/server.ts` | Anything about the logged-in user (favourites, my shop) | Server components   |
+| `lib/supabase/client.ts` | Clicks in the browser (e.g. the heart button)           | `"use client"` code |
+
+The public client doesn't read cookies, so pages stay fast and cached. Its results are cached for 5 minutes under the tag `public-data`.
+
+**Changing the database:** never edit tables in the Supabase dashboard. Add a new file in `supabase/migrations/` (copy the naming, e.g. `20261001120000_add_pasar_notes.sql`), then:
+
+```bash
+npm run db:push    # apply it to the cloud project
+npm run db:types   # refresh the TypeScript types
+npm run test:db    # re-run the security checks
+```
 
 ## 9. Gotchas
 

@@ -118,7 +118,6 @@
     "emptyDay": "No pasar malam in our list on {day}.",
     "loading": "Loading…",
     "count": "{count, plural, one {# pasar} other {# pasar}}",
-    "sampleNote": "Sample data. Days and hours not verified yet.",
     "viewPasar": "View pasar",
     "metaTitle": "Pasar malam map"
   },
@@ -130,6 +129,7 @@
     "seeMap": "See map",
     "sectionPasarTitle": "Pasar malam",
     "sectionPasarBody": "{count} pasar around the Klang Valley, with days and opening times.",
+    "sectionPasarEmpty": "Pasar malam around the Klang Valley, coming soon.",
     "sectionKedaiBody": "Cakes, lauk, frozen food and more, straight from home kitchens.",
     "foodTitle": "Craving something?",
     "areasTitle": "Pasar malam by area",

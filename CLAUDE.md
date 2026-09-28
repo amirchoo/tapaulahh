@@ -13,4 +13,5 @@
 - Map: MapLibre via `react-map-gl/maplibre`, OpenFreeMap tiles (positron light / fiord dark), no API key. MapLibre's worker is copied to `public/vendor/` by `scripts/copy-maplibre-worker.mjs` (postinstall/predev/prebuild) and set with `setWorkerUrl`.
 - Pasar data currently comes from `src/lib/pasar/sample-data.ts` via `getPasars()` in `src/lib/pasar/queries.ts`; Part 2 swaps that for Supabase. Time logic in `src/lib/pasar/schedule.ts` (always Asia/Kuala_Lumpur).
 - Git: commit and push to `dev` only; `main` gets merges from `dev` (ask the owner first). A teammate (Asyraf) also contributes.
+- Supabase: cloud project `duteuggmjqbselwotfqf` ("Tapaulahh", Team Bolahh org), linked via CLI (no DB password needed). No local Docker yet. Schema only via `supabase/migrations/` → `npm run db:push` → `npm run db:types` → `npm run test:db`. Public reads use `createPublicClient()` (cookie-free, cached 300s, tag `public-data`); user-specific reads use `createClient()` from `@/lib/supabase/server`. No sample data in the DB.
 - Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm run build`.

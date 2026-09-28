@@ -145,9 +145,6 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
                 />
               )}
             </div>
-            <p className="mt-4 text-xs text-muted-foreground">
-              {t("sampleNote")}
-            </p>
           </PanelBody>
         </>
       }

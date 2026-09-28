@@ -175,7 +175,13 @@ It's a separate Supabase project from Bolahh, in the same organisation.
 │   │   └── ui/                shadcn/ui components
 │   ├── i18n/                  next-intl routing, navigation, request config
 │   ├── lib/pasar/             Types, schedule and status logic, data access
+│   ├── lib/supabase/          Clients (public, server, browser) and generated DB types
 │   └── proxy.ts               Locale routing (Next.js 16's name for middleware)
+├── supabase/
+│   ├── migrations/            Database schema, RLS, RPCs, storage (source of truth)
+│   ├── tests/rls.test.mjs     npm run test:db
+│   └── seed.sql               Empty on purpose; real data comes via admin
+├── docs/                      Bolahh → Tapaulahh cheat sheet
 ├── VISION.md                  Product brief and decisions
 └── BUILD_PLAN.md              Build order, Parts 1 to 9
 ```
@@ -208,11 +214,19 @@ BM has no prefix; English is under `/en` with translated paths. "pasar" and "ked
 git clone https://github.com/amirchoo/tapaulahh.git
 cd tapaulahh
 npm install                  # also copies the MapLibre worker into public/vendor
-cp .env.example .env.local   # Supabase keys aren't needed until Part 2
+cp .env.example .env.local   # then fill in the Supabase URL and keys (see below)
 npm run dev
 ```
 
 Open <http://localhost:3000> for BM or <http://localhost:3000/en> for English.
+
+### Supabase
+
+The app uses the **Tapaulahh** project in the Team Bolahh organisation (Singapore). For now we develop against that cloud project directly; a local Docker setup comes before launch.
+
+1. Get the values from the Supabase dashboard → Tapaulahh → **Project Settings → API Keys** (and the project URL) and put them in `.env.local`.
+2. Install the [Supabase CLI](https://supabase.com/docs/guides/cli), then `supabase login` and `supabase link --project-ref duteuggmjqbselwotfqf` (once per machine).
+3. Change the database only through new files in `supabase/migrations/`, then `npm run db:push` and `npm run db:types`.
 
 To check the phone layout, use your browser's device mode at **375px** wide. The desktop layout starts at **1024px**.
 
@@ -236,26 +250,29 @@ git push
 
 See [`.env.example`](.env.example).
 
-| Variable                               | Where it's used                   | Notes                           |
-| -------------------------------------- | --------------------------------- | ------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`                 | Metadata, sitemap, auth redirects | `http://localhost:3000` locally |
-| `NEXT_PUBLIC_SUPABASE_URL`             | Browser and server                | From Part 2                     |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Browser and server                | From Part 2                     |
-| `SUPABASE_SECRET_KEY`                  | Server only                       | Never expose to the browser     |
+| Variable                               | Where it's used                   | Notes                                     |
+| -------------------------------------- | --------------------------------- | ----------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                 | Metadata, sitemap, auth redirects | `http://localhost:3000` locally           |
+| `NEXT_PUBLIC_SUPABASE_URL`             | Browser and server                | Project URL                               |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Browser and server                | Safe to expose; RLS protects data         |
+| `SUPABASE_SECRET_KEY`                  | Server only, `npm run test:db`    | Bypasses RLS. Never expose to the browser |
 
 ---
 
 ## Scripts
 
-| Command                | What it does                       |
-| ---------------------- | ---------------------------------- |
-| `npm run dev`          | Start the dev server               |
-| `npm run build`        | Production build                   |
-| `npm start`            | Serve the production build         |
-| `npm run lint`         | ESLint                             |
-| `npm run typecheck`    | Generate route types and run `tsc` |
-| `npm run format`       | Format everything with Prettier    |
-| `npm run format:check` | Check formatting (use in CI)       |
+| Command                | What it does                                                                       |
+| ---------------------- | ---------------------------------------------------------------------------------- |
+| `npm run dev`          | Start the dev server                                                               |
+| `npm run build`        | Production build                                                                   |
+| `npm start`            | Serve the production build                                                         |
+| `npm run lint`         | ESLint                                                                             |
+| `npm run typecheck`    | Generate route types and run `tsc`                                                 |
+| `npm run format`       | Format everything with Prettier                                                    |
+| `npm run format:check` | Check formatting (use in CI)                                                       |
+| `npm run db:push`      | Apply new migrations to the linked Supabase project                                |
+| `npm run db:types`     | Regenerate `src/lib/supabase/database.types.ts` from the database                  |
+| `npm run test:db`      | Security checks (RLS, triggers, RPCs, storage); creates and deletes `zz-test` rows |
 
 ---
 
@@ -302,40 +319,46 @@ The **"Lampu Malam"** palette (night sky and warm stall lights) comes in light a
 
 ## Data model
 
-This is a draft; the migrations in Part 2 are the final version. Geo columns use PostGIS `geography`.
+The migrations in `supabase/migrations/` are the source of truth; VISION.md §6 lists every column. Geo columns use PostGIS `geography`, with generated `lat`/`lng` columns for the API.
 
-| Table               | Purpose                                                                      |
-| ------------------- | ---------------------------------------------------------------------------- |
-| `profiles`          | User profile and role (`user` / `admin`)                                     |
-| `pasars`            | Pasar name, slug, location point, optional boundary polygon, address, status |
-| `pasar_schedules`   | Days and hours; one pasar can run on several days                            |
-| `vendor_categories` | Stall categories (BM and English names)                                      |
-| `vendors`           | Stalls at a pasar; can be claimed by an owner; moderated                     |
-| `vendor_claims`     | Requests to claim an existing stall                                          |
-| `home_businesses`   | Kedai Rumah shops, public location fuzzed; moderated                         |
-| `catalog_items`     | Products for a shop                                                          |
-| `favourites`        | Saved pasars, vendors and businesses                                         |
-| `reports`           | "Wrong info" reports for admins to review                                    |
+| Table                     | Purpose                                                        |
+| ------------------------- | -------------------------------------------------------------- |
+| `profiles`                | User profile and role (`user` / `admin`), created on sign-up   |
+| `pasars`                  | Pasar name, slug, location, optional boundary, address, status |
+| `pasar_schedules`         | Days and hours; one pasar can run on several days              |
+| `vendor_categories`       | Stall categories (BM and English names)                        |
+| `vendors`                 | Stalls at a pasar; can be registered or claimed; moderated     |
+| `vendor_claims`           | Requests to claim a stall; approval hands over ownership       |
+| `business_categories`     | Kedai Rumah categories                                         |
+| `home_businesses`         | Kedai Rumah shops; public location is fuzzed; moderated        |
+| `home_business_locations` | **Private** exact location per shop (owner and admins only)    |
+| `catalog_items`           | Products for a shop                                            |
+| `favourites`              | Saved pasars, stalls and shops                                 |
+| `reports`                 | "Wrong info" reports for admins to review                      |
 
 RPCs: `pasars_near(lat, lng, radius_m, day_of_week)` and `search_all(query)`.
+
+**Security in one line:** visitors read only active or approved rows and can't write; signed-in users manage only their own things, and anything they create starts `pending`; only admins change statuses. `npm run test:db` checks all of this (51 checks).
+
+Storage buckets: `pasar-photos` (admins upload) and `business-photos` (users upload into a folder named after their user id). Both are public to read.
 
 ---
 
 ## Roadmap
 
-| Part | Scope                                                                             | Status                   |
-| ---- | --------------------------------------------------------------------------------- | ------------------------ |
-| 1    | Foundation: Next.js, theme, i18n, responsive shell, placeholder routes, home page | ✅ Done                  |
-| 2    | Supabase schema, RLS, RPCs, seed data, typed clients                              | ⏳ Next                  |
-| 3    | Pasar map: markers, clustering, day chips, open status, near me                   | ✅ Done (on sample data) |
-| 4    | Pasar detail sheet and panel, vendor list, SSR pasar and vendor pages             | ⬜                       |
-| 5    | Auth (Google and magic link), account, favourites                                 | ⬜                       |
-| 6    | Kedai Rumah: list, map, business page, owner catalog management                   | ⬜                       |
-| 7    | Vendor register and claim, "report wrong info"                                    | ⬜                       |
-| 8    | Admin: pasar CRUD and moderation queues                                           | ⬜                       |
-| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, deploy to tapaulahh.com          | ⬜                       |
+| Part | Scope                                                                             | Status                                      |
+| ---- | --------------------------------------------------------------------------------- | ------------------------------------------- |
+| 1    | Foundation: Next.js, theme, i18n, responsive shell, placeholder routes, home page | ✅ Done                                     |
+| 2    | Supabase schema, RLS, RPCs, seed data, typed clients                              | ✅ Done (cloud; local Docker before launch) |
+| 3    | Pasar map: markers, clustering, day chips, open status, near me                   | ✅ Done                                     |
+| 4    | Pasar detail sheet and panel, vendor list, SSR pasar and vendor pages             | ⬜                                          |
+| 5    | Auth (Google and magic link), account, favourites                                 | ⬜                                          |
+| 6    | Kedai Rumah: list, map, business page, owner catalog management                   | ⬜                                          |
+| 7    | Vendor register and claim, "report wrong info"                                    | ⬜                                          |
+| 8    | Admin: pasar CRUD and moderation queues                                           | ⬜                                          |
+| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, deploy to tapaulahh.com          | ⬜                                          |
 
-Part 3 was built before Part 2 using temporary sample data in `src/lib/pasar/sample-data.ts`. **Its days, hours and coordinates haven't been verified.** Part 2 replaces it with Supabase.
+**The database has no pasars yet.** Real pasar data goes in through the admin area (Part 8), so until then the map and home page show their empty states.
 
 **Not in Phase 1:** riders and delivery, online ordering, payments, reviews, chat, a native app.
 

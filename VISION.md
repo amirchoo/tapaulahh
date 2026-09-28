@@ -100,22 +100,24 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 | Hosting     | Vercel                                                |                                                                                                                         |
 | PWA         | `@serwist/next` (or equivalent)                       | Manifest + offline shell                                                                                                |
 
-## 6. Data model (draft — refine in migrations)
+## 6. Data model
 
-All geo columns use PostGIS `geography(Point, 4326)` / `geography(Polygon, 4326)`.
+Built in `supabase/migrations/` (the source of truth; this is a summary). All geo columns use PostGIS `geography(Point, 4326)` / `geography(Polygon, 4326)`, and point tables also expose generated `lat`/`lng` number columns for the API.
 
-- **profiles** — `id` (= auth.users.id), `display_name`, `avatar_url`, `role` (`user` | `admin`), timestamps
-- **pasars** — `id`, `slug`, `name`, `description`, `location` (point), `boundary` (polygon, nullable), `address`, `district`, `state`, `parking_notes`, `photos[]`, `status` (`active` | `inactive`), timestamps
-- **pasar_schedules** — `id`, `pasar_id`, `day_of_week` (0–6), `start_time`, `end_time` (a pasar can run on multiple days)
-- **vendor_categories** — `id`, `slug`, `name_ms`, `name_en`, `icon`
-- **vendors** — `id`, `pasar_id`, `name`, `category_id`, `description`, `price_range`, `photos[]`, `position` (point, nullable, unused in P1), `usual_days` (int[]), `owner_id` (nullable, for claimed stalls), `status` (`pending` | `active` | `inactive`), timestamps
-- **vendor_claims** — `id`, `vendor_id`, `user_id`, `message`, `status` (`pending` | `approved` | `rejected`), timestamps
-- **home_businesses** — `id`, `slug`, `owner_id`, `name`, `category_id`, `description`, `district`, `state`, `public_location` (fuzzed point), `whatsapp`, `instagram`, `delivery_notes`, `hours`, `logo_url`, `status` (`pending` | `approved` | `rejected`), timestamps
-- **catalog_items** — `id`, `business_id`, `name`, `description`, `price_rm` (numeric), `photo_url`, `is_available`, `sort_order`
+- **profiles** — `id` (= auth.users.id), `display_name`, `avatar_url`, `role` (`user` | `admin`), timestamps. Created automatically on sign-up.
+- **pasars** — `id`, `slug`, `name`, `description`, `location` (point) + `lat`/`lng`, `boundary` (polygon, nullable), `address`, `district`, `state`, `parking_notes`, `photos[]`, `status` (`active` | `inactive`), timestamps
+- **pasar_schedules** — `id`, `pasar_id`, `day_of_week` (0 = Sunday … 6 = Saturday), `start_time`, `end_time` (end ≤ start means it runs past midnight; a pasar can run on multiple days)
+- **vendor_categories** — `id`, `slug`, `name_ms`, `name_en`, `icon` (Lucide name), `sort_order`. 12 starting categories.
+- **vendors** — `id`, `pasar_id`, `slug` (unique per pasar, for `/pasar/[slug]/[vendor]`), `name`, `category_id`, `description`, `price_range`, `photos[]`, `position` (point, nullable, unused in P1), `usual_days` (smallint[]), `owner_id` (nullable, for claimed stalls), `status` (`pending` | `active` | `inactive`), timestamps
+- **vendor_claims** — `id`, `vendor_id`, `user_id`, `message`, `status` (`pending` | `approved` | `rejected`), timestamps. Approving a claim sets the stall's `owner_id`.
+- **business_categories** — same shape as vendor_categories, separate list for Kedai Rumah (cakes, catering, frozen food, crafts…). 10 starting categories.
+- **home_businesses** — `id`, `slug`, `owner_id`, `name`, `category_id`, `description`, `district`, `state`, `public_location` (fuzzed point, set by trigger) + `public_lat`/`public_lng`, `whatsapp` (digits with country code), `instagram` (handle), `delivery_notes`, `hours`, `logo_url`, `status` (`pending` | `approved` | `rejected`), timestamps
+- **home_business_locations** — `business_id`, `address`, `location` (exact point). **Private: owner and admins only.** Saving it recomputes `public_location` 300–600 m away, in a direction fixed per business.
+- **catalog_items** — `id`, `business_id`, `name`, `description`, `price_rm` (numeric), `photo_url`, `is_available`, `sort_order`, timestamps
 - **favourites** — `user_id`, `target_type` (`pasar` | `vendor` | `business`), `target_id`
-- **reports** — `id`, `target_type`, `target_id`, `reason`, `details`, `reporter_id` (required), `status` (`open` | `resolved`), timestamps
+- **reports** — `id`, `target_type`, `target_id`, `reason`, `details`, `reporter_id` (required), `status` (`open` | `resolved`), `resolved_by`, `resolved_at`, timestamps
 
-Useful RPCs: `pasars_near(lat, lng, radius_m, day_of_week)`, `search_all(query)`.
+RPCs: `pasars_near(lat, lng, radius_m, day_of_week)` and `search_all(query)` (substring + fuzzy match across pasars, stalls, shops and catalog items).
 
 ## 7. Security rules (RLS)
 
@@ -202,3 +204,5 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Kedai Rumah | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28
 - Audience widened: tourists and visitors unfamiliar with an area, plus pasar organisers as a user type (scope open) — 2026-09-28
 - English URLs translated (`/en/search`, `/en/account`, `/en/account/shop`); "pasar" and "kedai" kept as brand words in both languages — 2026-09-28
+- Supabase: separate `Tapaulahh` project in the Team Bolahh org (shared Pro plan). Develop against the cloud project for now; add local Docker before launch — 2026-09-28
+- No sample pasar/vendor data in the database; real data goes in through the admin area. Categories are seeded as reference data — 2026-09-28
