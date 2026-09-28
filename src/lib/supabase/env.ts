@@ -1,7 +1,7 @@
 function required(name: string, value: string | undefined): string {
   if (!value) {
     throw new Error(
-      `Missing ${name}. Copy .env.example to .env.local and fill it in.`,
+      `Missing ${name}. Copy .env.example to .env and fill it in.`,
     );
   }
   return value;

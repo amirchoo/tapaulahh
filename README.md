@@ -214,7 +214,7 @@ BM has no prefix; English is under `/en` with translated paths. "pasar" and "ked
 git clone https://github.com/amirchoo/tapaulahh.git
 cd tapaulahh
 npm install                  # also copies the MapLibre worker into public/vendor
-cp .env.example .env.local   # then fill in the Supabase URL and keys (see below)
+cp .env.example .env   # then fill in the Supabase URL and keys (see below)
 npm run dev
 ```
 
@@ -224,7 +224,7 @@ Open <http://localhost:3000> for BM or <http://localhost:3000/en> for English.
 
 The app uses the **Tapaulahh** project in the Team Bolahh organisation (Singapore). For now we develop against that cloud project directly; a local Docker setup comes before launch.
 
-1. Get the values from the Supabase dashboard → Tapaulahh → **Project Settings → API Keys** (and the project URL) and put them in `.env.local`.
+1. Get the values from the Supabase dashboard → Tapaulahh → **Project Settings → API Keys** (and the project URL) and put them in `.env`.
 2. Install the [Supabase CLI](https://supabase.com/docs/guides/cli), then `supabase login` and `supabase link --project-ref duteuggmjqbselwotfqf` (once per machine).
 3. Change the database only through new files in `supabase/migrations/`, then `npm run db:push` and `npm run db:types`.
 

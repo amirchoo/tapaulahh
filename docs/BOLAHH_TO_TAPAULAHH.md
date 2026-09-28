@@ -32,7 +32,7 @@ Most of it is the same React you already write. The one new idea is **server com
 | `locales/en.json`, `locales/ms.json` | `messages/en.json`, `messages/ms.json` (project root)              |
 | `i18n.js`                            | `i18n/routing.ts`, `i18n/request.ts`                               |
 | `supabase/migrations/`, `seed.sql`   | Same, `supabase/migrations/` and `supabase/seed.sql` (from Part 2) |
-| `client/.env` with `VITE_…`          | `.env.local` with `NEXT_PUBLIC_…` (root)                           |
+| `client/.env` with `VITE_…`          | `.env` with `NEXT_PUBLIC_…` (root)                                 |
 | `vercel.json` rewrites for the SPA   | Not needed, Next.js handles it on Vercel                           |
 
 `[locale]` is in every path because BM lives at `/` and English at `/en`. You never type it in links; see section 3.
@@ -316,7 +316,7 @@ What's different:
 | Bolahh                                       | Tapaulahh                                                                         |
 | -------------------------------------------- | --------------------------------------------------------------------------------- |
 | One client, `lib/supabaseClient.js`          | Three clients in `src/lib/supabase/` (below)                                      |
-| `import.meta.env.VITE_SUPABASE_URL`          | `process.env.NEXT_PUBLIC_SUPABASE_URL` (in `.env.local`)                          |
+| `import.meta.env.VITE_SUPABASE_URL`          | `process.env.NEXT_PUBLIC_SUPABASE_URL` (in `.env`)                                |
 | `VITE_SUPABASE_ANON_KEY`                     | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase's newer name for the same thing) |
 | Session in `localStorage` / `sessionStorage` | Session in cookies, so the server knows who's logged in (Part 5)                  |
 | `PrivateRoute` / `AdminRoute` wrappers       | Check the user at the top of the page, then `redirect()` (Part 5)                 |

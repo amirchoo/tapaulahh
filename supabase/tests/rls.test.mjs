@@ -2,7 +2,7 @@
 //
 //   npm run test:db
 //
-// Runs against the project in .env.local (needs SUPABASE_SECRET_KEY). It creates
+// Runs against the project in .env (needs SUPABASE_SECRET_KEY). It creates
 // temporary rows and users prefixed "zz-test" and deletes them at the end.
 // Don't point it at production once real users exist; use a local or staging DB.
 import { createClient } from "@supabase/supabase-js";
@@ -12,7 +12,7 @@ const PUB = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 const SERVICE = process.env.SUPABASE_SECRET_KEY;
 if (!URL || !PUB || !SERVICE) {
   console.error(
-    "Needs NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY and SUPABASE_SECRET_KEY in .env.local",
+    "Needs NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY and SUPABASE_SECRET_KEY in .env",
   );
   process.exit(1);
 }

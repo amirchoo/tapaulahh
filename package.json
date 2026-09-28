@@ -15,7 +15,7 @@
     "postinstall": "node scripts/copy-maplibre-worker.mjs",
     "db:push": "supabase db push --linked",
     "db:types": "supabase gen types typescript --project-id duteuggmjqbselwotfqf --schema public > src/lib/supabase/database.types.ts && prettier --write src/lib/supabase/database.types.ts",
-    "test:db": "node --env-file=.env.local supabase/tests/rls.test.mjs"
+    "test:db": "node --env-file=.env supabase/tests/rls.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
