@@ -4,7 +4,8 @@
 
 "Tapau" is Malaysian slang for takeaway. Tapaulahh is a sister product to **Bolahh** (futsal booking), from the same company.
 
-- **Domain:** [tapaulahh.com](https://tapaulahh.com) (not live yet)
+- **Live (preview, hidden from search engines):** [tapaulahh.vercel.app](https://tapaulahh.vercel.app)
+- **Domain:** [tapaulahh.com](https://tapaulahh.com) (connected at launch, Part 9)
 - **Launch area:** Shah Alam and the Klang Valley, then wider
 - **Languages:** Bahasa Melayu (default) and English
 - **Status:** Phase 1 in progress (see [Roadmap](#roadmap))
@@ -246,6 +247,16 @@ git push
 
 ---
 
+## Deployment (Vercel)
+
+- **Project:** `tapaulahh` on Vercel, connected to this GitHub repo. It deploys automatically on every push.
+- **`main`** → production at <https://tapaulahh.vercel.app>. **`dev`** and other branches → private preview links (in the Vercel dashboard and on GitHub).
+- **Region:** `sin1` (Singapore), set in `vercel.json`, next to the Supabase database.
+- **Environment variables on Vercel:** only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Don't add `SUPABASE_SECRET_KEY` until a server feature needs it.
+- **Search engines:** every response sends `X-Robots-Tag: noindex` until launch. Flip `ALLOW_SEARCH_INDEXING` in `next.config.ts` in Part 9.
+
+---
+
 ## Environment variables
 
 See [`.env.example`](.env.example).
@@ -356,7 +367,7 @@ Storage buckets: `pasar-photos` (admins upload) and `business-photos` (users upl
 | 6    | Kedai Rumah: list, map, business page, owner catalog management                   | ⬜                                          |
 | 7    | Vendor register and claim, "report wrong info"                                    | ⬜                                          |
 | 8    | Admin: pasar CRUD and moderation queues                                           | ⬜                                          |
-| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, deploy to tapaulahh.com          | ⬜                                          |
+| 9    | Search, SEO (sitemap, OG images, hreflang), PWA, tapaulahh.com + allow indexing   | ⬜                                          |
 
 **The database has no pasars yet.** Real pasar data goes in through the admin area (Part 8), so until then the map and home page show their empty states.
 
