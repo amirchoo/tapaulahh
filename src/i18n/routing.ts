@@ -21,9 +21,24 @@ export const routing = defineRouting({
     "/kedai/[slug]": "/kedai/[slug]",
     "/cari": { ms: "/cari", en: "/search" },
     "/login": "/login",
+    "/daftar": { ms: "/daftar", en: "/sign-up" },
     "/akaun": { ms: "/akaun", en: "/account" },
+    "/akaun/selamat-datang": {
+      ms: "/akaun/selamat-datang",
+      en: "/account/welcome",
+    },
     "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
     "/admin": "/admin",
+    "/admin/pasar/baru": { ms: "/admin/pasar/baru", en: "/admin/pasar/new" },
+    "/admin/pasar/[id]": "/admin/pasar/[id]",
+    "/admin/pasar/[id]/gerai/baru": {
+      ms: "/admin/pasar/[id]/gerai/baru",
+      en: "/admin/pasar/[id]/stalls/new",
+    },
+    "/admin/pasar/[id]/gerai/[vendorId]": {
+      ms: "/admin/pasar/[id]/gerai/[vendorId]",
+      en: "/admin/pasar/[id]/stalls/[vendorId]",
+    },
   },
 });
 

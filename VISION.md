@@ -65,7 +65,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ### 4.4 Accounts (optional)
 
-- Supabase Auth: Google sign-in + email magic link. (Phone OTP later if needed.)
+- Supabase Auth: Google sign-in + email code (the email also has a link). No passwords; signing in with a new email creates the account. (Phone OTP later if needed.)
 - Logged-in users can: register a home business, manage their catalog, claim a vendor stall, save favourites.
 - New businesses go to `pending` → admin approves → public.
 
@@ -141,10 +141,17 @@ BM                      English                    Page
 /kedai                  /en/kedai                  Home business list + map
 /kedai/[slug]           /en/kedai/[slug]           Business page
 /cari                   /en/search                 Search
-/login                  /en/login
+/login                  /en/login                  Log in (email code or Google)
+/daftar                 /en/sign-up                Sign up (same flow, asks for a name)
 /akaun                  /en/account                My account, favourites
+/akaun/selamat-datang   /en/account/welcome        First-time name step
 /akaun/kedai            /en/account/shop           Manage my business + catalog
-/admin/...              /en/admin/...              Admin area
+/admin                  /en/admin                  Admin: pasar list
+/admin/pasar/baru       /en/admin/pasar/new        Add pasar
+/admin/pasar/[id]       /en/admin/pasar/[id]       Edit pasar + its stalls
+/admin/pasar/[id]/gerai/baru         …/stalls/new         Add stall
+/admin/pasar/[id]/gerai/[vendorId]   …/stalls/[vendorId]  Edit stall
+/auth/callback          (same)                     Email link + Google land here
 ```
 
 ## 9. Design direction
@@ -206,3 +213,5 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - English URLs translated (`/en/search`, `/en/account`, `/en/account/shop`); "pasar" and "kedai" kept as brand words in both languages — 2026-09-28
 - Supabase: separate `Tapaulahh` project in the Team Bolahh org (shared Pro plan). Develop against the cloud project for now; add local Docker before launch — 2026-09-28
 - No sample pasar/vendor data in the database; real data goes in through the admin area. Categories are seeded as reference data — 2026-09-28
+- Accounts: email code + link instead of link-only (email apps open links in their own browser on phones), plus a separate `/daftar` sign-up page that asks for a name. Google button shows once the provider is on — 2026-10-02
+- Admin pasar + stall management built ahead of Part 8 (moderation queues still to come). Pasar location is entered by pasting a Google Maps link or coordinates, not a map picker. Photos uploaded now, compressed in the browser — 2026-10-02

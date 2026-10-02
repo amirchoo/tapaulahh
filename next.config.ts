@@ -7,6 +7,14 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const ALLOW_SEARCH_INDEXING = false;
 
 const nextConfig: NextConfig = {
+  images: {
+    // Pasar and stall photos from Supabase Storage (public buckets only).
+    remotePatterns: [
+      new URL(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/**`,
+      ),
+    ],
+  },
   async headers() {
     if (ALLOW_SEARCH_INDEXING) return [];
     return [

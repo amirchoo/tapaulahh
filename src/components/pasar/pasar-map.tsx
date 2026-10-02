@@ -2,13 +2,7 @@
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { FeatureCollection, Point } from "geojson";
-import {
-  getVersion,
-  type Map as MapLibreMap,
-  setWorkerUrl,
-  type GeoJSONSource,
-  type MapLayerMouseEvent,
-} from "maplibre-gl";
+import type { GeoJSONSource, MapLayerMouseEvent } from "maplibre-gl";
 import { useTranslations } from "next-intl";
 import {
   useCallback,
@@ -26,15 +20,13 @@ import Map, {
   type MapRef,
 } from "react-map-gl/maplibre";
 import type { LatLng } from "@/lib/pasar/types";
+import {
+  aliasMissingIcons,
+  isDarkClass,
+  MAP_STYLES,
+  subscribeHtmlClass,
+} from "./map-style";
 import type { PasarView } from "./pasar-view";
-
-// Served from /public by scripts/copy-maplibre-worker.mjs.
-setWorkerUrl(`/vendor/maplibre-gl@${getVersion()}/maplibre-gl-worker.mjs`);
-
-const MAP_STYLES = {
-  light: "https://tiles.openfreemap.org/styles/positron",
-  dark: "https://tiles.openfreemap.org/styles/fiord",
-} as const;
 
 /**
  * Opening view: centred on KL (3.139, 101.687), wide enough to cover the Klang
@@ -60,27 +52,6 @@ type PointProps = {
   status: string;
   selected: boolean;
 };
-
-/** Tracks the `dark` class next-themes puts on <html> (set after React renders). */
-function subscribeHtmlClass(onChange: () => void) {
-  const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributeFilter: ["class"] });
-  return () => observer.disconnect();
-}
-const isDarkClass = () => document.documentElement.classList.contains("dark");
-
-/**
- * OpenFreeMap's fiord style asks for "circle-11" but its sprite names the icon
- * "circle_11". Serve the underscore icon under the requested id.
- */
-function aliasMissingIcons(map: MapLibreMap) {
-  map.setMissingStyleImageResolver((id) => {
-    const alias = id.replaceAll("-", "_");
-    if (alias === id || !map.hasImage(alias)) return;
-    const { data, pixelRatio, sdf } = map.getImage(alias);
-    map.addImage(id, data, { pixelRatio, sdf });
-  });
-}
 
 /** Palette tokens from globals.css, read at runtime so no hex lives here. */
 function readColors() {

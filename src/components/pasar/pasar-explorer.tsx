@@ -22,6 +22,9 @@ const PasarMap = dynamic(() => import("./pasar-map"), {
 
 type Locating = "idle" | "locating" | "denied";
 
+/** Street level, close enough to see the pasar's own lanes. */
+const PASAR_ZOOM = 17.5;
+
 export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
   const t = useTranslations("PasarMap");
   const tMap = useTranslations("Map");
@@ -53,7 +56,7 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
     const pasar = pasars.find((p) => p.id === id);
     if (!pasar) return;
     setSelectedId(id);
-    flyTo(pasar.location, 14);
+    flyTo(pasar.location, PASAR_ZOOM);
     document
       .getElementById(`pasar-${id}`)
       ?.scrollIntoView({ block: "nearest", behavior: "smooth" });

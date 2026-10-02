@@ -27,13 +27,21 @@
   },
   "Pasar": {
     "eyebrow": "Pasar malam",
-    "placeholder": "Hari buka, waktu, alamat, parking dan senarai gerai akan muncul di sini.",
-    "vendors": "Gerai"
+    "days": "Hari & waktu",
+    "about": "Tentang pasar ni",
+    "parking": "Parking",
+    "directions": "Tunjuk arah",
+    "vendorsTitle": "{count, plural, =0 {Gerai} other {Gerai (#)}}",
+    "vendorsEmpty": "Senarai gerai belum ada lagi. Ada gerai sini? Daftar dan biar orang jumpa kau.",
+    "otherCategory": "Lain-lain",
+    "metaDescription": "{name} di {district}. Buka {days}. Tengok waktu, lokasi dan gerai apa ada."
   },
   "Vendor": {
     "eyebrow": "Gerai",
-    "placeholder": "Apa yang dijual, anggaran harga, gambar dan hari biasa ada akan muncul di sini.",
-    "back": "Balik ke pasar"
+    "whatTheySell": "Apa yang dijual",
+    "usualDays": "Biasa ada pada",
+    "daysNote": "Gerai kadang-kadang cuti. Hari ni anggaran je.",
+    "metaDescription": "{name}, gerai di {pasar}. Tengok apa yang dijual dan hari biasa ada."
   },
   "Kedai": {
     "title": "Kedai Rumah",
@@ -51,15 +59,67 @@
     "placeholder": "Cth. apam balik, Seksyen 7",
     "hint": "Carian akan berfungsi tak lama lagi."
   },
-  "Login": {
-    "title": "Log masuk",
-    "subtitle": "Log masuk untuk simpan kegemaran dan urus kedai kau.",
-    "note": "Nak tengok pasar tak perlu log masuk."
+  "Auth": {
+    "loginTitle": "Log masuk",
+    "loginSubtitle": "Untuk simpan kegemaran, urus kedai rumah atau gerai kau.",
+    "signupTitle": "Daftar akaun",
+    "signupSubtitle": "Percuma. Daftar untuk letak kedai rumah atau gerai pasar kau, dan simpan kegemaran.",
+    "browseNote": "Nak tengok pasar dan kedai tak perlu akaun pun.",
+    "google": "Teruskan dengan Google",
+    "or": "atau",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Cth. Kak Ros",
+    "nameHint": "Nama ni orang nampak pada kedai atau gerai kau.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "nama@email.com",
+    "sendCode": "Hantar kod",
+    "sending": "Tengah hantar…",
+    "codeExplainer": "Kami hantar kod ke email kau, jadi tak perlu ingat kata laluan.",
+    "codeTitle": "Semak email kau",
+    "codeSent": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah, atau tekan pautan dalam email.",
+    "codeLabel": "Kod dari email",
+    "verify": "Masuk",
+    "verifying": "Tengah semak…",
+    "changeEmail": "Guna email lain",
+    "resend": "Hantar kod baru",
+    "resendIn": "Hantar kod baru ({seconds}s)",
+    "resent": "Kod baru dah dihantar.",
+    "spamHint": "Tak jumpa email? Semak folder spam atau promosi.",
+    "noAccount": "Belum ada akaun?",
+    "signupLink": "Daftar",
+    "haveAccount": "Dah ada akaun?",
+    "loginLink": "Log masuk",
+    "saving": "Tengah simpan…",
+    "saved": "Dah simpan.",
+    "headerLogin": "Log masuk",
+    "accountLabel": "Akaun saya",
+    "errors": {
+      "invalidEmail": "Email tu macam tak betul. Cuba semak balik.",
+      "nameRequired": "Letak nama dulu.",
+      "invalidCode": "Kod salah atau dah tamat tempoh. Cuba lagi, atau minta kod baru.",
+      "rateLimit": "Banyak sangat cubaan. Tunggu sekejap, lepas tu cuba lagi.",
+      "link": "Pautan tu dah tak boleh guna. Masukkan email kau untuk dapat kod baru.",
+      "google": "Tak dapat log masuk dengan Google. Cuba lagi, atau guna email.",
+      "generic": "Ada masalah sikit. Cuba lagi."
+    }
   },
   "Akaun": {
     "title": "Akaun saya",
-    "placeholder": "Kegemaran dan tetapan akaun akan muncul di sini.",
-    "manageKedai": "Urus kedai saya"
+    "noName": "Belum letak nama",
+    "memberSince": "Ahli sejak {date}",
+    "manageKedai": "Urus kedai saya",
+    "admin": "Admin",
+    "favouritesTitle": "Kegemaran",
+    "favouritesPlaceholder": "Pasar, gerai dan kedai yang kau simpan akan muncul di sini.",
+    "profileTitle": "Profil",
+    "save": "Simpan",
+    "signOut": "Log keluar"
+  },
+  "Welcome": {
+    "title": "Selamat datang!",
+    "subtitle": "Akaun kau dah siap. Apa nama kau?",
+    "continue": "Teruskan",
+    "skip": "Langkau dulu"
   },
   "AkaunKedai": {
     "title": "Kedai saya",
@@ -67,7 +127,113 @@
   },
   "Admin": {
     "title": "Admin",
-    "placeholder": "Urus pasar, jadual, gerai dan laporan di sini."
+    "subtitle": "Tambah dan urus pasar serta gerai.",
+    "optional": "tak wajib",
+    "slug": "Pautan (slug)",
+    "slugHint": "Bahagian hujung pautan, cth. tapaulahh.com/pasar/pasar-malam-seksyen-7. Biar kosong, kami buat dari nama.",
+    "slugHintEdit": "Kalau tukar, pautan lama yang orang dah kongsi takkan jalan lagi.",
+    "visibility": "Siapa boleh nampak",
+    "saveChanges": "Simpan perubahan",
+    "saving": "Tengah simpan…",
+    "saved": "Dah simpan.",
+    "viewPublic": "Tengok halaman awam",
+    "dangerZone": "Padam",
+    "pasarStatus": {
+      "active": "Aktif",
+      "activeHint": "Orang ramai nampak di peta, carian dan halaman pasar.",
+      "inactive": "Sembunyi",
+      "inactiveHint": "Tak tunjuk pada orang ramai. Untuk pasar yang dah tutup atau info yang belum siap."
+    },
+    "vendorStatus": {
+      "active": "Aktif",
+      "activeHint": "Orang nampak di halaman pasar.",
+      "pending": "Belum disemak",
+      "pendingHint": "Sembunyi sampai info dia disahkan.",
+      "inactive": "Sembunyi",
+      "inactiveHint": "Gerai dah tak ada, atau berhenti buat sementara."
+    },
+    "pasarList": {
+      "title": "{count, plural, other {Pasar (#)}}",
+      "add": "Tambah pasar",
+      "empty": "Belum ada pasar. Tekan \"Tambah pasar\" untuk mula.",
+      "noDays": "tiada hari",
+      "stalls": "{count, plural, =0 {Belum ada gerai} other {# gerai}}"
+    },
+    "vendorList": {
+      "title": "{count, plural, other {Gerai (#)}}",
+      "add": "Tambah gerai",
+      "empty": "Belum ada gerai di pasar ni."
+    },
+    "pasarForm": {
+      "newTitle": "Tambah pasar",
+      "editTitle": "Info pasar",
+      "basics": "Asas",
+      "name": "Nama pasar",
+      "namePlaceholder": "Cth. Pasar Malam Seksyen 7",
+      "description": "Penerangan",
+      "descriptionHint": "Apa yang best, berapa besar, tips untuk orang yang pertama kali datang.",
+      "where": "Lokasi",
+      "location": "Pautan Google Maps atau koordinat",
+      "locationHint": "Buka pasar di Google Maps, tekan Kongsi → Salin pautan, dan tampal sini. Atau tampal koordinat, cth. 3.0738, 101.5183.",
+      "checkOnMap": "Semak lokasi di Google Maps",
+      "address": "Alamat",
+      "addressPlaceholder": "Cth. Jalan Plumbum 7/102, Seksyen 7",
+      "district": "Kawasan",
+      "districtHint": "Bandar atau daerah, cth. Shah Alam. Pasar dikumpul ikut ni di laman utama.",
+      "state": "Negeri",
+      "parking": "Parking",
+      "parkingPlaceholder": "Cth. Parking tepi jalan. Datang sebelum 6 petang.",
+      "when": "Hari dan waktu",
+      "whenHint": "Tanda hari pasar buka. Waktu tutup lepas tengah malam pun boleh, cth. 17:00 hingga 01:00.",
+      "opens": "{day}: buka",
+      "closes": "{day}: tutup",
+      "create": "Tambah pasar",
+      "delete": "Padam pasar",
+      "deleteHint": "Ni padam pasar, jadual, semua gerai dan gambar sekali. Tak boleh undo. Kalau nak sembunyi je, pilih Sembunyi kat atas.",
+      "deleteConfirm": "Padam {name}{count, plural, =0 {} other { dan # gerai dia}}? Tak boleh undo."
+    },
+    "vendorForm": {
+      "newTitle": "Tambah gerai",
+      "editTitle": "Info gerai",
+      "basics": "Asas",
+      "name": "Nama gerai",
+      "namePlaceholder": "Cth. Apam Balik Pak Mat",
+      "category": "Kategori",
+      "noCategory": "Tiada kategori",
+      "description": "Apa yang dijual",
+      "descriptionHint": "Cth. Apam balik nipis dan tebal. Inti kacang, jagung, cheese.",
+      "price": "Anggaran harga",
+      "pricePlaceholder": "Cth. RM3 – RM10",
+      "days": "Hari biasa ada",
+      "daysHint": "Hari gerai ni selalu ada di pasar ni.",
+      "create": "Tambah gerai",
+      "delete": "Padam gerai",
+      "deleteConfirm": "Padam {name}? Tak boleh undo."
+    },
+    "photos": {
+      "title": "Gambar",
+      "add": "Tambah gambar",
+      "cover": "Utama",
+      "makeCover": "Jadikan gambar utama",
+      "remove": "Buang gambar",
+      "uploading": "Tengah muat naik…",
+      "hint": "Sampai {max} gambar. Gambar pertama jadi gambar utama.",
+      "failed": "Ada gambar tak dapat dimuat naik. Cuba lagi."
+    },
+    "fieldErrors": {
+      "required": "Wajib isi.",
+      "invalid": "Tak sah. Untuk pautan, guna huruf kecil, nombor dan sengkang (-) je.",
+      "taken": "Pautan ni dah diguna. Cuba yang lain.",
+      "locationUnreadable": "Tak dapat baca lokasi dari tu. Salin pautan dari butang Kongsi di Google Maps, atau tampal koordinat.",
+      "locationOutside": "Lokasi tu bukan di Malaysia. Semak balik: latitud dulu, lepas tu longitud.",
+      "scheduleRequired": "Pilih sekurang-kurangnya satu hari.",
+      "timeInvalid": "Semak waktu: masa buka dan tutup tak boleh sama."
+    },
+    "errors": {
+      "forbidden": "Kau tak ada akses admin.",
+      "generic": "Tak dapat simpan. Cuba lagi.",
+      "checkFields": "Ada yang perlu dibetulkan kat atas."
+    }
   },
   "NotFound": {
     "title": "Alamak, halaman ni tak jumpa",
@@ -79,7 +245,8 @@
     "openUntil": "Buka sekarang · tutup {time}",
     "later": "Buka pukul {time}",
     "closed": "Dah tutup hari ni",
-    "hours": "{start} – {end}"
+    "hours": "{start} – {end}",
+    "notToday": "Tak buka hari ni"
   },
   "Days": {
     "short": {

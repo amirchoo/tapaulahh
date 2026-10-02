@@ -27,7 +27,7 @@ Most of it is the same React you already write. The one new idea is **server com
 | `components/Navbar.jsx`              | `components/shell/site-header.tsx`, `nav-tabs.tsx`                 |
 | `lib/*.js` helpers                   | `lib/*.ts` helpers (e.g. `lib/pasar/schedule.ts`)                  |
 | `lib/supabaseClient.js`              | `lib/supabase/server.ts` + `client.ts` (from Part 2)               |
-| `context/AuthContext.jsx`            | Checked on the server per page (from Part 5)                       |
+| `context/AuthContext.jsx`            | `lib/auth/session.ts`, checked on the server per page (section 9)  |
 | `styles/globals.css` (CSS variables) | `app/globals.css` (CSS variables + Tailwind)                       |
 | `locales/en.json`, `locales/ms.json` | `messages/en.json`, `messages/ms.json` (project root)              |
 | `i18n.js`                            | `i18n/routing.ts`, `i18n/request.ts`                               |
@@ -318,8 +318,8 @@ What's different:
 | One client, `lib/supabaseClient.js`          | Three clients in `src/lib/supabase/` (below)                                      |
 | `import.meta.env.VITE_SUPABASE_URL`          | `process.env.NEXT_PUBLIC_SUPABASE_URL` (in `.env`)                                |
 | `VITE_SUPABASE_ANON_KEY`                     | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase's newer name for the same thing) |
-| Session in `localStorage` / `sessionStorage` | Session in cookies, so the server knows who's logged in (Part 5)                  |
-| `PrivateRoute` / `AdminRoute` wrappers       | Check the user at the top of the page, then `redirect()` (Part 5)                 |
+| Session in `localStorage` / `sessionStorage` | Session in cookies, so the server knows who's logged in (section 9)               |
+| `PrivateRoute` / `AdminRoute` wrappers       | `await requireUser(locale, "/akaun")` at the top of the page (section 9)          |
 | No generated types                           | `npm run db:types` writes types for every table; typos in column names are errors |
 | `supabase` CLI, `migrations/`, `db push`     | Same, plus `npm run db:push` and `npm run test:db`                                |
 | Local ports 54321–54329                      | 55321–55329, so both projects can run locally at once                             |
@@ -342,7 +342,63 @@ npm run db:types   # refresh the TypeScript types
 npm run test:db    # re-run the security checks
 ```
 
-## 9. Gotchas
+## 9. Accounts (sign in, sign up)
+
+Sign in and sign up are the same flow: email → a code from the email (or tap the link in it) → signed in. There are no passwords. An email with no account yet gets one. `/daftar` is the same form with a name field. Setup steps for the Supabase dashboard are in `docs/AUTH_SETUP.md`.
+
+### Who's logged in?
+
+| Bolahh                                             | Tapaulahh                                                     |
+| -------------------------------------------------- | ------------------------------------------------------------- |
+| `const { user } = useAuth()` (AuthContext)         | `const user = await getCurrentUser()` in a server component   |
+| `<PrivateRoute><AccountPage /></PrivateRoute>`     | `const user = await requireUser(locale, "/akaun")` at the top |
+| `<AdminRoute>`                                     | `requireUser`, then `getProfile(user.id)` and check `role`    |
+| `supabase.auth.signInWithPassword()` in `onSubmit` | A **server action** (below), called by the `<form>`           |
+| `navigate("/akaun")` after login                   | `redirect(...)` inside the server action                      |
+| `supabase.auth.onAuthStateChange` in the context   | Not needed: every page asks the server, which reads cookies   |
+
+`requireUser` sends signed-out visitors to `/login?next=/akaun` and brings them back afterwards, like Bolahh's `state: { from: location }`.
+
+Using `getCurrentUser()` makes that page **dynamic** (rendered per visitor), so only use it on account pages. Public pages stay static and fast; the header's "Log in"/avatar button checks in the browser instead (`components/shell/account-button.tsx`).
+
+### Server actions: forms without `fetch`
+
+In Bolahh a form has `onSubmit`, `e.preventDefault()`, a `loading` state and a Supabase call. Here the form points at a function that runs **on the server**:
+
+```tsx
+// lib/auth/actions.ts
+"use server";
+export async function saveNameAction(prev: NameState, formData: FormData) {
+  const name = String(formData.get("name") ?? "").trim();
+  if (!name) return { error: "nameRequired" }; // shown in the form
+  await supabase
+    .from("profiles")
+    .update({ display_name: name })
+    .eq("id", user.id);
+  return { saved: true };
+}
+
+// components/auth/name-form.tsx
+("use client");
+const [state, formAction, pending] = useActionState(saveNameAction, {});
+return (
+  <form action={formAction}>
+    <input name="name" />
+    {state.error && <p>{t(`errors.${state.error}`)}</p>}
+    <button disabled={pending}>{pending ? "Saving…" : "Save"}</button>
+  </form>
+);
+```
+
+`useActionState` gives you what you'd build by hand with `useState`: the last result (`state`) and a `pending` flag. Whatever the action returns becomes the next `state`. Inputs are read by their `name`, as in plain HTML.
+
+### Admin pages
+
+`/admin` uses the same pieces: `await requireAdmin(locale, "/admin")` at the top of each page (like Bolahh's `AdminRoute`), forms that call server actions in `lib/admin/actions.ts`, and each action checks `getAdminUser()` again. After saving, `updateTag(PUBLIC_DATA_TAG)` clears the 5-minute public cache so the map shows the change straight away.
+
+Photos are the one thing that skips the server: the browser shrinks them (`components/admin/photo-uploader.tsx`) and uploads straight to Supabase Storage, the same as `supabase.storage.from(...).upload()` in Bolahh. Storage rules only let admins upload. The form then saves just the photo URLs.
+
+## 10. Gotchas
 
 1. **`params` must be awaited:** `const { slug } = await params;`. It's a Promise in Next.js 16.
 2. **Start pages with `await initLocale(params)`,** or the page can render in the wrong language.
@@ -354,3 +410,4 @@ npm run test:db    # re-run the security checks
 8. **No hex colours in components:** use the colour classes in section 6.
 9. **Middleware is called `proxy.ts`** in Next.js 16 (`src/proxy.ts`).
 10. **Map changes may need a hard refresh** (`Cmd + Shift + R`), because the map only reads its starting view on first load.
+11. **Server actions check the user themselves.** A page being behind `requireUser` doesn't protect its actions; each action calls `getCurrentUser()` (RLS is the final guard).
