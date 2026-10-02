@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { ContentPage } from "@/components/layout/content-page";
 import { Placeholder } from "@/components/layout/panel";
 import { initLocale } from "@/i18n/server";
+import { requireUser } from "@/lib/auth/session";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,8 @@ export async function generateMetadata({
 export default async function AkaunKedaiPage({
   params,
 }: PageProps<"/[locale]/akaun/kedai">) {
-  await initLocale(params);
+  const locale = await initLocale(params);
+  await requireUser(locale, "/akaun/kedai");
   const t = await getTranslations("AkaunKedai");
 
   return (

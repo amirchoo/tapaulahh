@@ -21,7 +21,12 @@ export const routing = defineRouting({
     "/kedai/[slug]": "/kedai/[slug]",
     "/cari": { ms: "/cari", en: "/search" },
     "/login": "/login",
+    "/daftar": { ms: "/daftar", en: "/sign-up" },
     "/akaun": { ms: "/akaun", en: "/account" },
+    "/akaun/selamat-datang": {
+      ms: "/akaun/selamat-datang",
+      en: "/account/welcome",
+    },
     "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
     "/admin": "/admin",
   },

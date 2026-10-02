@@ -26,6 +26,6 @@ export function activeNavKey(pathname: string): NavKey | null {
   if (pathname === "/" || is("/cari")) return "utama";
   if (is("/pasar")) return "pasar";
   if (is("/kedai")) return "kedai";
-  if (is("/akaun") || is("/login")) return "akaun";
+  if (is("/akaun") || is("/login") || is("/daftar")) return "akaun";
   return null;
 }

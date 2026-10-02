@@ -1,3 +1,4 @@
+import { AccountButton } from "./account-button";
 import { LanguageToggle } from "./language-toggle";
 import { TopNavTabs } from "./nav-tabs";
 import { ThemeToggle } from "./theme-toggle";
@@ -14,6 +15,10 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center">
           <LanguageToggle />
           <ThemeToggle />
+          {/* Mobile has the Akaun tab in the bottom bar instead. */}
+          <div className="ml-2 hidden lg:block">
+            <AccountButton />
+          </div>
         </div>
       </div>
     </header>

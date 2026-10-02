@@ -51,15 +51,67 @@
     "placeholder": "E.g. apam balik, Seksyen 7",
     "hint": "Search is coming soon."
   },
-  "Login": {
-    "title": "Log in",
-    "subtitle": "Log in to save favourites and manage your shop.",
-    "note": "You don't need to log in to browse pasar."
+  "Auth": {
+    "loginTitle": "Log in",
+    "loginSubtitle": "To save favourites and manage your home business or stall.",
+    "signupTitle": "Create an account",
+    "signupSubtitle": "It's free. Sign up to list your home business or pasar stall, and save favourites.",
+    "browseNote": "You don't need an account to browse pasar and shops.",
+    "google": "Continue with Google",
+    "or": "or",
+    "nameLabel": "Name",
+    "namePlaceholder": "E.g. Kak Ros",
+    "nameHint": "People see this name on your shop or stall.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@email.com",
+    "sendCode": "Send code",
+    "sending": "Sending…",
+    "codeExplainer": "We'll email you a code, so there's no password to remember.",
+    "codeTitle": "Check your email",
+    "codeSent": "We sent a code to {email}. Enter it below, or tap the link in the email.",
+    "codeLabel": "Code from the email",
+    "verify": "Continue",
+    "verifying": "Checking…",
+    "changeEmail": "Use a different email",
+    "resend": "Send a new code",
+    "resendIn": "Send a new code ({seconds}s)",
+    "resent": "New code sent.",
+    "spamHint": "Can't find it? Check your spam or promotions folder.",
+    "noAccount": "New here?",
+    "signupLink": "Create an account",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "saving": "Saving…",
+    "saved": "Saved.",
+    "headerLogin": "Log in",
+    "accountLabel": "My account",
+    "errors": {
+      "invalidEmail": "That email doesn't look right. Please check it.",
+      "nameRequired": "Please add your name.",
+      "invalidCode": "That code is wrong or has expired. Try again, or get a new code.",
+      "rateLimit": "Too many tries. Wait a moment, then try again.",
+      "link": "That link can't be used any more. Enter your email to get a new code.",
+      "google": "Couldn't log in with Google. Try again, or use your email.",
+      "generic": "Something went wrong. Please try again."
+    }
   },
   "Akaun": {
     "title": "My account",
-    "placeholder": "Your favourites and account settings will show up here.",
-    "manageKedai": "Manage my shop"
+    "noName": "No name yet",
+    "memberSince": "Member since {date}",
+    "manageKedai": "Manage my shop",
+    "admin": "Admin",
+    "favouritesTitle": "Favourites",
+    "favouritesPlaceholder": "Pasar, stalls and shops you save will show up here.",
+    "profileTitle": "Profile",
+    "save": "Save",
+    "signOut": "Log out"
+  },
+  "Welcome": {
+    "title": "Welcome!",
+    "subtitle": "Your account is ready. What should we call you?",
+    "continue": "Continue",
+    "skip": "Skip for now"
   },
   "AkaunKedai": {
     "title": "My shop",

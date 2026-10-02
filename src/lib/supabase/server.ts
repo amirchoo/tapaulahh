@@ -24,7 +24,7 @@ export async function createClient() {
           }
         } catch {
           // Called from a Server Component, where cookies are read-only.
-          // Session refresh happens in src/proxy.ts (Part 5), so this is safe to skip.
+          // src/proxy.ts refreshes the session, so this is safe to skip.
         }
       },
     },

@@ -208,7 +208,14 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           asChild
           className="mt-4 h-12 rounded-xl bg-cta px-6 text-base font-bold text-on-cta hover:bg-cta/90 lg:mt-0"
         >
-          <Link href="/akaun">{t("ctaButton")}</Link>
+          <Link
+            href={{
+              pathname: "/daftar",
+              query: { next: getPathname({ href: "/akaun/kedai", locale }) },
+            }}
+          >
+            {t("ctaButton")}
+          </Link>
         </Button>
       </section>
     </div>

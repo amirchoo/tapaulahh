@@ -51,15 +51,67 @@
     "placeholder": "Cth. apam balik, Seksyen 7",
     "hint": "Carian akan berfungsi tak lama lagi."
   },
-  "Login": {
-    "title": "Log masuk",
-    "subtitle": "Log masuk untuk simpan kegemaran dan urus kedai kau.",
-    "note": "Nak tengok pasar tak perlu log masuk."
+  "Auth": {
+    "loginTitle": "Log masuk",
+    "loginSubtitle": "Untuk simpan kegemaran, urus kedai rumah atau gerai kau.",
+    "signupTitle": "Daftar akaun",
+    "signupSubtitle": "Percuma. Daftar untuk letak kedai rumah atau gerai pasar kau, dan simpan kegemaran.",
+    "browseNote": "Nak tengok pasar dan kedai tak perlu akaun pun.",
+    "google": "Teruskan dengan Google",
+    "or": "atau",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Cth. Kak Ros",
+    "nameHint": "Nama ni orang nampak pada kedai atau gerai kau.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "nama@email.com",
+    "sendCode": "Hantar kod",
+    "sending": "Tengah hantar…",
+    "codeExplainer": "Kami hantar kod ke email kau, jadi tak perlu ingat kata laluan.",
+    "codeTitle": "Semak email kau",
+    "codeSent": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah, atau tekan pautan dalam email.",
+    "codeLabel": "Kod dari email",
+    "verify": "Masuk",
+    "verifying": "Tengah semak…",
+    "changeEmail": "Guna email lain",
+    "resend": "Hantar kod baru",
+    "resendIn": "Hantar kod baru ({seconds}s)",
+    "resent": "Kod baru dah dihantar.",
+    "spamHint": "Tak jumpa email? Semak folder spam atau promosi.",
+    "noAccount": "Belum ada akaun?",
+    "signupLink": "Daftar",
+    "haveAccount": "Dah ada akaun?",
+    "loginLink": "Log masuk",
+    "saving": "Tengah simpan…",
+    "saved": "Dah simpan.",
+    "headerLogin": "Log masuk",
+    "accountLabel": "Akaun saya",
+    "errors": {
+      "invalidEmail": "Email tu macam tak betul. Cuba semak balik.",
+      "nameRequired": "Letak nama dulu.",
+      "invalidCode": "Kod salah atau dah tamat tempoh. Cuba lagi, atau minta kod baru.",
+      "rateLimit": "Banyak sangat cubaan. Tunggu sekejap, lepas tu cuba lagi.",
+      "link": "Pautan tu dah tak boleh guna. Masukkan email kau untuk dapat kod baru.",
+      "google": "Tak dapat log masuk dengan Google. Cuba lagi, atau guna email.",
+      "generic": "Ada masalah sikit. Cuba lagi."
+    }
   },
   "Akaun": {
     "title": "Akaun saya",
-    "placeholder": "Kegemaran dan tetapan akaun akan muncul di sini.",
-    "manageKedai": "Urus kedai saya"
+    "noName": "Belum letak nama",
+    "memberSince": "Ahli sejak {date}",
+    "manageKedai": "Urus kedai saya",
+    "admin": "Admin",
+    "favouritesTitle": "Kegemaran",
+    "favouritesPlaceholder": "Pasar, gerai dan kedai yang kau simpan akan muncul di sini.",
+    "profileTitle": "Profil",
+    "save": "Simpan",
+    "signOut": "Log keluar"
+  },
+  "Welcome": {
+    "title": "Selamat datang!",
+    "subtitle": "Akaun kau dah siap. Apa nama kau?",
+    "continue": "Teruskan",
+    "skip": "Langkau dulu"
   },
   "AkaunKedai": {
     "title": "Kedai saya",
