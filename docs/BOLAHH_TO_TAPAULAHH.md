@@ -392,6 +392,12 @@ return (
 
 `useActionState` gives you what you'd build by hand with `useState`: the last result (`state`) and a `pending` flag. Whatever the action returns becomes the next `state`. Inputs are read by their `name`, as in plain HTML.
 
+### Admin pages
+
+`/admin` uses the same pieces: `await requireAdmin(locale, "/admin")` at the top of each page (like Bolahh's `AdminRoute`), forms that call server actions in `lib/admin/actions.ts`, and each action checks `getAdminUser()` again. After saving, `updateTag(PUBLIC_DATA_TAG)` clears the 5-minute public cache so the map shows the change straight away.
+
+Photos are the one thing that skips the server: the browser shrinks them (`components/admin/photo-uploader.tsx`) and uploads straight to Supabase Storage, the same as `supabase.storage.from(...).upload()` in Bolahh. Storage rules only let admins upload. The form then saves just the photo URLs.
+
 ## 10. Gotchas
 
 1. **`params` must be awaited:** `const { slug } = await params;`. It's a Promise in Next.js 16.

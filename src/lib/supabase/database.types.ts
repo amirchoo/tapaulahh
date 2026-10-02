@@ -588,6 +588,10 @@ export type Database = {
           slug: string;
         }[];
       };
+      set_pasar_schedules: {
+        Args: { p_pasar_id: string; p_schedules: Json };
+        Returns: undefined;
+      };
     };
     Enums: {
       business_status: "pending" | "approved" | "rejected";

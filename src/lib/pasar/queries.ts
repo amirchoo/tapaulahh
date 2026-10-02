@@ -1,43 +1,167 @@
 import "server-only";
 import { createPublicClient } from "@/lib/supabase/public";
-import type { DayOfWeek, Pasar } from "./types";
+import type {
+  DayOfWeek,
+  Pasar,
+  PasarDetail,
+  Vendor,
+  VendorCategory,
+} from "./types";
 
 /** "17:00:00" (Postgres time) → "17:00". */
 const toHHMM = (time: string) => time.slice(0, 5);
 
-/** Active pasars with their schedules. Empty until real data is added. */
+const PASAR_FIELDS =
+  "id, slug, name, address, district, state, lat, lng, pasar_schedules (day_of_week, start_time, end_time)";
+
+type PasarRow = {
+  id: string;
+  slug: string;
+  name: string;
+  address: string | null;
+  district: string;
+  state: string;
+  lat: number | null;
+  lng: number | null;
+  pasar_schedules: {
+    day_of_week: number;
+    start_time: string;
+    end_time: string;
+  }[];
+};
+
+// lat/lng are generated from a NOT NULL column, so never null in practice.
+function toPasar(row: PasarRow): Pasar | null {
+  if (row.lat === null || row.lng === null) return null;
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    address: row.address ?? "",
+    district: row.district,
+    state: row.state,
+    location: { lat: row.lat, lng: row.lng },
+    schedules: row.pasar_schedules.map((s) => ({
+      // The table's CHECK constraint keeps this within 0–6.
+      dayOfWeek: s.day_of_week as DayOfWeek,
+      startTime: toHHMM(s.start_time),
+      endTime: toHHMM(s.end_time),
+    })),
+  };
+}
+
+/** Active pasars with their schedules. */
 export async function getPasars(): Promise<Pasar[]> {
-  const supabase = createPublicClient();
-  const { data, error } = await supabase
+  const { data, error } = await createPublicClient()
     .from("pasars")
-    .select(
-      "id, slug, name, address, district, state, lat, lng, pasar_schedules (day_of_week, start_time, end_time)",
-    )
+    .select(PASAR_FIELDS)
     .eq("status", "active")
     .order("name");
-
   if (error) throw new Error(`Failed to load pasars: ${error.message}`);
+  return data.flatMap((row) => toPasar(row) ?? []);
+}
 
-  // lat/lng are generated from a NOT NULL column, so never null in practice.
-  return data.flatMap((row) =>
-    row.lat === null || row.lng === null
-      ? []
-      : [
-          {
-            id: row.id,
-            slug: row.slug,
-            name: row.name,
-            address: row.address ?? "",
-            district: row.district,
-            state: row.state,
-            location: { lat: row.lat, lng: row.lng },
-            schedules: row.pasar_schedules.map((s) => ({
-              // The table's CHECK constraint keeps this within 0–6.
-              dayOfWeek: s.day_of_week as DayOfWeek,
-              startTime: toHHMM(s.start_time),
-              endTime: toHHMM(s.end_time),
-            })),
-          },
-        ],
-  );
+/** One active pasar by its URL slug, or null. */
+export async function getPasarBySlug(
+  slug: string,
+): Promise<PasarDetail | null> {
+  const { data, error } = await createPublicClient()
+    .from("pasars")
+    .select(`${PASAR_FIELDS}, description, parking_notes, photos`)
+    .eq("status", "active")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw new Error(`Failed to load pasar: ${error.message}`);
+  const pasar = data && toPasar(data);
+  if (!data || !pasar) return null;
+  return {
+    ...pasar,
+    description: data.description,
+    parkingNotes: data.parking_notes,
+    photos: data.photos,
+  };
+}
+
+const CATEGORY_FIELDS = "id, slug, name_ms, name_en, icon, sort_order";
+
+type CategoryRow = {
+  id: string;
+  slug: string;
+  name_ms: string;
+  name_en: string;
+  icon: string | null;
+  sort_order: number;
+};
+
+function toCategory(row: CategoryRow): VendorCategory {
+  return {
+    id: row.id,
+    slug: row.slug,
+    nameMs: row.name_ms,
+    nameEn: row.name_en,
+    icon: row.icon,
+    sortOrder: row.sort_order,
+  };
+}
+
+export async function getVendorCategories(): Promise<VendorCategory[]> {
+  const { data, error } = await createPublicClient()
+    .from("vendor_categories")
+    .select(CATEGORY_FIELDS)
+    .order("sort_order");
+  if (error) throw new Error(`Failed to load categories: ${error.message}`);
+  return data.map(toCategory);
+}
+
+const VENDOR_FIELDS = `id, slug, name, description, price_range, photos, usual_days, vendor_categories (${CATEGORY_FIELDS})`;
+
+type VendorRow = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  price_range: string | null;
+  photos: string[];
+  usual_days: number[];
+  vendor_categories: CategoryRow | null;
+};
+
+function toVendor(row: VendorRow): Vendor {
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    category: row.vendor_categories && toCategory(row.vendor_categories),
+    description: row.description,
+    priceRange: row.price_range,
+    photos: row.photos,
+    usualDays: row.usual_days as DayOfWeek[],
+  };
+}
+
+/** Active stalls at a pasar, by name. */
+export async function getVendors(pasarId: string): Promise<Vendor[]> {
+  const { data, error } = await createPublicClient()
+    .from("vendors")
+    .select(VENDOR_FIELDS)
+    .eq("pasar_id", pasarId)
+    .eq("status", "active")
+    .order("name");
+  if (error) throw new Error(`Failed to load stalls: ${error.message}`);
+  return data.map(toVendor);
+}
+
+export async function getVendor(
+  pasarId: string,
+  slug: string,
+): Promise<Vendor | null> {
+  const { data, error } = await createPublicClient()
+    .from("vendors")
+    .select(VENDOR_FIELDS)
+    .eq("pasar_id", pasarId)
+    .eq("slug", slug)
+    .eq("status", "active")
+    .maybeSingle();
+  if (error) throw new Error(`Failed to load stall: ${error.message}`);
+  return data && toVendor(data);
 }

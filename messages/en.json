@@ -27,13 +27,21 @@
   },
   "Pasar": {
     "eyebrow": "Pasar malam",
-    "placeholder": "Days, hours, address, parking and the stall list will show up here.",
-    "vendors": "Stalls"
+    "days": "Days & hours",
+    "about": "About this pasar",
+    "parking": "Parking",
+    "directions": "Directions",
+    "vendorsTitle": "{count, plural, =0 {Stalls} other {Stalls (#)}}",
+    "vendorsEmpty": "No stall list yet. Got a stall here? Sign up so people can find you.",
+    "otherCategory": "Others",
+    "metaDescription": "{name} in {district}. On {days}. See opening hours, location and which stalls are there."
   },
   "Vendor": {
     "eyebrow": "Stall",
-    "placeholder": "What they sell, rough prices, photos and usual days will show up here.",
-    "back": "Back to pasar"
+    "whatTheySell": "What they sell",
+    "usualDays": "Usually here on",
+    "daysNote": "Stalls sometimes take a day off, so treat these as a guide.",
+    "metaDescription": "{name}, a stall at {pasar}. See what they sell and which days they're usually there."
   },
   "Kedai": {
     "title": "Kedai Rumah",
@@ -119,7 +127,113 @@
   },
   "Admin": {
     "title": "Admin",
-    "placeholder": "Manage pasar, schedules, stalls and reports here."
+    "subtitle": "Add and manage pasar and stalls.",
+    "optional": "optional",
+    "slug": "Link (slug)",
+    "slugHint": "The end of the link, e.g. tapaulahh.com/pasar/pasar-malam-seksyen-7. Leave empty and we'll make one from the name.",
+    "slugHintEdit": "If you change it, old links people have shared will stop working.",
+    "visibility": "Who can see it",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "saved": "Saved.",
+    "viewPublic": "View public page",
+    "dangerZone": "Delete",
+    "pasarStatus": {
+      "active": "Active",
+      "activeHint": "Visitors see it on the map, in search and on its page.",
+      "inactive": "Hidden",
+      "inactiveHint": "Not shown to visitors. For pasar that have closed, or details that aren't ready yet."
+    },
+    "vendorStatus": {
+      "active": "Active",
+      "activeHint": "Visitors see it on the pasar page.",
+      "pending": "Pending",
+      "pendingHint": "Hidden until the details are checked.",
+      "inactive": "Hidden",
+      "inactiveHint": "The stall is gone, or taking a break."
+    },
+    "pasarList": {
+      "title": "{count, plural, other {Pasar (#)}}",
+      "add": "Add pasar",
+      "empty": "No pasar yet. Press \"Add pasar\" to start.",
+      "noDays": "no days",
+      "stalls": "{count, plural, =0 {No stalls yet} one {# stall} other {# stalls}}"
+    },
+    "vendorList": {
+      "title": "{count, plural, other {Stalls (#)}}",
+      "add": "Add stall",
+      "empty": "No stalls at this pasar yet."
+    },
+    "pasarForm": {
+      "newTitle": "Add pasar",
+      "editTitle": "Pasar details",
+      "basics": "Basics",
+      "name": "Pasar name",
+      "namePlaceholder": "E.g. Pasar Malam Seksyen 7",
+      "description": "Description",
+      "descriptionHint": "What's good, how big it is, tips for first-timers.",
+      "where": "Location",
+      "location": "Google Maps link or coordinates",
+      "locationHint": "Open the pasar in Google Maps, tap Share → Copy link, and paste it here. Or paste coordinates, e.g. 3.0738, 101.5183.",
+      "checkOnMap": "Check the location on Google Maps",
+      "address": "Address",
+      "addressPlaceholder": "E.g. Jalan Plumbum 7/102, Seksyen 7",
+      "district": "Area",
+      "districtHint": "Town or district, e.g. Shah Alam. The home page groups pasar by this.",
+      "state": "State",
+      "parking": "Parking",
+      "parkingPlaceholder": "E.g. Roadside parking. Come before 6 pm.",
+      "when": "Days and hours",
+      "whenHint": "Tick the days the pasar runs. Closing after midnight is fine, e.g. 17:00 to 01:00.",
+      "opens": "{day}: opens",
+      "closes": "{day}: closes",
+      "create": "Add pasar",
+      "delete": "Delete pasar",
+      "deleteHint": "This deletes the pasar, its schedule, all its stalls and photos. It can't be undone. To just hide it, choose Hidden above.",
+      "deleteConfirm": "Delete {name}{count, plural, =0 {} one { and its # stall} other { and its # stalls}}? This can't be undone."
+    },
+    "vendorForm": {
+      "newTitle": "Add stall",
+      "editTitle": "Stall details",
+      "basics": "Basics",
+      "name": "Stall name",
+      "namePlaceholder": "E.g. Apam Balik Pak Mat",
+      "category": "Category",
+      "noCategory": "No category",
+      "description": "What they sell",
+      "descriptionHint": "E.g. Thin and thick apam balik. Peanut, corn or cheese filling.",
+      "price": "Rough prices",
+      "pricePlaceholder": "E.g. RM3 – RM10",
+      "days": "Usual days",
+      "daysHint": "The days this stall is usually at this pasar.",
+      "create": "Add stall",
+      "delete": "Delete stall",
+      "deleteConfirm": "Delete {name}? This can't be undone."
+    },
+    "photos": {
+      "title": "Photos",
+      "add": "Add photos",
+      "cover": "Cover",
+      "makeCover": "Make cover photo",
+      "remove": "Remove photo",
+      "uploading": "Uploading…",
+      "hint": "Up to {max} photos. The first one is the cover.",
+      "failed": "Some photos couldn't be uploaded. Please try again."
+    },
+    "fieldErrors": {
+      "required": "Required.",
+      "invalid": "Not valid. For links, use only lowercase letters, numbers and hyphens (-).",
+      "taken": "That link is already used. Try another.",
+      "locationUnreadable": "Couldn't read a location from that. Copy the link from Google Maps' Share button, or paste coordinates.",
+      "locationOutside": "That location isn't in Malaysia. Check it again: latitude first, then longitude.",
+      "scheduleRequired": "Pick at least one day.",
+      "timeInvalid": "Check the times: opening and closing can't be the same."
+    },
+    "errors": {
+      "forbidden": "You don't have admin access.",
+      "generic": "Couldn't save. Please try again.",
+      "checkFields": "Some things above need fixing."
+    }
   },
   "NotFound": {
     "title": "Alamak, page not found",
@@ -131,7 +245,8 @@
     "openUntil": "Open now · until {time}",
     "later": "Opens at {time}",
     "closed": "Closed for today",
-    "hours": "{start} – {end}"
+    "hours": "{start} – {end}",
+    "notToday": "Not on today"
   },
   "Days": {
     "short": {

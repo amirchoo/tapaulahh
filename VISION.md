@@ -146,7 +146,11 @@ BM                      English                    Page
 /akaun                  /en/account                My account, favourites
 /akaun/selamat-datang   /en/account/welcome        First-time name step
 /akaun/kedai            /en/account/shop           Manage my business + catalog
-/admin/...              /en/admin/...              Admin area
+/admin                  /en/admin                  Admin: pasar list
+/admin/pasar/baru       /en/admin/pasar/new        Add pasar
+/admin/pasar/[id]       /en/admin/pasar/[id]       Edit pasar + its stalls
+/admin/pasar/[id]/gerai/baru         …/stalls/new         Add stall
+/admin/pasar/[id]/gerai/[vendorId]   …/stalls/[vendorId]  Edit stall
 /auth/callback          (same)                     Email link + Google land here
 ```
 
@@ -210,3 +214,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Supabase: separate `Tapaulahh` project in the Team Bolahh org (shared Pro plan). Develop against the cloud project for now; add local Docker before launch — 2026-09-28
 - No sample pasar/vendor data in the database; real data goes in through the admin area. Categories are seeded as reference data — 2026-09-28
 - Accounts: email code + link instead of link-only (email apps open links in their own browser on phones), plus a separate `/daftar` sign-up page that asks for a name. Google button shows once the provider is on — 2026-10-02
+- Admin pasar + stall management built ahead of Part 8 (moderation queues still to come). Pasar location is entered by pasting a Google Maps link or coordinates, not a map picker. Photos uploaded now, compressed in the browser — 2026-10-02

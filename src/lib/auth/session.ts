@@ -1,5 +1,6 @@
 import "server-only";
 import type { User } from "@supabase/supabase-js";
+import { notFound } from "next/navigation";
 import { cache } from "react";
 import { getPathname, redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -55,6 +56,23 @@ export async function requireUser(locale: Locale, here: Href): Promise<User> {
     });
   }
   return user;
+}
+
+/**
+ * Like Bolahh's AdminRoute: signed-out visitors go to /login, signed-in
+ * non-admins get a 404 (so the admin area doesn't advertise itself).
+ */
+export async function requireAdmin(locale: Locale, here: Href): Promise<User> {
+  const user = await requireUser(locale, here);
+  if ((await getProfile(user.id))?.role !== "admin") notFound();
+  return user;
+}
+
+/** For server actions: the admin making the request, or null. */
+export async function getAdminUser(): Promise<User | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  return (await getProfile(user.id))?.role === "admin" ? user : null;
 }
 
 /**

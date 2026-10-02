@@ -21,3 +21,32 @@ export type Pasar = {
   location: LatLng;
   schedules: PasarSchedule[];
 };
+
+/** Everything the public pasar page shows. */
+export type PasarDetail = Pasar & {
+  description: string | null;
+  parkingNotes: string | null;
+  photos: string[];
+};
+
+export type VendorCategory = {
+  id: string;
+  slug: string;
+  nameMs: string;
+  nameEn: string;
+  /** Lucide icon name, e.g. "flame". */
+  icon: string | null;
+  sortOrder: number;
+};
+
+/** A stall at a pasar (public fields). */
+export type Vendor = {
+  id: string;
+  slug: string;
+  name: string;
+  category: VendorCategory | null;
+  description: string | null;
+  priceRange: string | null;
+  photos: string[];
+  usualDays: DayOfWeek[];
+};

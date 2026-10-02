@@ -29,6 +29,16 @@ export const routing = defineRouting({
     },
     "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
     "/admin": "/admin",
+    "/admin/pasar/baru": { ms: "/admin/pasar/baru", en: "/admin/pasar/new" },
+    "/admin/pasar/[id]": "/admin/pasar/[id]",
+    "/admin/pasar/[id]/gerai/baru": {
+      ms: "/admin/pasar/[id]/gerai/baru",
+      en: "/admin/pasar/[id]/stalls/new",
+    },
+    "/admin/pasar/[id]/gerai/[vendorId]": {
+      ms: "/admin/pasar/[id]/gerai/[vendorId]",
+      en: "/admin/pasar/[id]/stalls/[vendorId]",
+    },
   },
 });
 

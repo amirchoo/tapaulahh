@@ -1,30 +1,60 @@
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { MapPlaceholder } from "@/components/layout/map-placeholder";
-import { PanelBody, PanelHeader, Placeholder } from "@/components/layout/panel";
+import { PanelBody, PanelHeader } from "@/components/layout/panel";
 import { SplitView } from "@/components/layout/split-view";
+import { PasarSpotMapLazy } from "@/components/pasar/pasar-spot-map-lazy";
+import { PhotoStrip } from "@/components/pasar/photo-strip";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
-import { titleFromSlug } from "@/lib/slug";
+import { getPasarBySlug, getVendor } from "@/lib/pasar/queries";
+import { WEEK } from "@/lib/pasar/schedule";
+
+async function load(slug: string, vendorSlug: string) {
+  const pasar = await getPasarBySlug(slug);
+  const vendor = pasar && (await getVendor(pasar.id, vendorSlug));
+  return pasar && vendor ? { pasar, vendor } : null;
+}
 
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/pasar/[slug]/[vendor]">): Promise<Metadata> {
-  const { slug, vendor } = await params;
-  return { title: `${titleFromSlug(vendor)} · ${titleFromSlug(slug)}` };
+  const locale = await initLocale(params);
+  const { slug, vendor: vendorSlug } = await params;
+  const found = await load(slug, vendorSlug);
+  if (!found) return {};
+  const { pasar, vendor } = found;
+  const t = await getTranslations({ locale, namespace: "Vendor" });
+  return {
+    title: `${vendor.name} · ${pasar.name}`,
+    description:
+      vendor.description ??
+      t("metaDescription", { name: vendor.name, pasar: pasar.name }),
+    openGraph: vendor.photos[0] ? { images: [vendor.photos[0]] } : undefined,
+  };
 }
 
 export default async function VendorPage({
   params,
 }: PageProps<"/[locale]/pasar/[slug]/[vendor]">) {
-  await initLocale(params);
-  const { slug, vendor } = await params;
+  const locale = await initLocale(params);
+  const { slug, vendor: vendorSlug } = await params;
+  const found = await load(slug, vendorSlug);
+  if (!found) notFound();
+  const { pasar, vendor } = found;
   const t = await getTranslations("Vendor");
+  const tDays = await getTranslations("Days");
+  const category = vendor.category
+    ? locale === "en"
+      ? vendor.category.nameEn
+      : vendor.category.nameMs
+    : t("eyebrow");
+  const days = WEEK.filter((d) => vendor.usualDays.includes(d));
 
   return (
     <SplitView
-      main={<MapPlaceholder section="pasar" />}
+      main={<PasarSpotMapLazy location={pasar.location} label={pasar.name} />}
       panel={
         <>
           <div className="px-2 pt-2 lg:px-4 lg:pt-4">
@@ -33,12 +63,44 @@ export default async function VendorPage({
               className="inline-flex h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <ChevronLeft className="size-4" aria-hidden />
-              {t("back")}: {titleFromSlug(slug)}
+              {pasar.name}
             </Link>
           </div>
-          <PanelHeader eyebrow={t("eyebrow")} title={titleFromSlug(vendor)} />
+          <PanelHeader
+            eyebrow={category}
+            title={vendor.name}
+            subtitle={vendor.priceRange ?? undefined}
+          />
           <PanelBody>
-            <Placeholder>{t("placeholder")}</Placeholder>
+            <div className="space-y-6">
+              <PhotoStrip photos={vendor.photos} alt={vendor.name} />
+              {vendor.description && (
+                <section className="space-y-1">
+                  <h2 className="font-extrabold">{t("whatTheySell")}</h2>
+                  <p className="text-sm whitespace-pre-line">
+                    {vendor.description}
+                  </p>
+                </section>
+              )}
+              {days.length > 0 && (
+                <section className="space-y-2">
+                  <h2 className="font-extrabold">{t("usualDays")}</h2>
+                  <ul className="flex flex-wrap gap-2">
+                    {days.map((d) => (
+                      <li
+                        key={d}
+                        className="rounded-lg bg-pasar/15 px-3 py-1.5 text-sm font-semibold"
+                      >
+                        {tDays(`long.${d}`)}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-muted-foreground">
+                    {t("daysNote")}
+                  </p>
+                </section>
+              )}
+            </div>
           </PanelBody>
         </>
       }
