@@ -1,4 +1,4 @@
-import { ChevronRight, LogOut, Shield, Store } from "lucide-react";
+import { ChevronRight, KeyRound, LogOut, Shield, Store } from "lucide-react";
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { Avatar } from "@/components/auth/avatar";
@@ -21,16 +21,23 @@ export async function generateMetadata({
 
 export default async function AkaunPage({
   params,
+  searchParams,
 }: PageProps<"/[locale]/akaun">) {
   const locale = await initLocale(params);
   const user = await requireUser(locale, "/akaun");
   const profile = await getProfile(user.id);
   const t = await getTranslations("Akaun");
   const format = await getFormatter();
+  const passwordSaved = (await searchParams).password === "saved";
 
   const name = profile?.displayName ?? "";
   const links = [
     { href: "/akaun/kedai" as const, icon: Store, label: t("manageKedai") },
+    {
+      href: "/akaun/kata-laluan" as const,
+      icon: KeyRound,
+      label: t("password"),
+    },
     ...(profile?.role === "admin"
       ? [{ href: "/admin" as const, icon: Shield, label: t("admin") }]
       : []),
@@ -38,6 +45,11 @@ export default async function AkaunPage({
 
   return (
     <ContentPage title={t("title")}>
+      {passwordSaved && (
+        <p role="status" className="rounded-xl border p-3 text-sm text-open">
+          {t("passwordSaved")}
+        </p>
+      )}
       <section className="flex items-center gap-4 rounded-2xl border bg-card p-4">
         <Avatar
           name={name || (user.email ?? "")}

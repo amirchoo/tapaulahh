@@ -10,8 +10,8 @@ const EMAIL_TYPES = ["email", "magiclink", "signup"];
 
 /**
  * Where sign-in links land:
- * - the email link (?token_hash=…&type=email), which works in any browser,
- *   e.g. when the email app opens its own;
+ * - email links (?token_hash=…&type=email, or type=recovery for "forgot
+ *   password"), which work in any browser, e.g. when the email app opens its own;
  * - Google, and Supabase's default email link (?code=…), which must finish in
  *   the browser that started it.
  * Signs in, then redirects to `next` (or the welcome step for new accounts).
@@ -22,14 +22,16 @@ export async function GET(request: NextRequest) {
   const locale = localeOfPath(next);
 
   const tokenHash = searchParams.get("token_hash");
-  const isEmailLink = EMAIL_TYPES.includes(searchParams.get("type") ?? "");
+  const type = searchParams.get("type") ?? "";
+  const isEmailLink = EMAIL_TYPES.includes(type);
+  const isRecovery = type === "recovery";
   const code = searchParams.get("code");
 
   const supabase = await createClient();
   let userId: string | undefined;
-  if (tokenHash && isEmailLink) {
+  if (tokenHash && (isEmailLink || isRecovery)) {
     const { data } = await supabase.auth.verifyOtp({
-      type: "email",
+      type: isRecovery ? "recovery" : "email",
       token_hash: tokenHash,
     });
     userId = data.user?.id;
@@ -54,6 +56,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(loginPath, origin));
   }
 
-  const destination = await pathAfterSignIn(userId, next, locale);
+  // "Forgot password" link: signed in now, so let them pick a new password.
+  const destination = isRecovery
+    ? getPathname({
+        href: { pathname: "/akaun/kata-laluan", query: { next } },
+        locale,
+      })
+    : await pathAfterSignIn(userId, next, locale);
   return NextResponse.redirect(new URL(destination, origin));
 }

@@ -344,7 +344,7 @@ npm run test:db    # re-run the security checks
 
 ## 9. Accounts (sign in, sign up)
 
-Sign in and sign up are the same flow: email → a code from the email (or tap the link in it) → signed in. There are no passwords. An email with no account yet gets one. `/daftar` is the same form with a name field. Setup steps for the Supabase dashboard are in `docs/AUTH_SETUP.md`.
+Sign up is name + email + password, then a code we email to confirm the address (like Bolahh's confirm-email step, but with a code you type instead of only a link). Log in is email + password, with "email me a code" as a fallback, and there's a forgot-password flow. Details and the Supabase settings are in `docs/AUTH_SETUP.md`.
 
 ### Who's logged in?
 

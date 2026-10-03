@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginForm, type AuthMode } from "@/components/auth/login-form";
 import { ContentPage } from "@/components/layout/content-page";
 import { getPathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -10,14 +10,14 @@ import { getCurrentUser } from "@/lib/auth/session";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
-/** /login and /daftar: same flow, different heading and a name field. */
+/** /login, /daftar and /lupa-kata-laluan share one form (see LoginForm). */
 export async function AuthPage({
   locale,
   mode,
   searchParams,
 }: {
   locale: Locale;
-  mode: "login" | "signup";
+  mode: AuthMode;
   searchParams: Promise<SearchParams>;
 }) {
   const { next: rawNext, error } = await searchParams;
@@ -32,10 +32,7 @@ export async function AuthPage({
   const urlError = error === "link" || error === "google" ? error : null;
 
   return (
-    <ContentPage
-      title={mode === "login" ? t("loginTitle") : t("signupTitle")}
-      subtitle={mode === "login" ? t("loginSubtitle") : t("signupSubtitle")}
-    >
+    <ContentPage title={t(`${mode}Title`)} subtitle={t(`${mode}Subtitle`)}>
       <div className="max-w-md space-y-6">
         <LoginForm
           mode={mode}
