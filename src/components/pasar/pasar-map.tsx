@@ -22,27 +22,18 @@ import Map, {
 import type { LatLng } from "@/lib/pasar/types";
 import {
   aliasMissingIcons,
+  cameraPadding,
   isDarkClass,
   MAP_STYLES,
+  START_BOUNDS,
   subscribeHtmlClass,
 } from "./map-style";
 import type { PasarView } from "./pasar-view";
-
-/**
- * Opening view: centred on KL (3.139, 101.687), wide enough to cover the Klang
- * Valley from Setia Alam and Klang in the west to Ampang in the east.
- * [[west, south], [east, north]]
- */
-const START_BOUNDS: [[number, number], [number, number]] = [
-  [101.42, 2.98],
-  [101.95, 3.3],
-];
 
 const SOURCE_ID = "pasars";
 const CLUSTER_LAYER = "pasar-clusters";
 const POINT_LAYER = "pasar-points";
 const FONT = ["Noto Sans Bold"];
-const DESKTOP_QUERY = "(min-width: 1024px)";
 
 export type MapFocus = { location: LatLng; zoom: number; key: number };
 
@@ -64,18 +55,6 @@ function readColors() {
     closed: v("--text-muted"),
     card: v("--card"),
     text: v("--text"),
-  };
-}
-
-/** On mobile the bottom sheet covers the lower half; keep the camera centred above it. */
-function cameraPadding(container: HTMLElement) {
-  const isDesktop = window.matchMedia(DESKTOP_QUERY).matches;
-  const base = 48;
-  return {
-    top: base,
-    left: base,
-    right: base,
-    bottom: isDesktop ? base : Math.round(container.clientHeight * 0.5) + 24,
   };
 }
 
@@ -203,7 +182,10 @@ export default function PasarMap({
     ];
   }, [colors]);
 
+  // A tap that arrives before the map has loaded is applied in onLoad.
+  const pendingFocus = useRef(focus);
   useEffect(() => {
+    pendingFocus.current = focus;
     const map = mapRef.current;
     if (!map || !focus) return;
     map.flyTo({
@@ -244,6 +226,15 @@ export default function PasarMap({
       initialViewState={{ bounds: START_BOUNDS }}
       onLoad={(e) => {
         const map = e.target;
+        const pending = pendingFocus.current;
+        if (pending) {
+          map.jumpTo({
+            center: [pending.location.lng, pending.location.lat],
+            zoom: pending.zoom,
+            padding: cameraPadding(map.getContainer()),
+          });
+          return;
+        }
         map.fitBounds(START_BOUNDS, {
           padding: cameraPadding(map.getContainer()),
           duration: 0,

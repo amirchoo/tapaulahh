@@ -1,6 +1,6 @@
 # Tapaulahh
 
-> Map-first website for finding **pasar malam** (night markets) in Malaysia and the stalls at each one, plus **Kedai Rumah**, a section where home-based businesses show their catalog.
+> Map-first website for finding **pasar malam** (night markets) in Malaysia and the stalls at each one, plus **Peniaga Kecil**, a section where home-based businesses show their catalog.
 
 "Tapau" is Malaysian slang for takeaway. Tapaulahh is a sister product to **Bolahh** (futsal booking), from the same company.
 
@@ -39,7 +39,7 @@ Coming from Bolahh? [`docs/BOLAHH_TO_TAPAULAHH.md`](docs/BOLAHH_TO_TAPAULAHH.md)
 
 Finding a particular pasar malam stall can be difficult. Stall locations and operating hours may change, while information about vendors is often scattered across social media or shared by word of mouth. Small vendors may also have limited ways to promote their food online.
 
-Tapaulahh aims to make local food easier to discover, especially for tourists and people unfamiliar with an area. Visitors can explore night markets and see what stalls offer before deciding where to go. Vendors, including home-based businesses in Kedai Rumah, can showcase their products and reach more customers.
+Tapaulahh aims to make local food easier to discover, especially for tourists and people unfamiliar with an area. Visitors can explore night markets and see what stalls offer before deciding where to go. Vendors, including home-based businesses in Peniaga Kecil, can showcase their products and reach more customers.
 
 ---
 
@@ -64,7 +64,7 @@ Tapaulahh aims to make local food easier to discover, especially for tourists an
 
 **Core rule:** everything public can be read without an account. Login is only for creating and managing content.
 
-**Phase 1 (now):** pasar map, vendor info, Kedai Rumah catalog, optional accounts, admin moderation.
+**Phase 1 (now):** pasar map, vendor info, Peniaga Kecil catalog, optional accounts, admin moderation.
 **Phase 2 (later, not in this repo yet):** riders, delivery ("tapau for me"), ordering.
 
 ---
@@ -321,10 +321,10 @@ The **"Lampu Malam"** palette (night sky and warm stall lights) comes in light a
 | `--pasar-text` | `#8A5A00` | `#F5A623` | Amber used as text          |
 | `--cta`        | `#C8431C` | `#FF6B45` | The one primary button      |
 | `--open`       | `#2E7D3A` | `#4CC262` | "Open now" status only      |
-| `--kedai`      | `#0B7A6E` | `#2EC4B6` | Kedai Rumah section         |
+| `--kedai`      | `#0B7A6E` | `#2EC4B6` | Peniaga Kecil section       |
 
-- **Pasar is amber and Kedai Rumah is teal,** so users always know which section they're in.
-- **Phones come first:** design at 375px, with a bottom tab bar (Utama, Pasar, Kedai Rumah, Akaun), a bottom sheet and 44px tap targets. Desktop has a top nav, a 400px left panel and the map on the right.
+- **Pasar is amber and Peniaga Kecil is teal,** so users always know which section they're in.
+- **Phones come first:** design at 375px, with a bottom tab bar (Utama, Pasar, Peniaga Kecil, Akaun), a bottom sheet and 44px tap targets. Desktop has a top nav, a 400px left panel and the map on the right.
 
 ---
 
@@ -340,8 +340,8 @@ The migrations in `supabase/migrations/` are the source of truth; VISION.md §6 
 | `vendor_categories`       | Stall categories (BM and English names)                        |
 | `vendors`                 | Stalls at a pasar; can be registered or claimed; moderated     |
 | `vendor_claims`           | Requests to claim a stall; approval hands over ownership       |
-| `business_categories`     | Kedai Rumah categories                                         |
-| `home_businesses`         | Kedai Rumah shops; public location is fuzzed; moderated        |
+| `business_categories`     | Peniaga Kecil categories                                       |
+| `home_businesses`         | Peniaga Kecil shops; public location is fuzzed; moderated      |
 | `home_business_locations` | **Private** exact location per shop (owner and admins only)    |
 | `catalog_items`           | Products for a shop                                            |
 | `favourites`              | Saved pasars, stalls and shops                                 |
@@ -364,7 +364,7 @@ Storage buckets: `pasar-photos` (admins upload) and `business-photos` (users upl
 | 3    | Pasar map: markers, clustering, day chips, open status, near me                   | ✅ Done                                     |
 | 4    | Pasar detail sheet and panel, vendor list, SSR pasar and vendor pages             | ⬜                                          |
 | 5    | Auth (Google and magic link), account, favourites                                 | ⬜                                          |
-| 6    | Kedai Rumah: list, map, business page, owner catalog management                   | ⬜                                          |
+| 6    | Peniaga Kecil: list, map, business page, owner catalog management                 | ⬜                                          |
 | 7    | Vendor register and claim, "report wrong info"                                    | ⬜                                          |
 | 8    | Admin: pasar CRUD and moderation queues                                           | ⬜                                          |
 | 9    | Search, SEO (sitemap, OG images, hreflang), PWA, tapaulahh.com + allow indexing   | ⬜                                          |

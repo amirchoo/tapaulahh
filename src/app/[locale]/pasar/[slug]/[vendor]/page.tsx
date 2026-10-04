@@ -8,11 +8,14 @@ import { formatPrice } from "@/components/pasar/format";
 import { SplitView } from "@/components/layout/split-view";
 import { PasarSpotMapLazy } from "@/components/pasar/pasar-spot-map-lazy";
 import { PhotoStrip } from "@/components/pasar/photo-strip";
+import { RatingSummary } from "@/components/reviews/rating-summary";
+import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
 import { cn } from "@/lib/utils";
 import { getPasarBySlug, getVendor } from "@/lib/pasar/queries";
 import { WEEK } from "@/lib/pasar/schedule";
+import { getReviews } from "@/lib/reviews/queries";
 import type { VendorItem } from "@/lib/pasar/types";
 import type { Locale } from "@/i18n/routing";
 
@@ -48,6 +51,7 @@ export default async function VendorPage({
   const found = await load(slug, vendorSlug);
   if (!found) notFound();
   const { pasar, vendor } = found;
+  const reviews = await getReviews("vendor", vendor.id);
   const t = await getTranslations("Vendor");
   const tDays = await getTranslations("Days");
   const category = vendor.category
@@ -78,6 +82,11 @@ export default async function VendorPage({
           />
           <PanelBody>
             <div className="space-y-6">
+              {reviews.count > 0 && (
+                <div className="-mt-2">
+                  <RatingSummary summary={reviews} />
+                </div>
+              )}
               <PhotoStrip photos={vendor.photos} alt={vendor.name} />
               {vendor.description && (
                 <section className="space-y-1">
@@ -108,6 +117,11 @@ export default async function VendorPage({
                   </p>
                 </section>
               )}
+              <ReviewsSection
+                targetType="vendor"
+                targetId={vendor.id}
+                summary={reviews}
+              />
             </div>
           </PanelBody>
         </>

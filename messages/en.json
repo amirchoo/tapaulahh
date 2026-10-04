@@ -1,13 +1,13 @@
 {
   "Metadata": {
     "title": "Tapaulahh — night markets near you",
-    "description": "Map of pasar malam and home businesses in Shah Alam and the Klang Valley. See which pasar is on today and what stalls are there."
+    "description": "Map of pasar malam and small home businesses (Peniaga Kecil) in Shah Alam and the Klang Valley. See which pasar is on today and what stalls are there."
   },
   "Nav": {
     "main": "Main navigation",
     "home": "Tapaulahh, go to home",
     "pasar": "Pasar",
-    "kedai": "Kedai Rumah",
+    "kedai": "Peniaga Kecil",
     "akaun": "Account",
     "utama": "Home"
   },
@@ -46,13 +46,19 @@
     "soldOut": "Sold out for now"
   },
   "Kedai": {
-    "title": "Kedai Rumah",
-    "subtitle": "Home businesses around you.",
-    "placeholder": "The home business list will show up here.",
-    "mapNote": "Shop locations are approximate only."
+    "title": "Peniaga Kecil",
+    "subtitle": "Small home-run businesses near you: cakes, home cooking, frozen food, crafts and more.",
+    "mapLabel": "Map of small home businesses",
+    "mapNote": "Areas are approximate, to protect sellers' privacy.",
+    "categoryFilter": "Pick a category",
+    "all": "All",
+    "count": "{count, plural, one {# seller} other {# sellers}}",
+    "empty": "No small businesses here yet. Selling from home? Be the first!",
+    "emptyCta": "List your business",
+    "viewShop": "View shop"
   },
   "KedaiDetail": {
-    "eyebrow": "Kedai Rumah",
+    "eyebrow": "Peniaga Kecil",
     "placeholder": "Catalog, opening hours and a WhatsApp button will show up here."
   },
   "Cari": {
@@ -372,5 +378,36 @@
     "ctaTitle": "Got a stall or a home business?",
     "ctaBody": "Sign up and let people nearby find you.",
     "ctaButton": "Sign up now"
+  },
+  "Reviews": {
+    "title": "{count, plural, =0 {Reviews} other {Reviews (#)}}",
+    "count": "{count, plural, one {# review} other {# reviews}}",
+    "outOf5": "{rating} out of 5 stars",
+    "stars": "{count, plural, one {# star} other {# stars}}",
+    "empty": "No reviews yet. Be the first!",
+    "anonymous": "Tapaulahh user",
+    "signInPrompt": "Been here? Log in to leave a rating and review.",
+    "signIn": "Log in",
+    "yours": "Your review",
+    "hiddenNote": "An admin hid this review, so other people can't see it.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete your review?",
+    "hide": "Hide (admin)",
+    "hideConfirm": "Hide this review from the public?",
+    "yourRating": "Your rating",
+    "bodyLabel": "Review",
+    "optional": "optional",
+    "bodyPlaceholderPasar": "What's good? Easy parking? Which stalls are a must-try?",
+    "bodyPlaceholderVendor": "Was it good? What did you order? Worth the price?",
+    "post": "Post review",
+    "save": "Save",
+    "posting": "Posting…",
+    "cancel": "Cancel",
+    "errors": {
+      "signIn": "Log in first to leave a review.",
+      "ratingRequired": "Pick how many stars first.",
+      "generic": "Couldn't post your review. Please try again."
+    }
   }
 }

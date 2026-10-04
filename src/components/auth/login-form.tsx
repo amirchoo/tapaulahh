@@ -27,11 +27,14 @@ export function LoginForm({
   mode,
   next,
   googleEnabled,
+  confirmsEmail,
   urlError,
 }: {
   mode: AuthMode;
   next: string | null;
   googleEnabled: boolean;
+  /** Off while Supabase has email confirmation switched off. */
+  confirmsEmail: boolean;
   /** From ?error= after a failed email link or Google sign-in. */
   urlError: "link" | "google" | null;
 }) {
@@ -262,7 +265,7 @@ export function LoginForm({
           {pending ? t("sending") : submitLabel}
         </Button>
 
-        {mode === "signup" && (
+        {mode === "signup" && confirmsEmail && (
           <p className="text-xs text-muted-foreground">
             {t("signupExplainer")}
           </p>
