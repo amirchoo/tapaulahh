@@ -41,7 +41,9 @@
     "whatTheySell": "Apa yang dijual",
     "usualDays": "Biasa ada pada",
     "daysNote": "Gerai kadang-kadang cuti. Hari ni anggaran je.",
-    "metaDescription": "{name}, gerai di {pasar}. Tengok apa yang dijual dan hari biasa ada."
+    "metaDescription": "{name}, gerai di {pasar}. Tengok apa yang dijual dan hari biasa ada.",
+    "menu": "Menu",
+    "soldOut": "Habis buat masa ni"
   },
   "Kedai": {
     "title": "Kedai Rumah",
@@ -268,12 +270,37 @@
       "locationUnreadable": "Tak dapat baca lokasi dari tu. Salin pautan dari butang Kongsi di Google Maps, atau tampal koordinat.",
       "locationOutside": "Lokasi tu bukan di Malaysia. Semak balik: latitud dulu, lepas tu longitud.",
       "scheduleRequired": "Pilih sekurang-kurangnya satu hari.",
-      "timeInvalid": "Semak waktu: masa buka dan tutup tak boleh sama."
+      "timeInvalid": "Semak waktu: masa buka dan tutup tak boleh sama.",
+      "priceInvalid": "Tulis harga dalam RM, cth. 5 atau 5.50."
     },
     "errors": {
       "forbidden": "Kau tak ada akses admin.",
       "generic": "Tak dapat simpan. Cuba lagi.",
       "checkFields": "Ada yang perlu dibetulkan kat atas."
+    },
+    "menu": {
+      "title": "{count, plural, =0 {Menu} other {Menu (#)}}",
+      "subtitle": "Makanan atau barang yang gerai ni jual, dengan harga dan gambar. Orang nampak ikut susunan ni.",
+      "empty": "Belum ada menu. Tambah makanan pertama gerai ni.",
+      "add": "Tambah makanan",
+      "addSubmit": "Tambah ke menu",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "name": "Nama makanan",
+      "namePlaceholder": "Cth. Apam balik kacang",
+      "price": "Harga",
+      "description": "Penerangan",
+      "descriptionPlaceholder": "Cth. Nipis dan rangup, inti kacang tumbuk dan jagung.",
+      "photo": "Gambar",
+      "available": "Ada dijual",
+      "availableHint": "Buang tanda kalau habis atau tak jual buat sementara. Ia masih nampak, ditanda habis.",
+      "soldOut": "Habis",
+      "noPrice": "Tiada harga",
+      "moveUp": "Naikkan {name}",
+      "moveDown": "Turunkan {name}",
+      "edit": "Edit {name}",
+      "delete": "Padam {name}",
+      "deleteConfirm": "Padam {name} dari menu?"
     }
   },
   "NotFound": {

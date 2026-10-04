@@ -89,6 +89,11 @@ export type AdminVendor = Pick<
   | "photos"
   | "usual_days"
   | "status"
+> & { items: AdminVendorItem[] };
+
+export type AdminVendorItem = Pick<
+  Tables["vendor_items"]["Row"],
+  "id" | "name" | "description" | "price_rm" | "photo_url" | "is_available"
 >;
 
 export async function getAdminVendor(
@@ -99,11 +104,26 @@ export async function getAdminVendor(
   const { data, error } = await supabase
     .from("vendors")
     .select(
-      "id, pasar_id, slug, name, category_id, description, price_range, photos, usual_days, status",
+      "id, pasar_id, slug, name, category_id, description, price_range, photos, usual_days, status, vendor_items (id, name, description, price_rm, photo_url, is_available, sort_order, created_at)",
     )
     .eq("id", vendorId)
     .eq("pasar_id", pasarId)
+    .order("sort_order", { referencedTable: "vendor_items" })
+    .order("created_at", { referencedTable: "vendor_items" })
     .maybeSingle();
   if (error) throw new Error(`Failed to load stall: ${error.message}`);
-  return data;
+  if (!data) return null;
+  const { vendor_items, ...vendor } = data;
+  return {
+    ...vendor,
+    // Already sorted by sort_order; the menu editor only needs these fields.
+    items: vendor_items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      price_rm: item.price_rm,
+      photo_url: item.photo_url,
+      is_available: item.is_available,
+    })),
+  };
 }

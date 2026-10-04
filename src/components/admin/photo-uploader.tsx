@@ -41,11 +41,17 @@ export function PhotoUploader({
   folder,
   initial,
   onBusyChange,
+  max = MAX_PHOTOS,
+  name = "photos",
 }: {
   /** e.g. "pasars/<id>" */
   folder: string;
   initial: string[];
   onBusyChange: (busy: boolean) => void;
+  /** 1 for a single photo (menu items): no cover badge, one hidden input. */
+  max?: number;
+  /** Form field name for the URLs. */
+  name?: string;
 }) {
   const t = useTranslations("Admin.photos");
   const [photos, setPhotos] = useState(initial);
@@ -60,7 +66,7 @@ export function PhotoUploader({
   async function upload(files: File[]) {
     const supabase = createClient();
     const storage = supabase.storage.from(PASAR_PHOTOS_BUCKET);
-    const batch = files.slice(0, MAX_PHOTOS - photos.length - uploading);
+    const batch = files.slice(0, max - photos.length - uploading);
     setFailed(false);
     setUploading((n) => n + batch.length);
 
@@ -100,14 +106,19 @@ export function PhotoUploader({
     setPhotos((list) => [url, ...list.filter((p) => p !== url)]);
   }
 
-  const full = photos.length + uploading >= MAX_PHOTOS;
+  const full = photos.length + uploading >= max;
 
   return (
     <div className="space-y-2">
       {photos.map((url) => (
-        <input key={url} type="hidden" name="photos" value={url} />
+        <input key={url} type="hidden" name={name} value={url} />
       ))}
-      <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+      <ul
+        className={cn(
+          "grid gap-2",
+          max === 1 ? "w-32 grid-cols-1" : "grid-cols-3 sm:grid-cols-4",
+        )}
+      >
         {photos.map((url, i) => (
           <li
             key={url}
@@ -115,7 +126,7 @@ export function PhotoUploader({
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt="" className="size-full object-cover" />
-            {i === 0 ? (
+            {max === 1 ? null : i === 0 ? (
               <span className="absolute bottom-1 left-1 rounded-md bg-pasar px-1.5 py-0.5 text-[11px] font-bold text-on-pasar">
                 {t("cover")}
               </span>
@@ -165,7 +176,7 @@ export function PhotoUploader({
               <input
                 type="file"
                 accept="image/*"
-                multiple
+                multiple={max > 1}
                 className="sr-only"
                 onChange={(e) => {
                   const files = Array.from(e.target.files ?? []);
@@ -177,9 +188,9 @@ export function PhotoUploader({
           </li>
         )}
       </ul>
-      <p className="text-xs text-muted-foreground">
-        {t("hint", { max: MAX_PHOTOS })}
-      </p>
+      {max > 1 && (
+        <p className="text-xs text-muted-foreground">{t("hint", { max })}</p>
+      )}
       {failed && (
         <p role="alert" className="text-sm text-destructive">
           {t("failed")}

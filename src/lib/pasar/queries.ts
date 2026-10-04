@@ -6,6 +6,7 @@ import type {
   PasarDetail,
   Vendor,
   VendorCategory,
+  VendorDetail,
 } from "./types";
 
 /** "17:00:00" (Postgres time) → "17:00". */
@@ -154,14 +155,29 @@ export async function getVendors(pasarId: string): Promise<Vendor[]> {
 export async function getVendor(
   pasarId: string,
   slug: string,
-): Promise<Vendor | null> {
+): Promise<VendorDetail | null> {
   const { data, error } = await createPublicClient()
     .from("vendors")
-    .select(VENDOR_FIELDS)
+    .select(
+      `${VENDOR_FIELDS}, vendor_items (id, name, description, price_rm, photo_url, is_available, sort_order, created_at)`,
+    )
     .eq("pasar_id", pasarId)
     .eq("slug", slug)
     .eq("status", "active")
+    .order("sort_order", { referencedTable: "vendor_items" })
+    .order("created_at", { referencedTable: "vendor_items" })
     .maybeSingle();
   if (error) throw new Error(`Failed to load stall: ${error.message}`);
-  return data && toVendor(data);
+  if (!data) return null;
+  return {
+    ...toVendor(data),
+    items: data.vendor_items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      priceRm: item.price_rm,
+      photoUrl: item.photo_url,
+      isAvailable: item.is_available,
+    })),
+  };
 }

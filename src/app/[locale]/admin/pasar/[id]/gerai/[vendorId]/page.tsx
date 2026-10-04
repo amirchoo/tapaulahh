@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { BackLink } from "@/components/admin/back-link";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { VendorForm } from "@/components/admin/vendor-form";
+import { VendorMenuEditor } from "@/components/admin/vendor-menu-editor";
 import { ContentPage } from "@/components/layout/content-page";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
@@ -65,13 +66,26 @@ export default async function AdminVendorPage({
         )}
       </div>
 
-      <VendorForm
-        id={vendor.id}
-        pasarId={id}
-        vendor={vendor}
-        categories={categories}
-        pasarDays={[]}
-      />
+      <section id="menu" className="scroll-mt-4 space-y-3">
+        <div>
+          <h2 className="text-lg font-extrabold">
+            {t("menu.title", { count: vendor.items.length })}
+          </h2>
+          <p className="text-sm text-muted-foreground">{t("menu.subtitle")}</p>
+        </div>
+        <VendorMenuEditor vendorId={vendor.id} items={vendor.items} />
+      </section>
+
+      <section className="space-y-3 pt-4">
+        <h2 className="text-lg font-extrabold">{t("vendorForm.editTitle")}</h2>
+        <VendorForm
+          id={vendor.id}
+          pasarId={id}
+          vendor={vendor}
+          categories={categories}
+          pasarDays={[]}
+        />
+      </section>
 
       <section className="space-y-3 border-t pt-6">
         <h2 className="text-lg font-extrabold">{t("dangerZone")}</h2>

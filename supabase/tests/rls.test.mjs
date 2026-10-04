@@ -167,6 +167,17 @@ try {
     "vendors",
   );
 
+  must(
+    await admin.from("vendor_items").insert(
+      [
+        { vendor_id: vActive.id, name: "Burger daging special", price_rm: 8.5 },
+        { vendor_id: vPending.id, name: "Hidden item", price_rm: 1 },
+      ],
+      { defaultToNull: false },
+    ),
+    "vendor items",
+  );
+
   const [bApproved, bPending] = must(
     await admin
       .from("home_businesses")
@@ -289,6 +300,33 @@ try {
     aVendors.length === 1 && aVendors[0].slug === "zz-burger",
     "anon sees active stalls only",
   );
+  const aVItems = must(
+    await anon
+      .from("vendor_items")
+      .select("name, price_rm")
+      .in("vendor_id", [vActive.id, vPending.id]),
+    "anon vendor items",
+  );
+  ok(
+    aVItems.length === 1 &&
+      aVItems[0].name === "Burger daging special" &&
+      Number(aVItems[0].price_rm) === 8.5,
+    "anon sees menu of active stalls only",
+  );
+  const aVItemWrite = await anon
+    .from("vendor_items")
+    .insert({ vendor_id: vActive.id, name: "Anon item" })
+    .select();
+  ok(aVItemWrite.error !== null, "anon cannot add menu items");
+  const menuHit = must(
+    await anon.rpc("search_all", { query: "burger daging" }),
+    "search menu",
+  );
+  ok(
+    menuHit.some((r) => r.kind === "vendor" && r.slug === "zz-burger"),
+    "search_all finds stall by menu item",
+  );
+
   const aBiz = must(
     await anon
       .from("home_businesses")
@@ -500,6 +538,27 @@ try {
   ok(
     other.error !== null || other.data.length === 0,
     "user cannot edit someone else's stall",
+  );
+  const otherItem = await a
+    .from("vendor_items")
+    .insert({ vendor_id: vActive.id, name: "Sneaky item" })
+    .select();
+  ok(
+    otherItem.error !== null,
+    "user cannot add menu items to someone else's stall",
+  );
+  const mine = must(
+    await a.from("vendors").select("id").eq("slug", "zz-mine").single(),
+    "my stall",
+  );
+  const myItem = await a
+    .from("vendor_items")
+    .insert({ vendor_id: mine.id, name: "Air tebu", price_rm: 3 })
+    .select("name");
+  ok(
+    !myItem.error && myItem.data[0]?.name === "Air tebu",
+    "stall owner can add menu items to own stall",
+    myItem.error?.message,
   );
   const seePending = must(
     await a.from("vendors").select("slug").eq("id", vPending.id),

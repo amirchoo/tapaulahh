@@ -20,3 +20,11 @@ export function formatKm(metres: number, locale: Locale): string {
     maximumFractionDigits: metres < 10_000 ? 1 : 0,
   }).format(metres / 1000);
 }
+
+/** 8.5 → "RM 8.50" (ms and en both use ringgit). */
+export function formatPrice(value: number, locale: Locale): string {
+  return new Intl.NumberFormat(locale === "ms" ? "ms-MY" : "en-MY", {
+    style: "currency",
+    currency: "MYR",
+  }).format(value);
+}

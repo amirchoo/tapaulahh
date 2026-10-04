@@ -50,3 +50,16 @@ export type Vendor = {
   photos: string[];
   usualDays: DayOfWeek[];
 };
+
+/** Something a stall sells, with an optional price and photo. */
+export type VendorItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  priceRm: number | null;
+  photoUrl: string | null;
+  isAvailable: boolean;
+};
+
+/** A stall with its menu, for the stall page. */
+export type VendorDetail = Vendor & { items: VendorItem[] };
