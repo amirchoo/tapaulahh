@@ -31,7 +31,7 @@ These were set through the Management API. If anything changes, update both the 
 - **Site URL:** `https://tapaulahh.vercel.app` (change to `https://tapaulahh.com` at launch)
 - **Redirect URLs:** `http://localhost:3000/**`, `https://tapaulahh.vercel.app/**`, `https://tapaulahh-*.vercel.app/**` (Vercel previews). Email links go back to whichever site sent them; a site missing from this list gets sent to the Site URL instead. (Before this was set, every link went to `localhost:3000`.)
 - **Emails** (Authentication → Emails):
-  - Confirm signup → `supabase/templates/confirm-signup.html`, subject `Sahkan akaun Tapaulahh kau: {{ .Token }}`
+  - Confirm signup → `supabase/templates/confirm-signup.html`, subject `Sahkan akaun Tapaulahh Anda: {{ .Token }}`
   - Magic link → `supabase/templates/sign-in.html`, subject `Kod log masuk Tapaulahh: {{ .Token }}`
   - Reset password → `supabase/templates/reset-password.html`, subject `Reset kata laluan Tapaulahh: {{ .Token }}`
 - **Email OTP length:** 6. **Minimum password length:** 8.

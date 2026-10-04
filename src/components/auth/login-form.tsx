@@ -14,7 +14,7 @@ import { PasswordInput } from "./password-input";
 const RESEND_SECONDS = 60;
 
 const CTA_CLASS =
-  "h-12 w-full rounded-xl bg-cta text-base font-bold text-on-cta hover:bg-cta/90";
+  "h-12 w-full bg-cta text-base font-bold text-on-cta hover:bg-cta/90";
 
 export type AuthMode = "login" | "signup" | "forgot";
 
@@ -58,7 +58,7 @@ export function LoginForm({
   if (state.step === "code") {
     return (
       <div className="space-y-5">
-        <div className="flex gap-3 rounded-xl border bg-card p-4">
+        <div className="flex gap-3 border bg-card p-4">
           <MailCheck className="mt-0.5 size-5 shrink-0 text-open" aria-hidden />
           <div className="text-sm">
             <p className="font-bold">{t(`code.${state.purpose}.title`)}</p>
@@ -143,7 +143,7 @@ export function LoginForm({
       {untouched && urlError && (
         <p
           role="alert"
-          className="rounded-xl border border-destructive/40 p-3 text-sm text-destructive"
+          className="border border-destructive/40 p-3 text-sm text-destructive"
         >
           {t(`errors.${urlError}`)}
         </p>
@@ -156,7 +156,7 @@ export function LoginForm({
             <Button
               type="submit"
               variant="outline"
-              className="h-12 w-full rounded-xl text-base font-semibold"
+              className="h-12 w-full text-base font-semibold"
             >
               {t("google")}
             </Button>

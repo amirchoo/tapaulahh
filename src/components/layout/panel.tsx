@@ -39,7 +39,7 @@ export function PanelBody({ children }: { children: ReactNode }) {
 /** Dashed box marking where a later part's content goes. */
 export function Placeholder({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+    <div className="border border-dashed p-4 text-sm text-muted-foreground">
       {children}
     </div>
   );

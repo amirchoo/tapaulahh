@@ -409,5 +409,9 @@
       "ratingRequired": "Pick how many stars first.",
       "generic": "Couldn't post your review. Please try again."
     }
+  },
+  "Sheet": {
+    "expand": "Expand panel",
+    "collapse": "Shrink panel"
   }
 }

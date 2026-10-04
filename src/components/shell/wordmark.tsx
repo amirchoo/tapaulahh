@@ -11,7 +11,7 @@ export function Wordmark({ className }: { className?: string }) {
       href="/"
       aria-label={t("home")}
       className={cn(
-        "rounded-md text-xl font-extrabold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        "font-heading text-xl font-extrabold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
         className,
       )}
     >

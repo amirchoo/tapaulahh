@@ -1,4 +1,4 @@
-import { Car, ChevronRight, MapPin, Navigation } from "lucide-react";
+import { Car, MapPin, Navigation } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -8,10 +8,10 @@ import { formatTime } from "@/components/pasar/format";
 import { PasarSpotMapLazy } from "@/components/pasar/pasar-spot-map-lazy";
 import { PasarStatusNow } from "@/components/pasar/pasar-status-now";
 import { PhotoStrip } from "@/components/pasar/photo-strip";
+import { VendorCard } from "@/components/pasar/vendor-card";
 import { RatingSummary } from "@/components/reviews/rating-summary";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { initLocale } from "@/i18n/server";
 import { directionsUrl } from "@/lib/pasar/directions";
@@ -114,7 +114,7 @@ async function Hours({
   return (
     <section className="space-y-2">
       <h2 className="font-extrabold">{t("days")}</h2>
-      <dl className="divide-y rounded-xl border text-sm">
+      <dl className="divide-y border text-sm">
         {days.map((day) => (
           <div key={day} className="flex justify-between gap-4 px-3 py-2">
             <dt className="font-semibold">{tDays(`long.${day}`)}</dt>
@@ -160,7 +160,7 @@ async function Where({ pasar }: { pasar: PasarDetail }) {
           </span>
         </p>
       )}
-      <Button asChild variant="outline" className="h-11 gap-2 rounded-xl px-4">
+      <Button asChild variant="outline" className="h-11 gap-2 px-4">
         <a
           href={directionsUrl(pasar.location)}
           target="_blank"
@@ -209,40 +209,19 @@ async function VendorList({
         {t("vendorsTitle", { count: vendors.length })}
       </h2>
       {vendors.length === 0 ? (
-        <p className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+        <p className="border border-dashed p-4 text-sm text-muted-foreground">
           {t("vendorsEmpty")}
         </p>
       ) : (
         sorted.map((group) => (
-          <div key={group.name} className="space-y-1.5">
+          <div key={group.name} className="space-y-2">
             <h3 className="text-xs font-bold tracking-wide text-pasar-text uppercase">
               {group.name}
             </h3>
-            <ul className="divide-y overflow-hidden rounded-xl border">
+            <ul className="grid grid-cols-2 gap-3">
               {group.items.map((vendor) => (
-                <li key={vendor.id}>
-                  <Link
-                    href={{
-                      pathname: "/pasar/[slug]/[vendor]",
-                      params: { slug: pasar.slug, vendor: vendor.slug },
-                    }}
-                    className="flex items-center gap-3 px-3 py-2.5 outline-none hover:bg-muted focus-visible:bg-muted"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold">{vendor.name}</p>
-                      {(vendor.description || vendor.priceRange) && (
-                        <p className="line-clamp-1 text-sm text-muted-foreground">
-                          {[vendor.priceRange, vendor.description]
-                            .filter(Boolean)
-                            .join(" · ")}
-                        </p>
-                      )}
-                    </div>
-                    <ChevronRight
-                      className="size-4 shrink-0 text-muted-foreground"
-                      aria-hidden
-                    />
-                  </Link>
+                <li key={vendor.id} className="min-w-0">
+                  <VendorCard vendor={vendor} pasarSlug={pasar.slug} />
                 </li>
               ))}
             </ul>

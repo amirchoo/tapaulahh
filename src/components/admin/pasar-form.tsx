@@ -351,7 +351,7 @@ export function SaveBar({
       <Button
         type="submit"
         disabled={pending || uploading}
-        className="h-12 w-full rounded-xl bg-cta text-base font-bold text-on-cta hover:bg-cta/90 sm:w-auto sm:px-8"
+        className="h-12 w-full bg-cta text-base font-bold text-on-cta hover:bg-cta/90 sm:w-auto sm:px-8"
       >
         {pending ? t("saving") : uploading ? t("photos.uploading") : label}
       </Button>

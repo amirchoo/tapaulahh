@@ -36,7 +36,7 @@ export default async function AdminPage({
         </h2>
         <Button
           asChild
-          className="h-11 gap-1.5 rounded-xl bg-cta px-4 font-bold text-on-cta hover:bg-cta/90"
+          className="h-11 gap-1.5 bg-cta px-4 font-bold text-on-cta hover:bg-cta/90"
         >
           <Link href="/admin/pasar/baru">
             <Plus className="size-4" aria-hidden />
@@ -48,7 +48,7 @@ export default async function AdminPage({
       {pasars.length === 0 ? (
         <Placeholder>{t("pasarList.empty")}</Placeholder>
       ) : (
-        <ul className="divide-y overflow-hidden rounded-2xl border bg-card">
+        <ul className="divide-y overflow-hidden border bg-card">
           {pasars.map((pasar) => (
             <li key={pasar.id}>
               <Link

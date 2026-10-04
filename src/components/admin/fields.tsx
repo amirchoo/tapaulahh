@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 /** Same look as <Input>, for <select> and <textarea>. */
 export const CONTROL_CLASS =
-  "w-full rounded-xl border bg-card px-4 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60 aria-invalid:border-destructive";
+  "w-full border bg-card px-4 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60 aria-invalid:border-destructive";
 
 /** Label + control + hint + error, wired up for screen readers. */
 export function Field({
@@ -67,9 +67,7 @@ export function FormSection({
   className?: string;
 }) {
   return (
-    <fieldset
-      className={cn("space-y-4 rounded-2xl border bg-card p-4", className)}
-    >
+    <fieldset className={cn("space-y-4 border bg-card p-4", className)}>
       <legend className="px-1 text-sm font-extrabold">{title}</legend>
       {children}
     </fieldset>

@@ -185,9 +185,9 @@ function Composer({
 
   if (viewer === null) {
     return (
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border bg-card p-4">
         <p className="text-sm">{t("signInPrompt")}</p>
-        <Button asChild variant="outline" className="h-11 rounded-xl px-4">
+        <Button asChild variant="outline" className="h-11 px-4">
           <Link href={{ pathname: "/login", query: { next: here } }}>
             {t("signIn")}
           </Link>
@@ -198,7 +198,7 @@ function Composer({
 
   if (mine && !editing) {
     return (
-      <div className="space-y-2 rounded-xl border-2 border-pasar/60 bg-card p-4">
+      <div className="space-y-2 border-2 border-pasar/60 bg-card p-4">
         <p className="text-xs font-bold tracking-wide text-pasar-text uppercase">
           {t("yours")}
         </p>
@@ -289,10 +289,7 @@ function ReviewForm({
   const shown = hover || rating;
 
   return (
-    <form
-      action={formAction}
-      className="space-y-3 rounded-xl border bg-card p-4"
-    >
+    <form action={formAction} className="space-y-3 border bg-card p-4">
       <input type="hidden" name="targetType" value={targetType} />
       <input type="hidden" name="targetId" value={targetId} />
 
@@ -303,7 +300,7 @@ function ReviewForm({
             <label
               key={n}
               onMouseEnter={() => setHover(n)}
-              className="flex size-11 cursor-pointer items-center justify-center rounded-lg has-focus-visible:ring-3 has-focus-visible:ring-ring/50"
+              className="flex size-11 cursor-pointer items-center justify-center has-focus-visible:ring-3 has-focus-visible:ring-ring/50"
             >
               <input
                 type="radio"
@@ -347,7 +344,7 @@ function ReviewForm({
               ? "bodyPlaceholderPasar"
               : "bodyPlaceholderVendor",
           )}
-          className="w-full rounded-xl border bg-background px-4 py-3 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="w-full border bg-background px-4 py-3 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         />
         <p className="text-right text-xs text-muted-foreground">
           {body.length}/{REVIEW_MAX}
@@ -364,7 +361,7 @@ function ReviewForm({
         <Button
           type="submit"
           disabled={pending || rating === 0}
-          className="h-11 rounded-xl bg-cta px-5 font-bold text-on-cta hover:bg-cta/90"
+          className="h-11 bg-cta px-5 font-bold text-on-cta hover:bg-cta/90"
         >
           {pending ? t("posting") : mine ? t("save") : t("post")}
         </Button>
@@ -373,7 +370,7 @@ function ReviewForm({
             type="button"
             variant="ghost"
             onClick={onCancel}
-            className="h-11 rounded-xl px-4"
+            className="h-11 px-4"
           >
             {t("cancel")}
           </Button>

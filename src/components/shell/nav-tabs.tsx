@@ -43,7 +43,7 @@ export function TopNavTabs() {
                   <span
                     aria-hidden
                     className={cn(
-                      "absolute inset-x-3 bottom-0 h-0.5 rounded-full",
+                      "absolute inset-x-3 bottom-0 h-0.5",
                       ACTIVE_BAR[item.section],
                     )}
                   />
@@ -84,7 +84,7 @@ export function BottomTabBar() {
                   <span
                     aria-hidden
                     className={cn(
-                      "absolute inset-x-6 top-0 h-0.5 rounded-full",
+                      "absolute inset-x-6 top-0 h-0.5",
                       ACTIVE_BAR[item.section],
                     )}
                   />

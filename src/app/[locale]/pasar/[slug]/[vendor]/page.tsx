@@ -69,7 +69,7 @@ export default async function VendorPage({
           <div className="px-2 pt-2 lg:px-4 lg:pt-4">
             <Link
               href={{ pathname: "/pasar/[slug]", params: { slug } }}
-              className="inline-flex h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="inline-flex h-11 items-center gap-1 px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <ChevronLeft className="size-4" aria-hidden />
               {pasar.name}
@@ -106,7 +106,7 @@ export default async function VendorPage({
                     {days.map((d) => (
                       <li
                         key={d}
-                        className="rounded-lg bg-pasar/15 px-3 py-1.5 text-sm font-semibold"
+                        className="bg-pasar/15 px-3 py-1.5 text-sm font-semibold"
                       >
                         {tDays(`long.${d}`)}
                       </li>
@@ -141,7 +141,7 @@ async function Menu({
   return (
     <section className="space-y-2">
       <h2 className="font-extrabold">{t("menu")}</h2>
-      <ul className="divide-y rounded-xl border">
+      <ul className="divide-y border">
         {items.map((item) => (
           <li
             key={item.id}
@@ -161,13 +161,13 @@ async function Menu({
                   </span>
                 )}
                 {!item.isAvailable && (
-                  <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                  <span className="ml-2 bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                     {t("soldOut")}
                   </span>
                 )}
               </p>
             </div>
-            <div className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
+            <div className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden bg-muted">
               {item.photoUrl ? (
                 <Image
                   src={item.photoUrl}

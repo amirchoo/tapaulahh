@@ -71,13 +71,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               name="q"
               type="search"
               placeholder={tCari("placeholder")}
-              className="h-12 w-full rounded-xl border bg-card pr-4 pl-12 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="h-12 w-full border bg-card pr-4 pl-12 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             />
           </div>
           <Button
             type="submit"
             variant="outline"
-            className="h-12 rounded-xl px-5 font-semibold"
+            className="h-12 px-5 font-semibold"
           >
             {t("searchButton")}
           </Button>
@@ -92,7 +92,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           </h2>
           <Link
             href="/pasar"
-            className="inline-flex h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-pasar-text outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="inline-flex h-11 items-center gap-1 px-2 text-sm font-semibold text-pasar-text outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             {t("seeMap")}
             <ChevronRight className="size-4" aria-hidden />
@@ -105,7 +105,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <section className="grid gap-3 sm:grid-cols-2">
         <Link
           href="/pasar"
-          className="group rounded-2xl border-2 border-pasar bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="group border-2 border-pasar bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <span className="flex size-11 items-center justify-center rounded-full bg-pasar text-on-pasar">
             <MapIcon className="size-5" aria-hidden />
@@ -125,7 +125,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </Link>
         <Link
           href="/kedai"
-          className="group rounded-2xl border-2 border-kedai bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="group border-2 border-kedai bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <span className="flex size-11 items-center justify-center rounded-full bg-kedai text-on-kedai">
             <Store className="size-5" aria-hidden />
@@ -153,7 +153,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <li key={food}>
               <Link
                 href={{ pathname: "/cari", query: { q: food } }}
-                className="inline-flex h-11 items-center rounded-full border bg-card px-4 text-sm font-semibold outline-none hover:border-pasar focus-visible:ring-3 focus-visible:ring-ring/50"
+                className="inline-flex h-11 items-center border bg-card px-4 text-sm font-semibold outline-none hover:border-pasar focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 {food}
               </Link>
@@ -197,7 +197,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       )}
 
       {/* Join */}
-      <section className="rounded-2xl border bg-card p-6 lg:flex lg:items-center lg:justify-between lg:p-8">
+      <section className="border bg-card p-6 lg:flex lg:items-center lg:justify-between lg:p-8">
         <div>
           <h2 className="text-xl font-extrabold tracking-tight">
             {t("ctaTitle")}
@@ -206,7 +206,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
         <Button
           asChild
-          className="mt-4 h-12 rounded-xl bg-cta px-6 text-base font-bold text-on-cta hover:bg-cta/90 lg:mt-0"
+          className="mt-4 h-12 bg-cta px-6 text-base font-bold text-on-cta hover:bg-cta/90 lg:mt-0"
         >
           <Link
             href={{

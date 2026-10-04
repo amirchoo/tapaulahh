@@ -118,7 +118,7 @@ export function KedaiExplorer({
             focus={focus}
             userLocation={userLocation}
           />
-          <p className="pointer-events-none absolute top-12 left-3 flex max-w-[70%] items-center gap-1.5 rounded-full bg-card/90 px-3 py-1.5 text-xs font-semibold shadow">
+          <p className="pointer-events-none absolute top-12 left-3 flex max-w-[70%] items-center gap-1.5 border bg-card/90 px-3 py-1.5 text-xs font-semibold">
             <Info className="size-3.5 shrink-0 text-kedai" aria-hidden />
             {t("mapNote")}
           </p>
@@ -136,7 +136,7 @@ export function KedaiExplorer({
               variant="outline"
               onClick={locate}
               disabled={locating === "locating"}
-              className="mt-4 h-11 shrink-0 gap-2 rounded-full px-4 font-semibold lg:mt-6"
+              className="mt-4 h-11 shrink-0 gap-2 px-4 font-semibold lg:mt-6"
             >
               {locating === "locating" ? (
                 <LoaderCircle className="size-4 animate-spin" aria-hidden />
@@ -165,7 +165,7 @@ export function KedaiExplorer({
                       }}
                       aria-pressed={active}
                       className={cn(
-                        "h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                        "h-11 shrink-0 border px-4 text-sm font-semibold transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                         active
                           ? "border-kedai bg-kedai font-bold text-on-kedai"
                           : "bg-card text-muted-foreground hover:text-foreground",
@@ -191,11 +191,11 @@ export function KedaiExplorer({
             </p>
 
             {businesses.length === 0 ? (
-              <div className="mt-2 space-y-3 rounded-xl border border-dashed p-4">
+              <div className="mt-2 space-y-3 border border-dashed p-4">
                 <p className="text-sm text-muted-foreground">{t("empty")}</p>
                 <Button
                   asChild
-                  className="h-11 rounded-xl bg-cta px-4 font-bold text-on-cta hover:bg-cta/90"
+                  className="h-11 bg-cta px-4 font-bold text-on-cta hover:bg-cta/90"
                 >
                   <a href={signUpHref}>{t("emptyCta")}</a>
                 </Button>
@@ -207,7 +207,7 @@ export function KedaiExplorer({
                     key={b.id}
                     id={`business-${b.id}`}
                     className={cn(
-                      "scroll-my-3 rounded-xl border bg-card transition-colors",
+                      "scroll-my-3 border bg-card transition-colors",
                       b.id === selectedId && "border-kedai ring-1 ring-kedai",
                     )}
                   >
@@ -215,9 +215,9 @@ export function KedaiExplorer({
                       type="button"
                       onClick={() => select(b.id)}
                       aria-pressed={b.id === selectedId}
-                      className="flex w-full gap-3 rounded-t-xl px-4 pt-3 pb-2 text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="flex w-full gap-3 px-4 pt-3 pb-2 text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
                     >
-                      <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-kedai/15 text-kedai">
+                      <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden bg-kedai/15 text-kedai">
                         {b.logoUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -257,7 +257,7 @@ export function KedaiExplorer({
                         pathname: "/kedai/[slug]",
                         params: { slug: b.slug },
                       }}
-                      className="flex h-11 items-center justify-between rounded-b-xl border-t px-4 text-sm font-semibold text-kedai outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="flex h-11 items-center justify-between border-t px-4 text-sm font-semibold text-kedai outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
                     >
                       {t("viewShop")}
                       <ChevronRight className="size-4" aria-hidden />

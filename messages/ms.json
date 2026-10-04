@@ -1,6 +1,6 @@
 {
   "Metadata": {
-    "title": "Tapaulahh — pasar malam dekat kau",
+    "title": "Tapaulahh — pasar malam dekat Anda",
     "description": "Peta pasar malam dan peniaga kecil di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
   },
   "Nav": {
@@ -32,7 +32,7 @@
     "parking": "Parking",
     "directions": "Tunjuk arah",
     "vendorsTitle": "{count, plural, =0 {Gerai} other {Gerai (#)}}",
-    "vendorsEmpty": "Senarai gerai belum ada lagi. Ada gerai sini? Daftar dan biar orang jumpa kau.",
+    "vendorsEmpty": "Senarai gerai belum ada lagi. Ada gerai sini? Daftar dan biar orang jumpa Anda.",
     "otherCategory": "Lain-lain",
     "metaDescription": "{name} di {district}. Buka {days}. Tengok waktu, lokasi dan gerai apa ada."
   },
@@ -47,14 +47,14 @@
   },
   "Kedai": {
     "title": "Peniaga Kecil",
-    "subtitle": "Bisnes kecil dari rumah sekitar kau: kek, lauk, frozen, kraf dan banyak lagi.",
+    "subtitle": "Bisnes kecil dari rumah sekitar Anda: kek, lauk, frozen, kraf dan banyak lagi.",
     "mapLabel": "Peta peniaga kecil",
     "mapNote": "Kawasan anggaran sahaja, untuk jaga privasi peniaga.",
     "categoryFilter": "Pilih kategori",
     "all": "Semua",
     "count": "{count, plural, other {# peniaga}}",
-    "empty": "Belum ada peniaga kecil kat sini lagi. Kau berniaga dari rumah? Jadi yang pertama!",
-    "emptyCta": "Daftar bisnes kau",
+    "empty": "Belum ada peniaga kecil kat sini lagi. Anda berniaga dari rumah? Jadi yang pertama!",
+    "emptyCta": "Daftar bisnes Anda",
     "viewShop": "Tengok kedai"
   },
   "KedaiDetail": {
@@ -69,19 +69,19 @@
   },
   "Auth": {
     "loginTitle": "Log masuk",
-    "loginSubtitle": "Untuk simpan kegemaran, urus bisnes atau gerai kau.",
+    "loginSubtitle": "Untuk simpan kegemaran, urus bisnes atau gerai Anda.",
     "signupTitle": "Daftar akaun",
-    "signupSubtitle": "Percuma. Daftar untuk letak bisnes kecil atau gerai pasar kau, dan simpan kegemaran.",
+    "signupSubtitle": "Percuma. Daftar untuk letak bisnes kecil atau gerai pasar Anda, dan simpan kegemaran.",
     "forgotTitle": "Lupa kata laluan",
-    "forgotSubtitle": "Masukkan email akaun kau. Kami hantar kod untuk tetapkan kata laluan baru.",
+    "forgotSubtitle": "Masukkan email akaun Anda. Kami hantar kod untuk tetapkan kata laluan baru.",
     "passwordTitle": "Kata laluan baru",
-    "passwordSubtitle": "Pilih kata laluan baru untuk akaun kau.",
+    "passwordSubtitle": "Pilih kata laluan baru untuk akaun Anda.",
     "browseNote": "Nak tengok pasar dan kedai tak perlu akaun pun.",
     "google": "Teruskan dengan Google",
     "or": "atau",
     "nameLabel": "Nama",
     "namePlaceholder": "Cth. Kak Ros",
-    "nameHint": "Nama ni orang nampak pada kedai atau gerai kau.",
+    "nameHint": "Nama ni orang nampak pada kedai atau gerai Anda.",
     "emailLabel": "Email",
     "emailPlaceholder": "nama@email.com",
     "passwordLabel": "Kata laluan",
@@ -96,23 +96,23 @@
     "sendCode": "Hantar kod",
     "sendResetCode": "Hantar kod",
     "sending": "Tengah proses…",
-    "signupExplainer": "Lepas daftar, kami hantar kod ke email kau untuk sahkan akaun.",
+    "signupExplainer": "Lepas daftar, kami hantar kod ke email Anda untuk sahkan akaun.",
     "forgotExplainer": "Kalau ada akaun dengan email ni, kod akan sampai dalam beberapa minit.",
     "useCode": "Log masuk guna kod email (tanpa kata laluan)",
     "usePassword": "Log masuk guna kata laluan",
     "code": {
       "signup": {
-        "title": "Sahkan email kau",
-        "body": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah (atau tekan pautan dalam email) untuk siapkan akaun kau.",
+        "title": "Sahkan email Anda",
+        "body": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah (atau tekan pautan dalam email) untuk siapkan akaun Anda.",
         "submit": "Sahkan"
       },
       "login": {
-        "title": "Semak email kau",
+        "title": "Semak email Anda",
         "body": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah, atau tekan pautan dalam email.",
         "submit": "Masuk"
       },
       "recovery": {
-        "title": "Semak email kau",
+        "title": "Semak email Anda",
         "body": "Kalau {email} ada akaun, kami dah hantar kod. Masukkan kod tu untuk tetapkan kata laluan baru.",
         "submit": "Teruskan"
       }
@@ -138,7 +138,7 @@
       "nameRequired": "Letak nama dulu.",
       "passwordShort": "Kata laluan terlalu pendek atau senang diteka. Guna sekurang-kurangnya 8 aksara.",
       "passwordMismatch": "Dua kata laluan tu tak sama.",
-      "samePassword": "Tu kata laluan lama kau. Pilih yang baru.",
+      "samePassword": "Tu kata laluan lama Anda. Pilih yang baru.",
       "wrongPassword": "Email atau kata laluan salah.",
       "emailTaken": "Email ni dah ada akaun. Log masuk, atau tekan \"Lupa?\" kalau tak ingat kata laluan.",
       "noAccount": "Tiada akaun dengan email ni. Daftar dulu.",
@@ -157,7 +157,7 @@
     "manageKedai": "Urus kedai saya",
     "admin": "Admin",
     "favouritesTitle": "Kegemaran",
-    "favouritesPlaceholder": "Pasar, gerai dan kedai yang kau simpan akan muncul di sini.",
+    "favouritesPlaceholder": "Pasar, gerai dan kedai yang Anda simpan akan muncul di sini.",
     "profileTitle": "Profil",
     "save": "Simpan",
     "signOut": "Log keluar",
@@ -166,13 +166,13 @@
   },
   "Welcome": {
     "title": "Selamat datang!",
-    "subtitle": "Akaun kau dah siap. Apa nama kau?",
+    "subtitle": "Akaun Anda dah siap. Apa nama Anda?",
     "continue": "Teruskan",
     "skip": "Langkau dulu"
   },
   "AkaunKedai": {
     "title": "Kedai saya",
-    "placeholder": "Daftar kedai dan urus katalog kau di sini."
+    "placeholder": "Daftar kedai dan urus katalog Anda di sini."
   },
   "Admin": {
     "title": "Admin",
@@ -280,7 +280,7 @@
       "priceInvalid": "Tulis harga dalam RM, cth. 5 atau 5.50."
     },
     "errors": {
-      "forbidden": "Kau tak ada akses admin.",
+      "forbidden": "Anda tak ada akses admin.",
       "generic": "Tak dapat simpan. Cuba lagi.",
       "checkFields": "Ada yang perlu dibetulkan kat atas."
     },
@@ -345,10 +345,10 @@
   "Map": {
     "label": "Peta pasar malam",
     "nearMe": "Dekat saya",
-    "locating": "Tengah cari lokasi kau…",
+    "locating": "Tengah cari lokasi Anda…",
     "locationDenied": "Tak dapat lokasi. Peta masih boleh guna.",
     "away": "{distance} km",
-    "you": "Lokasi kau"
+    "you": "Lokasi Anda"
   },
   "PasarMap": {
     "title": "Pasar malam",
@@ -376,7 +376,7 @@
     "areasTitle": "Pasar malam ikut kawasan",
     "areaCount": "{count} pasar",
     "ctaTitle": "Ada gerai atau bisnes dari rumah?",
-    "ctaBody": "Daftar dan biar orang sekitar kau jumpa kau.",
+    "ctaBody": "Daftar dan biar orang sekitar Anda jumpa Anda.",
     "ctaButton": "Daftar sekarang"
   },
   "Reviews": {
@@ -388,18 +388,18 @@
     "anonymous": "Pengguna Tapaulahh",
     "signInPrompt": "Pernah datang? Log masuk untuk bagi rating dan ulasan.",
     "signIn": "Log masuk",
-    "yours": "Ulasan kau",
+    "yours": "Ulasan Anda",
     "hiddenNote": "Ulasan ni disembunyikan oleh admin, jadi orang lain tak nampak.",
     "edit": "Edit",
     "delete": "Padam",
-    "deleteConfirm": "Padam ulasan kau?",
+    "deleteConfirm": "Padam ulasan Anda?",
     "hide": "Sembunyi (admin)",
     "hideConfirm": "Sembunyikan ulasan ni dari orang ramai?",
-    "yourRating": "Rating kau",
+    "yourRating": "Rating Anda",
     "bodyLabel": "Ulasan",
     "optional": "tak wajib",
     "bodyPlaceholderPasar": "Apa yang best? Parking senang? Gerai mana wajib cuba?",
-    "bodyPlaceholderVendor": "Sedap tak? Apa yang kau order? Berbaloi dengan harga?",
+    "bodyPlaceholderVendor": "Sedap tak? Apa yang Anda order? Berbaloi dengan harga?",
     "post": "Hantar ulasan",
     "save": "Simpan",
     "posting": "Tengah hantar…",
@@ -409,5 +409,9 @@
       "ratingRequired": "Pilih berapa bintang dulu.",
       "generic": "Tak dapat hantar ulasan. Cuba lagi."
     }
+  },
+  "Sheet": {
+    "expand": "Besarkan panel",
+    "collapse": "Kecilkan panel"
   }
 }

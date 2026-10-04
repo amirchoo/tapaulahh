@@ -46,11 +46,11 @@ export default async function AkaunPage({
   return (
     <ContentPage title={t("title")}>
       {passwordSaved && (
-        <p role="status" className="rounded-xl border p-3 text-sm text-open">
+        <p role="status" className="border p-3 text-sm text-open">
           {t("passwordSaved")}
         </p>
       )}
-      <section className="flex items-center gap-4 rounded-2xl border bg-card p-4">
+      <section className="flex items-center gap-4 border bg-card p-4">
         <Avatar
           name={name || (user.email ?? "")}
           url={profile?.avatarUrl}
@@ -74,7 +74,7 @@ export default async function AkaunPage({
         </div>
       </section>
 
-      <ul className="divide-y overflow-hidden rounded-2xl border bg-card">
+      <ul className="divide-y overflow-hidden border bg-card">
         {links.map(({ href, icon: Icon, label }) => (
           <li key={href}>
             <Link

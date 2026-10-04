@@ -34,7 +34,7 @@ export default async function CariPage({
             name="q"
             type="search"
             placeholder={t("placeholder")}
-            className="h-12 w-full rounded-xl border bg-card pr-4 pl-12 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="h-12 w-full border bg-card pr-4 pl-12 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
           />
         </div>
       </form>

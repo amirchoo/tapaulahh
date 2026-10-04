@@ -14,7 +14,7 @@ export function MapPlaceholder({
 
   return (
     <div className="relative flex h-full items-start justify-center bg-background bg-[radial-gradient(var(--border)_1.5px,transparent_1.5px)] bg-size-[22px_22px] pt-[18%] lg:items-center lg:pt-0">
-      <div className="flex flex-col items-center gap-2 rounded-2xl border bg-card px-5 py-4 text-center shadow-sm">
+      <div className="flex flex-col items-center gap-2 border bg-card px-5 py-4 text-center">
         <MapPinned
           className={cn(
             "size-7",

@@ -49,6 +49,8 @@ export type Vendor = {
   priceRange: string | null;
   photos: string[];
   usualDays: DayOfWeek[];
+  /** For the stall's card: its own first photo, else its first menu photo. */
+  coverPhoto: string | null;
 };
 
 /** Something a stall sells, with an optional price and photo. */

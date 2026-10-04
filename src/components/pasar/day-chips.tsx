@@ -27,7 +27,7 @@ export function DayChips({
         aria-pressed={active}
         title={title}
         className={cn(
-          "h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+          "h-11 shrink-0 border px-4 text-sm font-semibold transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
           active
             ? "border-pasar bg-pasar font-bold text-on-pasar"
             : "bg-card text-muted-foreground hover:text-foreground",

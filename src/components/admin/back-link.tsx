@@ -12,7 +12,7 @@ export function BackLink({
   return (
     <Link
       href={href}
-      className="-ml-2 inline-flex h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="-ml-2 inline-flex h-11 items-center gap-1 px-2 text-sm font-semibold text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <ChevronLeft className="size-4" aria-hidden />
       {children}
@@ -31,8 +31,8 @@ export function StatusBadge({
     <span
       className={
         tone === "pending"
-          ? "rounded-md bg-pasar/20 px-1.5 py-0.5 text-xs font-bold text-pasar-text"
-          : "rounded-md bg-muted px-1.5 py-0.5 text-xs font-bold text-muted-foreground"
+          ? "bg-pasar/20 px-1.5 py-0.5 text-xs font-bold text-pasar-text"
+          : "bg-muted px-1.5 py-0.5 text-xs font-bold text-muted-foreground"
       }
     >
       {children}

@@ -146,7 +146,7 @@ export function VendorForm({
           {WEEK.map((day) => (
             <label
               key={day}
-              className="flex h-11 items-center gap-2 rounded-xl border px-3 font-semibold has-checked:border-pasar has-checked:bg-pasar/15"
+              className="flex h-11 items-center gap-2 border px-3 font-semibold has-checked:border-pasar has-checked:bg-pasar/15"
             >
               <input
                 type="checkbox"

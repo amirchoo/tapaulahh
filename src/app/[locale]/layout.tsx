@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Gabarito, Hanken_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -9,8 +9,15 @@ import { routing } from "@/i18n/routing";
 import { THEME_COLOR } from "@/lib/theme";
 import "../globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+// Headings and the wordmark: chunky and warm, like a hand-painted stall sign.
+const heading = Gabarito({
+  variable: "--font-gabarito",
+  subsets: ["latin"],
+});
+
+// Everything else: calm and very readable at small sizes.
+const body = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
 });
 
@@ -55,7 +62,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${jakarta.variable} antialiased`}
+      className={`${heading.variable} ${body.variable} antialiased`}
       suppressHydrationWarning
     >
       <body>

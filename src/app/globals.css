@@ -22,7 +22,6 @@
   --open: #2e7d3a;
   --kedai: #0b7a6e;
   --on-kedai: #ffffff;
-  --shadow: rgb(27 31 59 / 0.12);
 
   /* shadcn/ui aliases */
   --background: var(--bg);
@@ -41,7 +40,8 @@
   --destructive: oklch(0.577 0.245 27.325);
   --input: var(--border);
   --ring: var(--text-muted);
-  --radius: 0.75rem;
+  /* Square corners everywhere; only true circles use rounded-full. */
+  --radius: 0;
 }
 
 .dark {
@@ -58,7 +58,6 @@
   --open: #4cc262;
   --kedai: #2ec4b6;
   --on-kedai: #12152b;
-  --shadow: rgb(0 0 0 / 0.45);
 
   --secondary: color-mix(in oklab, var(--text) 8%, var(--card));
   --muted: color-mix(in oklab, var(--text) 8%, var(--card));
@@ -96,10 +95,8 @@
   --color-kedai: var(--kedai);
   --color-on-kedai: var(--on-kedai);
 
-  --shadow-sheet: 0 -8px 24px var(--shadow);
-
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-gabarito), var(--font-sans);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -120,6 +117,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {

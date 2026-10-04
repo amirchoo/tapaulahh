@@ -48,7 +48,7 @@ function PasarRow({
     <li
       id={`pasar-${pasar.id}`}
       className={cn(
-        "scroll-my-3 rounded-xl border bg-card transition-colors",
+        "scroll-my-3 border bg-card transition-colors",
         selected && "border-pasar ring-1 ring-pasar",
       )}
     >
@@ -56,7 +56,7 @@ function PasarRow({
         type="button"
         onClick={onSelect}
         aria-pressed={selected}
-        className="w-full rounded-t-xl px-4 pt-3 pb-2 text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="w-full px-4 pt-3 pb-2 text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         <span className="flex items-baseline justify-between gap-3">
           <span className="font-bold">{pasar.name}</span>
@@ -73,7 +73,7 @@ function PasarRow({
       </button>
       <Link
         href={{ pathname: "/pasar/[slug]", params: { slug: pasar.slug } }}
-        className="flex h-11 items-center justify-between rounded-b-xl border-t px-4 text-sm font-semibold text-pasar-text outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="flex h-11 items-center justify-between border-t px-4 text-sm font-semibold text-pasar-text outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         {t("viewPasar")}
         <ChevronRight className="size-4" aria-hidden />
