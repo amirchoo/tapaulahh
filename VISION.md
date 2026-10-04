@@ -49,7 +49,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 - **Tap a pasar → map flies/zooms into it** and shows:
   - Pasar outline (if a boundary polygon exists). **No per-stall pins in Phase 1** — vendors are shown as a list only.
   - A bottom sheet (mobile) / side panel (desktop) with: name, days + hours, address, parking/notes, photos, vendor list grouped by category.
-- Tap a vendor → vendor detail (name, category, what they sell, rough price range, photos, "usually here on" days).
+- Tap a vendor → vendor detail (name, category, what they sell, rough price range, photos, menu with prices and photos, "usually here on" days).
 
 ### 4.2 Pasar & vendor pages
 
@@ -109,6 +109,7 @@ Built in `supabase/migrations/` (the source of truth; this is a summary). All ge
 - **pasar_schedules** — `id`, `pasar_id`, `day_of_week` (0 = Sunday … 6 = Saturday), `start_time`, `end_time` (end ≤ start means it runs past midnight; a pasar can run on multiple days)
 - **vendor_categories** — `id`, `slug`, `name_ms`, `name_en`, `icon` (Lucide name), `sort_order`. 12 starting categories.
 - **vendors** — `id`, `pasar_id`, `slug` (unique per pasar, for `/pasar/[slug]/[vendor]`), `name`, `category_id`, `description`, `price_range`, `photos[]`, `position` (point, nullable, unused in P1), `usual_days` (smallint[]), `owner_id` (nullable, for claimed stalls), `status` (`pending` | `active` | `inactive`), timestamps
+- **vendor_items** — `id`, `vendor_id`, `name`, `description`, `price_rm` (numeric, optional), `photo_url`, `is_available`, `sort_order`, timestamps. A stall's menu; editable by admins and the stall's owner. `search_all` matches stalls by their available items.
 - **vendor_claims** — `id`, `vendor_id`, `user_id`, `message`, `status` (`pending` | `approved` | `rejected`), timestamps. Approving a claim sets the stall's `owner_id`.
 - **business_categories** — same shape as vendor_categories, separate list for Kedai Rumah (cakes, catering, frozen food, crafts…). 10 starting categories.
 - **home_businesses** — `id`, `slug`, `owner_id`, `name`, `category_id`, `description`, `district`, `state`, `public_location` (fuzzed point, set by trigger) + `public_lat`/`public_lng`, `whatsapp` (digits with country code), `instagram` (handle), `delivery_notes`, `hours`, `logo_url`, `status` (`pending` | `approved` | `rejected`), timestamps
@@ -218,3 +219,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Accounts: email code + link instead of link-only (email apps open links in their own browser on phones), plus a separate `/daftar` sign-up page that asks for a name. Google button shows once the provider is on — 2026-10-02
 - Admin pasar + stall management built ahead of Part 8 (moderation queues still to come). Pasar location is entered by pasting a Google Maps link or coordinates, not a map picker. Photos uploaded now, compressed in the browser — 2026-10-02
 - Accounts get passwords: sign up with name + email + password, confirmed by an emailed code; email-code log-in kept as a fallback; forgot-password flow. Supabase Site URL / redirect URLs fixed (email links went to localhost) — 2026-10-03
+- Stalls get a menu (`vendor_items`): food with photo, description, optional price, sold-out flag, admin-ordered — 2026-10-04

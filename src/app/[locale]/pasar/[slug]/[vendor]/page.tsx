@@ -1,15 +1,20 @@
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, UtensilsCrossed } from "lucide-react";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { PanelBody, PanelHeader } from "@/components/layout/panel";
+import { formatPrice } from "@/components/pasar/format";
 import { SplitView } from "@/components/layout/split-view";
 import { PasarSpotMapLazy } from "@/components/pasar/pasar-spot-map-lazy";
 import { PhotoStrip } from "@/components/pasar/photo-strip";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
+import { cn } from "@/lib/utils";
 import { getPasarBySlug, getVendor } from "@/lib/pasar/queries";
 import { WEEK } from "@/lib/pasar/schedule";
+import type { VendorItem } from "@/lib/pasar/types";
+import type { Locale } from "@/i18n/routing";
 
 async function load(slug: string, vendorSlug: string) {
   const pasar = await getPasarBySlug(slug);
@@ -82,6 +87,9 @@ export default async function VendorPage({
                   </p>
                 </section>
               )}
+              {vendor.items.length > 0 && (
+                <Menu items={vendor.items} locale={locale} />
+              )}
               {days.length > 0 && (
                 <section className="space-y-2">
                   <h2 className="font-extrabold">{t("usualDays")}</h2>
@@ -105,5 +113,65 @@ export default async function VendorPage({
         </>
       }
     />
+  );
+}
+
+async function Menu({
+  items,
+  locale,
+}: {
+  items: VendorItem[];
+  locale: Locale;
+}) {
+  const t = await getTranslations("Vendor");
+  return (
+    <section className="space-y-2">
+      <h2 className="font-extrabold">{t("menu")}</h2>
+      <ul className="divide-y rounded-xl border">
+        {items.map((item) => (
+          <li
+            key={item.id}
+            className={cn("flex gap-3 p-3", !item.isAvailable && "opacity-60")}
+          >
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold">{item.name}</p>
+              {item.description && (
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  {item.description}
+                </p>
+              )}
+              <p className="mt-1 text-sm font-bold">
+                {item.priceRm != null && (
+                  <span className="text-pasar-text">
+                    {formatPrice(item.priceRm, locale)}
+                  </span>
+                )}
+                {!item.isAvailable && (
+                  <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                    {t("soldOut")}
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
+              {item.photoUrl ? (
+                <Image
+                  src={item.photoUrl}
+                  alt={item.name}
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
+              ) : (
+                <UtensilsCrossed
+                  className="size-6 text-muted-foreground"
+                  aria-hidden
+                />
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

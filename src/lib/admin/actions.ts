@@ -12,6 +12,7 @@ import type { LatLng } from "@/lib/pasar/types";
 import {
   MAX_PHOTOS,
   PASAR_PHOTOS_BUCKET,
+  itemPhotoFolder,
   photoFolder,
   photoPath,
 } from "@/lib/photos";
@@ -26,7 +27,8 @@ export type FieldError =
   | "locationUnreadable"
   | "locationOutside"
   | "scheduleRequired"
-  | "timeInvalid";
+  | "timeInvalid"
+  | "priceInvalid";
 
 export type AdminFormState = {
   error?: "forbidden" | "generic";
@@ -257,7 +259,7 @@ export async function deletePasarAction(formData: FormData) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("pasars")
-    .select("photos, vendors (photos)")
+    .select("photos, vendors (photos, vendor_items (photo_url))")
     .eq("id", id)
     .maybeSingle();
   if (!data) return;
@@ -270,7 +272,10 @@ export async function deletePasarAction(formData: FormData) {
   }
   await removePhotos([
     ...data.photos,
-    ...data.vendors.flatMap((v) => v.photos),
+    ...data.vendors.flatMap((v) => [
+      ...v.photos,
+      ...v.vendor_items.flatMap((i) => i.photo_url ?? []),
+    ]),
   ]);
   updateTag(PUBLIC_DATA_TAG);
   redirect(await adminPath("/admin"));
@@ -359,12 +364,17 @@ export async function saveVendorAction(
 
   await removePhotos(oldPhotos, photos);
   updateTag(PUBLIC_DATA_TAG);
-  redirect(
-    await adminPath({
-      pathname: "/admin/pasar/[id]",
-      params: { id: pasarId },
-    }),
-  );
+  if (isNew) {
+    // Straight to the new stall's page, where its menu is added.
+    redirect(
+      await adminPath({
+        pathname: "/admin/pasar/[id]/gerai/[vendorId]",
+        params: { id: pasarId, vendorId: id },
+      }),
+    );
+  }
+  refresh();
+  return { saved: true };
 }
 
 export async function deleteVendorAction(formData: FormData) {
@@ -374,18 +384,28 @@ export async function deleteVendorAction(formData: FormData) {
   if (!UUID_RE.test(id) || !UUID_RE.test(pasarId)) return;
 
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { data } = await supabase
+    .from("vendors")
+    .select("photos, vendor_items (photo_url)")
+    .eq("id", id)
+    .eq("pasar_id", pasarId)
+    .maybeSingle();
+  if (!data) return;
+
+  // Its menu goes with it (on delete cascade).
+  const { error } = await supabase
     .from("vendors")
     .delete()
     .eq("id", id)
-    .eq("pasar_id", pasarId)
-    .select("photos")
-    .maybeSingle();
+    .eq("pasar_id", pasarId);
   if (error) {
     console.error("Deleting stall failed:", error.message);
     return;
   }
-  if (data) await removePhotos(data.photos);
+  await removePhotos([
+    ...data.photos,
+    ...data.vendor_items.flatMap((i) => i.photo_url ?? []),
+  ]);
   updateTag(PUBLIC_DATA_TAG);
   redirect(
     await adminPath({
@@ -393,4 +413,156 @@ export async function deleteVendorAction(formData: FormData) {
       params: { id: pasarId },
     }),
   );
+}
+
+// ---------------------------------------------------------------------------
+// Menu items (food and prices on a stall)
+// ---------------------------------------------------------------------------
+
+/** "RM 3.50", "3,50", "12" → 3.5 / 12. Empty → null (no price shown). */
+function parsePrice(input: string): number | null | "invalid" {
+  const cleaned = input
+    .replace(/^rm\s*/i, "")
+    .replace(",", ".")
+    .trim();
+  if (!cleaned) return null;
+  if (!/^\d{1,6}(\.\d{1,2})?$/.test(cleaned)) return "invalid";
+  return Number(cleaned);
+}
+
+export async function saveVendorItemAction(
+  _prev: AdminFormState,
+  formData: FormData,
+): Promise<AdminFormState> {
+  if (!(await getAdminUser())) return { error: "forbidden" };
+
+  const id = text(formData, "id");
+  const vendorId = text(formData, "vendorId");
+  const isNew = formData.get("isNew") === "1";
+  if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return { error: "generic" };
+
+  const fieldErrors: Record<string, FieldError> = {};
+  const name = text(formData, "name", 120);
+  if (!name) fieldErrors.name = "required";
+  const price = parsePrice(text(formData, "price", 20));
+  if (price === "invalid") fieldErrors.price = "priceInvalid";
+  if (Object.keys(fieldErrors).length > 0 || price === "invalid") {
+    return { fieldErrors };
+  }
+
+  const photo =
+    formData
+      .getAll("photo")
+      .map(String)
+      .find((url) => photoPath(url, itemPhotoFolder(vendorId, id))) ?? null;
+
+  const supabase = await createClient();
+  const row = {
+    name,
+    description: orNull(text(formData, "description", 500)),
+    price_rm: price,
+    photo_url: photo,
+    is_available: formData.get("is_available") !== "0",
+  };
+
+  let oldPhoto: string | null = null;
+  let error: PostgrestError | null;
+  if (isNew) {
+    // New items go to the end of the menu.
+    const { data: last } = await supabase
+      .from("vendor_items")
+      .select("sort_order")
+      .eq("vendor_id", vendorId)
+      .order("sort_order", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    ({ error } = await supabase.from("vendor_items").insert({
+      id,
+      vendor_id: vendorId,
+      sort_order: (last?.sort_order ?? 0) + 1,
+      ...row,
+    }));
+  } else {
+    const { data: before } = await supabase
+      .from("vendor_items")
+      .select("photo_url")
+      .eq("id", id)
+      .eq("vendor_id", vendorId)
+      .maybeSingle();
+    if (!before) return { error: "generic" };
+    oldPhoto = before.photo_url;
+    ({ error } = await supabase
+      .from("vendor_items")
+      .update(row)
+      .eq("id", id)
+      .eq("vendor_id", vendorId));
+  }
+  if (error) {
+    console.error("Saving menu item failed:", error.message);
+    return { error: "generic" };
+  }
+
+  if (oldPhoto) await removePhotos([oldPhoto], photo ? [photo] : []);
+  updateTag(PUBLIC_DATA_TAG);
+  refresh();
+  return { saved: true };
+}
+
+export async function deleteVendorItemAction(formData: FormData) {
+  if (!(await getAdminUser())) return;
+  const id = text(formData, "id");
+  const vendorId = text(formData, "vendorId");
+  if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("vendor_items")
+    .delete()
+    .eq("id", id)
+    .eq("vendor_id", vendorId)
+    .select("photo_url")
+    .maybeSingle();
+  if (error) {
+    console.error("Deleting menu item failed:", error.message);
+    return;
+  }
+  if (data?.photo_url) await removePhotos([data.photo_url]);
+  updateTag(PUBLIC_DATA_TAG);
+  refresh();
+}
+
+/** Moves a menu item one place up or down. */
+export async function moveVendorItemAction(formData: FormData) {
+  if (!(await getAdminUser())) return;
+  const id = text(formData, "id");
+  const vendorId = text(formData, "vendorId");
+  const step = formData.get("direction") === "up" ? -1 : 1;
+  if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return;
+
+  const supabase = await createClient();
+  const { data: items } = await supabase
+    .from("vendor_items")
+    .select("id")
+    .eq("vendor_id", vendorId)
+    .order("sort_order")
+    .order("created_at");
+  if (!items) return;
+  const ids = items.map((i) => i.id);
+  const from = ids.indexOf(id);
+  const to = from + step;
+  if (from < 0 || to < 0 || to >= ids.length) return;
+  [ids[from], ids[to]] = [ids[to], ids[from]];
+
+  // Renumber 1…n so the order stays clean.
+  await Promise.all(
+    ids.map((itemId, i) =>
+      supabase
+        .from("vendor_items")
+        .update({ sort_order: i + 1 })
+        .eq("id", itemId)
+        .eq("vendor_id", vendorId),
+    ),
+  );
+  updateTag(PUBLIC_DATA_TAG);
+  refresh();
 }

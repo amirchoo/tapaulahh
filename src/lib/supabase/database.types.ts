@@ -472,6 +472,53 @@ export type Database = {
           },
         ];
       };
+      vendor_items: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: string;
+          is_available: boolean;
+          name: string;
+          photo_url: string | null;
+          price_rm: number | null;
+          sort_order: number;
+          updated_at: string;
+          vendor_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_available?: boolean;
+          name: string;
+          photo_url?: string | null;
+          price_rm?: number | null;
+          sort_order?: number;
+          updated_at?: string;
+          vendor_id: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_available?: boolean;
+          name?: string;
+          photo_url?: string | null;
+          price_rm?: number | null;
+          sort_order?: number;
+          updated_at?: string;
+          vendor_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "vendor_items_vendor_id_fkey";
+            columns: ["vendor_id"];
+            isOneToOne: false;
+            referencedRelation: "vendors";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       vendors: {
         Row: {
           category_id: string | null;
@@ -550,6 +597,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      can_edit_vendor: { Args: { p_vendor_id: string }; Returns: boolean };
       can_moderate: { Args: never; Returns: boolean };
       fuzz_location: {
         Args: { point: unknown; seed: string };

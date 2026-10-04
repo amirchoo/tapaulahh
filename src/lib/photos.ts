@@ -11,6 +11,11 @@ export function photoFolder(kind: "pasars" | "vendors", id: string): string {
   return `${kind}/${id}`;
 }
 
+/** Folder for one menu item's photo, inside its stall's folder. */
+export function itemPhotoFolder(vendorId: string, itemId: string): string {
+  return `${photoFolder("vendors", vendorId)}/items/${itemId}`;
+}
+
 /** Public URL → path inside the bucket, or null if it isn't one of ours. */
 export function photoPath(url: string, folder?: string): string | null {
   if (!url.startsWith(PUBLIC_PREFIX)) return null;

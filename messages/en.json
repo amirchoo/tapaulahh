@@ -41,7 +41,9 @@
     "whatTheySell": "What they sell",
     "usualDays": "Usually here on",
     "daysNote": "Stalls sometimes take a day off, so treat these as a guide.",
-    "metaDescription": "{name}, a stall at {pasar}. See what they sell and which days they're usually there."
+    "metaDescription": "{name}, a stall at {pasar}. See what they sell and which days they're usually there.",
+    "menu": "Menu",
+    "soldOut": "Sold out for now"
   },
   "Kedai": {
     "title": "Kedai Rumah",
@@ -268,12 +270,37 @@
       "locationUnreadable": "Couldn't read a location from that. Copy the link from Google Maps' Share button, or paste coordinates.",
       "locationOutside": "That location isn't in Malaysia. Check it again: latitude first, then longitude.",
       "scheduleRequired": "Pick at least one day.",
-      "timeInvalid": "Check the times: opening and closing can't be the same."
+      "timeInvalid": "Check the times: opening and closing can't be the same.",
+      "priceInvalid": "Enter the price in RM, e.g. 5 or 5.50."
     },
     "errors": {
       "forbidden": "You don't have admin access.",
       "generic": "Couldn't save. Please try again.",
       "checkFields": "Some things above need fixing."
+    },
+    "menu": {
+      "title": "{count, plural, =0 {Menu} other {Menu (#)}}",
+      "subtitle": "Food or goods this stall sells, with prices and photos. Visitors see them in this order.",
+      "empty": "No menu yet. Add this stall's first item.",
+      "add": "Add food",
+      "addSubmit": "Add to menu",
+      "save": "Save",
+      "cancel": "Cancel",
+      "name": "Food name",
+      "namePlaceholder": "E.g. Apam balik kacang",
+      "price": "Price",
+      "description": "Description",
+      "descriptionPlaceholder": "E.g. Thin and crispy, with crushed peanut and corn filling.",
+      "photo": "Photo",
+      "available": "Available",
+      "availableHint": "Untick if it's sold out or paused for now. It stays visible, marked sold out.",
+      "soldOut": "Sold out",
+      "noPrice": "No price",
+      "moveUp": "Move {name} up",
+      "moveDown": "Move {name} down",
+      "edit": "Edit {name}",
+      "delete": "Delete {name}",
+      "deleteConfirm": "Delete {name} from the menu?"
     }
   },
   "NotFound": {
