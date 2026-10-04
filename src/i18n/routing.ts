@@ -22,11 +22,13 @@ export const routing = defineRouting({
     "/cari": { ms: "/cari", en: "/search" },
     "/login": "/login",
     "/daftar": { ms: "/daftar", en: "/sign-up" },
+    "/lupa-kata-laluan": { ms: "/lupa-kata-laluan", en: "/forgot-password" },
     "/akaun": { ms: "/akaun", en: "/account" },
     "/akaun/selamat-datang": {
       ms: "/akaun/selamat-datang",
       en: "/account/welcome",
     },
+    "/akaun/kata-laluan": { ms: "/akaun/kata-laluan", en: "/account/password" },
     "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
     "/admin": "/admin",
     "/admin/pasar/baru": { ms: "/admin/pasar/baru", en: "/admin/pasar/new" },

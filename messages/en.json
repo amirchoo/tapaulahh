@@ -64,6 +64,10 @@
     "loginSubtitle": "To save favourites and manage your home business or stall.",
     "signupTitle": "Create an account",
     "signupSubtitle": "It's free. Sign up to list your home business or pasar stall, and save favourites.",
+    "forgotTitle": "Forgot password",
+    "forgotSubtitle": "Enter your account's email. We'll send a code so you can set a new password.",
+    "passwordTitle": "New password",
+    "passwordSubtitle": "Choose a new password for your account.",
     "browseNote": "You don't need an account to browse pasar and shops.",
     "google": "Continue with Google",
     "or": "or",
@@ -72,13 +76,40 @@
     "nameHint": "People see this name on your shop or stall.",
     "emailLabel": "Email",
     "emailPlaceholder": "name@email.com",
+    "passwordLabel": "Password",
+    "passwordHint": "At least {min} characters.",
+    "newPasswordLabel": "New password",
+    "confirmPasswordLabel": "Type it again",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "forgotLink": "Forgot?",
+    "signupSubmit": "Sign up",
+    "loginSubmit": "Log in",
     "sendCode": "Send code",
-    "sending": "Sending…",
-    "codeExplainer": "We'll email you a code, so there's no password to remember.",
-    "codeTitle": "Check your email",
-    "codeSent": "We sent a code to {email}. Enter it below, or tap the link in the email.",
+    "sendResetCode": "Send code",
+    "sending": "Working on it…",
+    "signupExplainer": "After you sign up, we'll email you a code to confirm your account.",
+    "forgotExplainer": "If there's an account with this email, the code will arrive within a few minutes.",
+    "useCode": "Log in with an email code instead (no password)",
+    "usePassword": "Log in with a password",
+    "code": {
+      "signup": {
+        "title": "Confirm your email",
+        "body": "We sent a code to {email}. Enter it below (or tap the link in the email) to finish creating your account.",
+        "submit": "Confirm"
+      },
+      "login": {
+        "title": "Check your email",
+        "body": "We sent a code to {email}. Enter it below, or tap the link in the email.",
+        "submit": "Continue"
+      },
+      "recovery": {
+        "title": "Check your email",
+        "body": "If {email} has an account, we've sent it a code. Enter it to set a new password.",
+        "submit": "Continue"
+      }
+    },
     "codeLabel": "Code from the email",
-    "verify": "Continue",
     "verifying": "Checking…",
     "changeEmail": "Use a different email",
     "resend": "Send a new code",
@@ -89,6 +120,7 @@
     "signupLink": "Create an account",
     "haveAccount": "Already have an account?",
     "loginLink": "Log in",
+    "savePassword": "Save password",
     "saving": "Saving…",
     "saved": "Saved.",
     "headerLogin": "Log in",
@@ -96,9 +128,16 @@
     "errors": {
       "invalidEmail": "That email doesn't look right. Please check it.",
       "nameRequired": "Please add your name.",
+      "passwordShort": "That password is too short or too easy to guess. Use at least 8 characters.",
+      "passwordMismatch": "The two passwords don't match.",
+      "samePassword": "That's your current password. Choose a new one.",
+      "wrongPassword": "Wrong email or password.",
+      "emailTaken": "This email already has an account. Log in, or tap \"Forgot?\" if you don't remember the password.",
+      "noAccount": "There's no account with this email. Sign up first.",
       "invalidCode": "That code is wrong or has expired. Try again, or get a new code.",
       "rateLimit": "Too many tries. Wait a moment, then try again.",
-      "link": "That link can't be used any more. Enter your email to get a new code.",
+      "emailNotSent": "We couldn't send the email right now. Please try again in a little while.",
+      "link": "That link can't be used any more. Log in, or get a new code.",
       "google": "Couldn't log in with Google. Try again, or use your email.",
       "generic": "Something went wrong. Please try again."
     }
@@ -113,7 +152,9 @@
     "favouritesPlaceholder": "Pasar, stalls and shops you save will show up here.",
     "profileTitle": "Profile",
     "save": "Save",
-    "signOut": "Log out"
+    "signOut": "Log out",
+    "password": "Password",
+    "passwordSaved": "Your new password is saved."
   },
   "Welcome": {
     "title": "Welcome!",

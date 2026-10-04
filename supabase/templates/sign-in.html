@@ -1,8 +1,8 @@
 <!--
-  Tapaulahh sign-in email (code + link), BM then English.
-  Used for both "Magic link" and "Confirm signup" in the Supabase dashboard
-  (Authentication → Emails). Suggested subject: Kod Tapaulahh kau: {{ .Token }}
-  The link goes to /auth/callback; {{ .RedirectTo }} already has ?next=….
+  Tapaulahh: log in with a code (no password). BM then English.
+  Supabase dashboard → Authentication → Emails → Magic link. Subject: Kod log masuk Tapaulahh: {{ .Token }}
+  {{ .RedirectTo }} is our /auth/callback?next=… on whichever site sent it
+  (localhost, a Vercel preview, production); it must be in the Redirect URLs list.
 -->
 <div
   style="
@@ -21,7 +21,7 @@
     tapau<span style="color: #f5a623">lahh</span>
   </p>
 
-  <p style="margin: 0 0 8px">Ni kod untuk masuk Tapaulahh:</p>
+  <p style="margin: 0 0 8px">Ni kod untuk log masuk Tapaulahh:</p>
   <p
     style="
       font-size: 32px;
@@ -46,14 +46,14 @@
         font-weight: 700;
         text-decoration: none;
       "
-      >Masuk Tapaulahh</a
+      >Log masuk</a
     >
   </p>
 
   <hr style="border: none; border-top: 1px solid #eadfcc; margin: 24px 0" />
 
   <p style="margin: 0 0 8px">
-    Here's your code to log in to Tapaulahh: <strong>{{ .Token }}</strong>
+    Your code to log in to Tapaulahh: <strong>{{ .Token }}</strong>
   </p>
   <p style="margin: 0 0 24px">
     Or

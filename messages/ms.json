@@ -64,6 +64,10 @@
     "loginSubtitle": "Untuk simpan kegemaran, urus kedai rumah atau gerai kau.",
     "signupTitle": "Daftar akaun",
     "signupSubtitle": "Percuma. Daftar untuk letak kedai rumah atau gerai pasar kau, dan simpan kegemaran.",
+    "forgotTitle": "Lupa kata laluan",
+    "forgotSubtitle": "Masukkan email akaun kau. Kami hantar kod untuk tetapkan kata laluan baru.",
+    "passwordTitle": "Kata laluan baru",
+    "passwordSubtitle": "Pilih kata laluan baru untuk akaun kau.",
     "browseNote": "Nak tengok pasar dan kedai tak perlu akaun pun.",
     "google": "Teruskan dengan Google",
     "or": "atau",
@@ -72,13 +76,40 @@
     "nameHint": "Nama ni orang nampak pada kedai atau gerai kau.",
     "emailLabel": "Email",
     "emailPlaceholder": "nama@email.com",
+    "passwordLabel": "Kata laluan",
+    "passwordHint": "Sekurang-kurangnya {min} aksara.",
+    "newPasswordLabel": "Kata laluan baru",
+    "confirmPasswordLabel": "Taip sekali lagi",
+    "showPassword": "Tunjuk kata laluan",
+    "hidePassword": "Sorok kata laluan",
+    "forgotLink": "Lupa?",
+    "signupSubmit": "Daftar",
+    "loginSubmit": "Log masuk",
     "sendCode": "Hantar kod",
-    "sending": "Tengah hantar…",
-    "codeExplainer": "Kami hantar kod ke email kau, jadi tak perlu ingat kata laluan.",
-    "codeTitle": "Semak email kau",
-    "codeSent": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah, atau tekan pautan dalam email.",
+    "sendResetCode": "Hantar kod",
+    "sending": "Tengah proses…",
+    "signupExplainer": "Lepas daftar, kami hantar kod ke email kau untuk sahkan akaun.",
+    "forgotExplainer": "Kalau ada akaun dengan email ni, kod akan sampai dalam beberapa minit.",
+    "useCode": "Log masuk guna kod email (tanpa kata laluan)",
+    "usePassword": "Log masuk guna kata laluan",
+    "code": {
+      "signup": {
+        "title": "Sahkan email kau",
+        "body": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah (atau tekan pautan dalam email) untuk siapkan akaun kau.",
+        "submit": "Sahkan"
+      },
+      "login": {
+        "title": "Semak email kau",
+        "body": "Kami dah hantar kod ke {email}. Masukkan kod tu kat bawah, atau tekan pautan dalam email.",
+        "submit": "Masuk"
+      },
+      "recovery": {
+        "title": "Semak email kau",
+        "body": "Kalau {email} ada akaun, kami dah hantar kod. Masukkan kod tu untuk tetapkan kata laluan baru.",
+        "submit": "Teruskan"
+      }
+    },
     "codeLabel": "Kod dari email",
-    "verify": "Masuk",
     "verifying": "Tengah semak…",
     "changeEmail": "Guna email lain",
     "resend": "Hantar kod baru",
@@ -89,6 +120,7 @@
     "signupLink": "Daftar",
     "haveAccount": "Dah ada akaun?",
     "loginLink": "Log masuk",
+    "savePassword": "Simpan kata laluan",
     "saving": "Tengah simpan…",
     "saved": "Dah simpan.",
     "headerLogin": "Log masuk",
@@ -96,9 +128,16 @@
     "errors": {
       "invalidEmail": "Email tu macam tak betul. Cuba semak balik.",
       "nameRequired": "Letak nama dulu.",
+      "passwordShort": "Kata laluan terlalu pendek atau senang diteka. Guna sekurang-kurangnya 8 aksara.",
+      "passwordMismatch": "Dua kata laluan tu tak sama.",
+      "samePassword": "Tu kata laluan lama kau. Pilih yang baru.",
+      "wrongPassword": "Email atau kata laluan salah.",
+      "emailTaken": "Email ni dah ada akaun. Log masuk, atau tekan \"Lupa?\" kalau tak ingat kata laluan.",
+      "noAccount": "Tiada akaun dengan email ni. Daftar dulu.",
       "invalidCode": "Kod salah atau dah tamat tempoh. Cuba lagi, atau minta kod baru.",
       "rateLimit": "Banyak sangat cubaan. Tunggu sekejap, lepas tu cuba lagi.",
-      "link": "Pautan tu dah tak boleh guna. Masukkan email kau untuk dapat kod baru.",
+      "emailNotSent": "Tak dapat hantar email sekarang. Cuba lagi sekejap lagi.",
+      "link": "Pautan tu dah tak boleh guna. Log masuk, atau minta kod baru.",
       "google": "Tak dapat log masuk dengan Google. Cuba lagi, atau guna email.",
       "generic": "Ada masalah sikit. Cuba lagi."
     }
@@ -113,7 +152,9 @@
     "favouritesPlaceholder": "Pasar, gerai dan kedai yang kau simpan akan muncul di sini.",
     "profileTitle": "Profil",
     "save": "Simpan",
-    "signOut": "Log keluar"
+    "signOut": "Log keluar",
+    "password": "Kata laluan",
+    "passwordSaved": "Kata laluan baru dah disimpan."
   },
   "Welcome": {
     "title": "Selamat datang!",

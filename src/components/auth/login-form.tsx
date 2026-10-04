@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
 import { googleAction, loginAction, type LoginState } from "@/lib/auth/actions";
-import { NAME_MAX } from "@/lib/auth/profile-name";
+import { NAME_MAX, PASSWORD_MIN } from "@/lib/auth/profile-name";
+import { PasswordInput } from "./password-input";
 
 /** Supabase lets you ask for a new code once a minute. */
 const RESEND_SECONDS = 60;
@@ -15,9 +16,12 @@ const RESEND_SECONDS = 60;
 const CTA_CLASS =
   "h-12 w-full rounded-xl bg-cta text-base font-bold text-on-cta hover:bg-cta/90";
 
+export type AuthMode = "login" | "signup" | "forgot";
+
 /**
- * Log in and sign up are the same flow: email → code from the email → in.
- * An email with no account yet gets one. Sign-up mode also asks for a name.
+ * - signup: name + email + password, then the code we email to confirm it.
+ * - login: email + password, or "email me a code" for people without one.
+ * - forgot: email, then a code, then /akaun/kata-laluan to pick a new one.
  */
 export function LoginForm({
   mode,
@@ -25,7 +29,7 @@ export function LoginForm({
   googleEnabled,
   urlError,
 }: {
-  mode: "login" | "signup";
+  mode: AuthMode;
   next: string | null;
   googleEnabled: boolean;
   /** From ?error= after a failed email link or Google sign-in. */
@@ -34,16 +38,19 @@ export function LoginForm({
   const t = useTranslations("Auth");
   const [state, formAction, pending] = useActionState<LoginState, FormData>(
     loginAction,
-    { step: "email", email: "", name: "" },
+    {
+      step: "form",
+      purpose:
+        mode === "forgot" ? "recovery" : mode === "signup" ? "signup" : "login",
+      email: "",
+      name: "",
+    },
   );
-  const untouched = state.step === "email" && !state.email && !state.error;
+  // Log in: with a password (default), or with a code sent by email.
+  const [useCode, setUseCode] = useState(false);
+  const untouched = state.step === "form" && !state.email && !state.error;
 
-  const hidden = (
-    <>
-      <input type="hidden" name="mode" value={mode} />
-      {next && <input type="hidden" name="next" value={next} />}
-    </>
-  );
+  const nextInput = next && <input type="hidden" name="next" value={next} />;
 
   if (state.step === "code") {
     return (
@@ -51,17 +58,18 @@ export function LoginForm({
         <div className="flex gap-3 rounded-xl border bg-card p-4">
           <MailCheck className="mt-0.5 size-5 shrink-0 text-open" aria-hidden />
           <div className="text-sm">
-            <p className="font-bold">{t("codeTitle")}</p>
+            <p className="font-bold">{t(`code.${state.purpose}.title`)}</p>
             <p className="mt-1 text-muted-foreground">
-              {t("codeSent", { email: state.email })}
+              {t(`code.${state.purpose}.body`, { email: state.email })}
             </p>
           </div>
         </div>
 
         <form action={formAction} className="space-y-3">
-          {hidden}
+          {nextInput}
           <input type="hidden" name="email" value={state.email} />
           <input type="hidden" name="name" value={state.name} />
+          <input type="hidden" name="purpose" value={state.purpose} />
 
           <label htmlFor="code" className="block text-sm font-semibold">
             {t("codeLabel")}
@@ -88,7 +96,7 @@ export function LoginForm({
             disabled={pending}
             className={CTA_CLASS}
           >
-            {pending ? t("verifying") : t("verify")}
+            {pending ? t("verifying") : t(`code.${state.purpose}.submit`)}
           </Button>
 
           <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
@@ -111,6 +119,22 @@ export function LoginForm({
     );
   }
 
+  const intent =
+    mode === "signup"
+      ? "signup"
+      : mode === "forgot"
+        ? "forgot"
+        : useCode
+          ? "send"
+          : "password";
+  const showPassword = intent === "signup" || intent === "password";
+  const submitLabel = {
+    signup: t("signupSubmit"),
+    password: t("loginSubmit"),
+    send: t("sendCode"),
+    forgot: t("sendResetCode"),
+  }[intent];
+
   return (
     <div className="space-y-5">
       {untouched && urlError && (
@@ -122,10 +146,10 @@ export function LoginForm({
         </p>
       )}
 
-      {googleEnabled && (
+      {googleEnabled && mode !== "forgot" && (
         <>
           <form action={googleAction}>
-            {hidden}
+            {nextInput}
             <Button
               type="submit"
               variant="outline"
@@ -142,9 +166,9 @@ export function LoginForm({
         </>
       )}
 
-      <form action={formAction} className="space-y-3">
-        {hidden}
-        <input type="hidden" name="intent" value="send" />
+      <form action={formAction} className="space-y-4">
+        {nextInput}
+        <input type="hidden" name="intent" value={intent} />
 
         {mode === "signup" && (
           <div className="space-y-1.5">
@@ -177,32 +201,98 @@ export function LoginForm({
             name="email"
             type="email"
             required
-            autoComplete="email"
+            autoComplete={mode === "signup" ? "email" : "username"}
             inputMode="email"
             defaultValue={state.email}
             placeholder={t("emailPlaceholder")}
-            aria-invalid={state.error === "invalidEmail" ? true : undefined}
+            aria-invalid={
+              state.error === "invalidEmail" || state.error === "emailTaken"
+                ? true
+                : undefined
+            }
             aria-describedby={state.error ? "login-error" : undefined}
           />
         </div>
+
+        {showPassword && (
+          <div className="space-y-1.5">
+            <div className="flex items-baseline justify-between gap-2">
+              <label htmlFor="password" className="block text-sm font-semibold">
+                {t("passwordLabel")}
+              </label>
+              {mode === "login" && (
+                <Link
+                  href={{
+                    pathname: "/lupa-kata-laluan",
+                    query: next ? { next } : {},
+                  }}
+                  className="text-sm font-semibold underline underline-offset-4"
+                >
+                  {t("forgotLink")}
+                </Link>
+              )}
+            </div>
+            <PasswordInput
+              id="password"
+              name="password"
+              required
+              minLength={mode === "signup" ? PASSWORD_MIN : undefined}
+              autoComplete={
+                mode === "signup" ? "new-password" : "current-password"
+              }
+              aria-invalid={
+                state.error === "passwordShort" ||
+                state.error === "wrongPassword"
+                  ? true
+                  : undefined
+              }
+              aria-describedby={mode === "signup" ? "password-hint" : undefined}
+            />
+            {mode === "signup" && (
+              <p id="password-hint" className="text-xs text-muted-foreground">
+                {t("passwordHint", { min: PASSWORD_MIN })}
+              </p>
+            )}
+          </div>
+        )}
+
         <FormMessage state={state} />
 
         <Button type="submit" disabled={pending} className={CTA_CLASS}>
-          {pending ? t("sending") : t("sendCode")}
+          {pending ? t("sending") : submitLabel}
         </Button>
-        <p className="text-xs text-muted-foreground">{t("codeExplainer")}</p>
+
+        {mode === "signup" && (
+          <p className="text-xs text-muted-foreground">
+            {t("signupExplainer")}
+          </p>
+        )}
+        {mode === "forgot" && (
+          <p className="text-xs text-muted-foreground">
+            {t("forgotExplainer")}
+          </p>
+        )}
+        {mode === "login" && (
+          <button
+            type="button"
+            onClick={() => setUseCode((v) => !v)}
+            className="h-11 text-sm font-semibold underline underline-offset-4"
+          >
+            {useCode ? t("usePassword") : t("useCode")}
+          </button>
+        )}
       </form>
 
       <p className="text-sm">
-        {mode === "login" ? t("noAccount") : t("haveAccount")}{" "}
+        {mode === "signup" ? t("haveAccount") : t("noAccount")}{" "}
         <Link
           href={{
-            pathname: mode === "login" ? "/daftar" : "/login",
+            pathname: mode === "signup" ? "/login" : "/daftar",
             query: next ? { next } : {},
           }}
           className="font-bold underline underline-offset-4"
         >
-          {mode === "login" ? t("signupLink") : t("loginLink")}
+          {mode === "signup" ? t("loginLink") : t("signupLink")}
         </Link>
       </p>
     </div>

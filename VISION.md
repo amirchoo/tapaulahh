@@ -65,7 +65,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ### 4.4 Accounts (optional)
 
-- Supabase Auth: Google sign-in + email code (the email also has a link). No passwords; signing in with a new email creates the account. (Phone OTP later if needed.)
+- Supabase Auth: email + password (email confirmed with a code or link), an email-code log-in fallback, forgot password, and Google sign-in. (Phone OTP later if needed.)
 - Logged-in users can: register a home business, manage their catalog, claim a vendor stall, save favourites.
 - New businesses go to `pending` → admin approves → public.
 
@@ -141,10 +141,12 @@ BM                      English                    Page
 /kedai                  /en/kedai                  Home business list + map
 /kedai/[slug]           /en/kedai/[slug]           Business page
 /cari                   /en/search                 Search
-/login                  /en/login                  Log in (email code or Google)
-/daftar                 /en/sign-up                Sign up (same flow, asks for a name)
+/login                  /en/login                  Log in (password, email code or Google)
+/daftar                 /en/sign-up                Sign up (name, email, password)
+/lupa-kata-laluan       /en/forgot-password        Forgot password
 /akaun                  /en/account                My account, favourites
 /akaun/selamat-datang   /en/account/welcome        First-time name step
+/akaun/kata-laluan      /en/account/password       Set / change password
 /akaun/kedai            /en/account/shop           Manage my business + catalog
 /admin                  /en/admin                  Admin: pasar list
 /admin/pasar/baru       /en/admin/pasar/new        Add pasar
@@ -215,3 +217,4 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - No sample pasar/vendor data in the database; real data goes in through the admin area. Categories are seeded as reference data — 2026-09-28
 - Accounts: email code + link instead of link-only (email apps open links in their own browser on phones), plus a separate `/daftar` sign-up page that asks for a name. Google button shows once the provider is on — 2026-10-02
 - Admin pasar + stall management built ahead of Part 8 (moderation queues still to come). Pasar location is entered by pasting a Google Maps link or coordinates, not a map picker. Photos uploaded now, compressed in the browser — 2026-10-02
+- Accounts get passwords: sign up with name + email + password, confirmed by an emailed code; email-code log-in kept as a fallback; forgot-password flow. Supabase Site URL / redirect URLs fixed (email links went to localhost) — 2026-10-03

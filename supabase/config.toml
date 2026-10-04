@@ -173,7 +173,7 @@ enable_anonymous_sign_ins = false
 # Allow/disallow testing manual linking of accounts
 enable_manual_linking = false
 # Passwords shorter than this value will be rejected as weak. Minimum 6, recommended 8 or more.
-minimum_password_length = 6
+minimum_password_length = 8
 # Passwords that do not meet the following requirements will be rejected as weak. Supported values
 # are: `letters_digits`, `lower_upper_letters_digits`, `lower_upper_letters_digits_symbols`
 password_requirements = ""
@@ -217,7 +217,7 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
@@ -237,15 +237,19 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
-# Sign-in email with a code and a link (docs/AUTH_SETUP.md). New accounts get
-# "confirmation", returning users get "magic_link"; both use the same email.
+# Emails with a code and a link (docs/AUTH_SETUP.md). The cloud project has
+# the same, set through the Management API.
+[auth.email.template.confirmation]
+subject = "Sahkan akaun Tapaulahh kau: {{ .Token }}"
+content_path = "./supabase/templates/confirm-signup.html"
+
 [auth.email.template.magic_link]
-subject = "Kod Tapaulahh kau: {{ .Token }}"
+subject = "Kod log masuk Tapaulahh: {{ .Token }}"
 content_path = "./supabase/templates/sign-in.html"
 
-[auth.email.template.confirmation]
-subject = "Kod Tapaulahh kau: {{ .Token }}"
-content_path = "./supabase/templates/sign-in.html"
+[auth.email.template.recovery]
+subject = "Reset kata laluan Tapaulahh: {{ .Token }}"
+content_path = "./supabase/templates/reset-password.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
