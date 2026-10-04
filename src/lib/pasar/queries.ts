@@ -137,6 +137,7 @@ function toVendor(row: VendorRow): Vendor {
     priceRange: row.price_range,
     photos: row.photos,
     usualDays: row.usual_days as DayOfWeek[],
+    coverPhoto: row.photos[0] ?? null,
   };
 }
 
@@ -144,12 +145,22 @@ function toVendor(row: VendorRow): Vendor {
 export async function getVendors(pasarId: string): Promise<Vendor[]> {
   const { data, error } = await createPublicClient()
     .from("vendors")
-    .select(VENDOR_FIELDS)
+    // Plus the first menu photo, as a cover for stalls without their own.
+    .select(`${VENDOR_FIELDS}, vendor_items (photo_url)`)
     .eq("pasar_id", pasarId)
     .eq("status", "active")
-    .order("name");
+    .not("vendor_items.photo_url", "is", null)
+    .order("name")
+    .order("sort_order", { referencedTable: "vendor_items" })
+    .limit(1, { referencedTable: "vendor_items" });
   if (error) throw new Error(`Failed to load stalls: ${error.message}`);
-  return data.map(toVendor);
+  return data.map((row) => {
+    const vendor = toVendor(row);
+    return {
+      ...vendor,
+      coverPhoto: vendor.coverPhoto ?? row.vendor_items[0]?.photo_url ?? null,
+    };
+  });
 }
 
 export async function getVendor(

@@ -38,7 +38,7 @@ function SubmitButton({ label }: { label: string }) {
       type="submit"
       variant="destructive"
       disabled={pending}
-      className="h-11 gap-2 rounded-xl px-4"
+      className="h-11 gap-2 px-4"
     >
       <Trash2 className="size-4" aria-hidden />
       {label}

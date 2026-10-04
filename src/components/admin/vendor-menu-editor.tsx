@@ -42,7 +42,7 @@ export function VendorMenuEditor({
   return (
     <div className="space-y-3">
       {items.length === 0 && open !== "new" && (
-        <p className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+        <p className="border border-dashed p-4 text-sm text-muted-foreground">
           {t("empty")}
         </p>
       )}
@@ -87,7 +87,7 @@ export function VendorMenuEditor({
             setNewId(crypto.randomUUID());
             setOpen("new");
           }}
-          className="h-11 gap-1.5 rounded-xl px-4 font-semibold"
+          className="h-11 gap-1.5 px-4 font-semibold"
         >
           <Plus className="size-4" aria-hidden />
           {t("add")}
@@ -119,16 +119,16 @@ function ItemRow({
     </>
   );
   const iconButton =
-    "flex size-10 items-center justify-center rounded-lg text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-30";
+    "flex size-10 items-center justify-center text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-30";
 
   return (
     <li
       className={cn(
-        "flex gap-3 rounded-xl border bg-card p-2",
+        "flex gap-3 border bg-card p-2",
         !item.is_available && "opacity-60",
       )}
     >
-      <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
+      <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden bg-muted">
         {item.photo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.photo_url} alt="" className="size-full object-cover" />
@@ -143,7 +143,7 @@ function ItemRow({
         <p className="font-bold">
           {item.name}
           {!item.is_available && (
-            <span className="ml-2 rounded-md bg-muted px-1.5 py-0.5 text-xs font-bold text-muted-foreground">
+            <span className="ml-2 bg-muted px-1.5 py-0.5 text-xs font-bold text-muted-foreground">
               {t("soldOut")}
             </span>
           )}
@@ -254,7 +254,7 @@ function ItemForm({
         startTransition(() => formAction(formData));
       }}
       noValidate
-      className="space-y-4 rounded-xl border-2 border-pasar bg-card p-4"
+      className="space-y-4 border-2 border-pasar bg-card p-4"
     >
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="vendorId" value={vendorId} />
@@ -352,7 +352,7 @@ function ItemForm({
         <Button
           type="submit"
           disabled={pending || uploading}
-          className="h-11 rounded-xl bg-cta px-5 font-bold text-on-cta hover:bg-cta/90"
+          className="h-11 bg-cta px-5 font-bold text-on-cta hover:bg-cta/90"
         >
           {pending
             ? t("saving")
@@ -367,7 +367,7 @@ function ItemForm({
           variant="ghost"
           onClick={onDone}
           disabled={pending}
-          className="h-11 rounded-xl px-4"
+          className="h-11 px-4"
         >
           {t("menu.cancel")}
         </Button>

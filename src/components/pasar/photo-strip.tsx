@@ -8,7 +8,7 @@ export function PhotoStrip({ photos, alt }: { photos: string[]; alt: string }) {
       {photos.map((url, i) => (
         <li
           key={url}
-          className="relative aspect-4/3 w-64 shrink-0 snap-start overflow-hidden rounded-xl bg-muted"
+          className="relative aspect-4/3 w-64 shrink-0 snap-start overflow-hidden bg-muted"
         >
           <Image
             src={url}

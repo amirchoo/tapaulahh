@@ -122,12 +122,12 @@ export function PhotoUploader({
         {photos.map((url, i) => (
           <li
             key={url}
-            className="relative aspect-square overflow-hidden rounded-xl border bg-muted"
+            className="relative aspect-square overflow-hidden border bg-muted"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt="" className="size-full object-cover" />
             {max === 1 ? null : i === 0 ? (
-              <span className="absolute bottom-1 left-1 rounded-md bg-pasar px-1.5 py-0.5 text-[11px] font-bold text-on-pasar">
+              <span className="absolute bottom-1 left-1 bg-pasar px-1.5 py-0.5 text-[11px] font-bold text-on-pasar">
                 {t("cover")}
               </span>
             ) : (
@@ -136,7 +136,7 @@ export function PhotoUploader({
                 onClick={() => makeCover(url)}
                 aria-label={t("makeCover")}
                 title={t("makeCover")}
-                className="absolute bottom-1 left-1 flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground shadow"
+                className="absolute bottom-1 left-1 flex size-8 items-center justify-center rounded-full border bg-card/90 text-foreground"
               >
                 <Star className="size-4" aria-hidden />
               </button>
@@ -146,7 +146,7 @@ export function PhotoUploader({
               onClick={() => remove(url)}
               aria-label={t("remove")}
               title={t("remove")}
-              className="absolute top-1 right-1 flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground shadow"
+              className="absolute top-1 right-1 flex size-8 items-center justify-center rounded-full border bg-card/90 text-foreground"
             >
               <X className="size-4" aria-hidden />
             </button>
@@ -155,7 +155,7 @@ export function PhotoUploader({
         {Array.from({ length: uploading }, (_, i) => (
           <li
             key={`uploading-${i}`}
-            className="flex aspect-square items-center justify-center rounded-xl border bg-muted"
+            className="flex aspect-square items-center justify-center border bg-muted"
           >
             <Loader2
               className="size-6 animate-spin text-muted-foreground"
@@ -167,7 +167,7 @@ export function PhotoUploader({
           <li>
             <label
               className={cn(
-                "flex aspect-square cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed text-center text-xs font-semibold text-muted-foreground hover:bg-muted",
+                "flex aspect-square cursor-pointer flex-col items-center justify-center gap-1 border border-dashed text-center text-xs font-semibold text-muted-foreground hover:bg-muted",
                 "focus-within:ring-3 focus-within:ring-ring/50",
               )}
             >

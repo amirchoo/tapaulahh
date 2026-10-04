@@ -63,7 +63,7 @@ export default function PasarSpotMap({
     >
       <AttributionControl position="top-right" compact />
       <Marker longitude={location.lng} latitude={location.lat} anchor="bottom">
-        <span role="img" aria-label={label} className="block drop-shadow-md">
+        <span role="img" aria-label={label} className="block">
           <MapPin
             className="size-10 fill-pasar text-on-pasar"
             strokeWidth={1.5}

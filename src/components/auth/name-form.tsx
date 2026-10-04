@@ -69,7 +69,7 @@ export function NameForm({
         disabled={pending}
         variant={primary ? "default" : "outline"}
         className={cn(
-          "h-12 rounded-xl px-6 text-base font-bold",
+          "h-12 px-6 text-base font-bold",
           primary && "w-full bg-cta text-on-cta hover:bg-cta/90",
         )}
       >

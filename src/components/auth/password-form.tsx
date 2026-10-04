@@ -54,7 +54,7 @@ export function PasswordForm({ next }: { next?: string }) {
       <Button
         type="submit"
         disabled={pending}
-        className="h-12 w-full rounded-xl bg-cta text-base font-bold text-on-cta hover:bg-cta/90"
+        className="h-12 w-full bg-cta text-base font-bold text-on-cta hover:bg-cta/90"
       >
         {pending ? t("saving") : t("savePassword")}
       </Button>

@@ -240,7 +240,7 @@ otp_expiry = 3600
 # Emails with a code and a link (docs/AUTH_SETUP.md). The cloud project has
 # the same, set through the Management API.
 [auth.email.template.confirmation]
-subject = "Sahkan akaun Tapaulahh kau: {{ .Token }}"
+subject = "Sahkan akaun Tapaulahh Anda: {{ .Token }}"
 content_path = "./supabase/templates/confirm-signup.html"
 
 [auth.email.template.magic_link]

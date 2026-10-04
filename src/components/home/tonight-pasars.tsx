@@ -25,7 +25,7 @@ export function TonightPasars({ pasars }: { pasars: Pasar[] }) {
         {[0, 1].map((i) => (
           <div
             key={i}
-            className="h-28 w-64 shrink-0 animate-pulse rounded-xl border bg-card"
+            className="h-28 w-64 shrink-0 animate-pulse border bg-card"
           />
         ))}
       </div>
@@ -43,7 +43,7 @@ export function TonightPasars({ pasars }: { pasars: Pasar[] }) {
               pathname: "/pasar/[slug]",
               params: { slug: view.pasar.slug },
             }}
-            className="block h-full rounded-xl border bg-card p-4 transition-colors outline-none hover:border-pasar focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="block h-full border bg-card p-4 transition-colors outline-none hover:border-pasar focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <span className="block font-bold">{view.pasar.name}</span>
             <StatusLine view={view} />

@@ -35,7 +35,7 @@ export function AccountButton() {
 
   if (!user) {
     return (
-      <Button asChild variant="outline" className="h-9 rounded-lg px-3">
+      <Button asChild variant="outline" className="h-9 px-3">
         <Link href="/login">{t("headerLogin")}</Link>
       </Button>
     );

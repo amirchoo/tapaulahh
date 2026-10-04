@@ -111,7 +111,7 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
               variant="outline"
               onClick={locate}
               disabled={locating === "locating"}
-              className="mt-4 h-11 shrink-0 gap-2 rounded-full px-4 font-semibold lg:mt-6"
+              className="mt-4 h-11 shrink-0 gap-2 px-4 font-semibold lg:mt-6"
             >
               {locating === "locating" ? (
                 <LoaderCircle className="size-4 animate-spin" aria-hidden />

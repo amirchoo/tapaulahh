@@ -267,7 +267,7 @@ export default function PasarMap({
           <span
             role="img"
             aria-label={t("you")}
-            className="block size-4 rounded-full border-3 border-card bg-foreground shadow-md"
+            className="block size-4 rounded-full border-3 border-card bg-foreground"
           />
         </Marker>
       )}
