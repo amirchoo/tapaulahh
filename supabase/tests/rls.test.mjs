@@ -746,6 +746,87 @@ try {
     "admin edits pasar",
   );
 
+  // ---------- reviews ----------
+  const rev = await a
+    .from("reviews")
+    .insert({
+      target_type: "pasar",
+      target_id: active.id,
+      rating: 5,
+      body: "Best pasar",
+      user_id: userB,
+      status: "hidden",
+    })
+    .select("id, user_id, status")
+    .single();
+  ok(
+    !rev.error && rev.data.user_id === userA && rev.data.status === "visible",
+    "review is posted as yourself, visible",
+    rev.error?.message,
+  );
+  const dup = await a
+    .from("reviews")
+    .insert({ target_type: "pasar", target_id: active.id, rating: 1 });
+  ok(dup.error !== null, "one review per person per pasar");
+  const hiddenTarget = await a
+    .from("reviews")
+    .insert({ target_type: "pasar", target_id: inactive.id, rating: 4 });
+  ok(hiddenTarget.error !== null, "cannot review a hidden pasar");
+  const badRating = await a
+    .from("reviews")
+    .insert({ target_type: "vendor", target_id: vActive.id, rating: 6 });
+  ok(badRating.error !== null, "rating must be 1–5");
+  const anonPost = await anon
+    .from("reviews")
+    .insert({ target_type: "pasar", target_id: active.id, rating: 3 });
+  ok(anonPost.error !== null, "anon cannot post reviews");
+  const pub = must(
+    await anon.rpc("reviews_for", {
+      p_target_type: "pasar",
+      p_target_id: active.id,
+    }),
+    "reviews_for",
+  );
+  ok(
+    pub.length === 1 && pub[0].body === "Best pasar" && pub[0].author_name,
+    "anon reads reviews with author name",
+    pub[0]?.author_name,
+  );
+  const selfHide = await a
+    .from("reviews")
+    .update({ status: "hidden" })
+    .eq("id", rev.data.id)
+    .select();
+  ok(selfHide.error !== null, "author cannot change review status");
+  const otherEdit = await b
+    .from("reviews")
+    .update({ body: "Hacked" })
+    .eq("id", rev.data.id)
+    .select("body");
+  ok(
+    !otherEdit.error && otherEdit.data[0]?.body === "Hacked",
+    "admin can edit any review",
+  );
+  const hide = await b
+    .from("reviews")
+    .update({ status: "hidden" })
+    .eq("id", rev.data.id)
+    .select("status");
+  ok(!hide.error && hide.data[0]?.status === "hidden", "admin hides a review");
+  const pubAfter = must(
+    await anon.rpc("reviews_for", {
+      p_target_type: "pasar",
+      p_target_id: active.id,
+    }),
+    "reviews_for hidden",
+  );
+  ok(pubAfter.length === 0, "hidden review disappears for the public");
+  const own = must(
+    await a.from("reviews").select("status").eq("id", rev.data.id),
+    "own hidden",
+  );
+  ok(own[0]?.status === "hidden", "author still sees own hidden review");
+
   await admin.storage.from("business-photos").remove([`${userA}/zz-test.png`]);
 } catch (e) {
   fail++;

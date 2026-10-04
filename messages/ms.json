@@ -1,13 +1,13 @@
 {
   "Metadata": {
     "title": "Tapaulahh — pasar malam dekat kau",
-    "description": "Peta pasar malam dan kedai rumah di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
+    "description": "Peta pasar malam dan peniaga kecil di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
   },
   "Nav": {
     "main": "Navigasi utama",
     "home": "Tapaulahh, ke laman utama",
     "pasar": "Pasar",
-    "kedai": "Kedai Rumah",
+    "kedai": "Peniaga Kecil",
     "akaun": "Akaun",
     "utama": "Utama"
   },
@@ -46,13 +46,19 @@
     "soldOut": "Habis buat masa ni"
   },
   "Kedai": {
-    "title": "Kedai Rumah",
-    "subtitle": "Bisnes dari rumah sekitar kau.",
-    "placeholder": "Senarai kedai rumah akan muncul di sini.",
-    "mapNote": "Lokasi kedai ditunjuk anggaran sahaja."
+    "title": "Peniaga Kecil",
+    "subtitle": "Bisnes kecil dari rumah sekitar kau: kek, lauk, frozen, kraf dan banyak lagi.",
+    "mapLabel": "Peta peniaga kecil",
+    "mapNote": "Kawasan anggaran sahaja, untuk jaga privasi peniaga.",
+    "categoryFilter": "Pilih kategori",
+    "all": "Semua",
+    "count": "{count, plural, other {# peniaga}}",
+    "empty": "Belum ada peniaga kecil kat sini lagi. Kau berniaga dari rumah? Jadi yang pertama!",
+    "emptyCta": "Daftar bisnes kau",
+    "viewShop": "Tengok kedai"
   },
   "KedaiDetail": {
-    "eyebrow": "Kedai Rumah",
+    "eyebrow": "Peniaga Kecil",
     "placeholder": "Katalog, waktu operasi dan butang WhatsApp akan muncul di sini."
   },
   "Cari": {
@@ -63,9 +69,9 @@
   },
   "Auth": {
     "loginTitle": "Log masuk",
-    "loginSubtitle": "Untuk simpan kegemaran, urus kedai rumah atau gerai kau.",
+    "loginSubtitle": "Untuk simpan kegemaran, urus bisnes atau gerai kau.",
     "signupTitle": "Daftar akaun",
-    "signupSubtitle": "Percuma. Daftar untuk letak kedai rumah atau gerai pasar kau, dan simpan kegemaran.",
+    "signupSubtitle": "Percuma. Daftar untuk letak bisnes kecil atau gerai pasar kau, dan simpan kegemaran.",
     "forgotTitle": "Lupa kata laluan",
     "forgotSubtitle": "Masukkan email akaun kau. Kami hantar kod untuk tetapkan kata laluan baru.",
     "passwordTitle": "Kata laluan baru",
@@ -358,7 +364,7 @@
   },
   "Landing": {
     "greeting": "Nak tapau apa malam ni?",
-    "intro": "Cari pasar malam yang buka hari ni dan kedai rumah sekitar KL dan Lembah Klang.",
+    "intro": "Cari pasar malam yang buka hari ni dan peniaga kecil sekitar KL dan Lembah Klang.",
     "searchButton": "Cari",
     "tonightTitle": "Buka malam ni",
     "seeMap": "Tengok peta",
@@ -372,5 +378,36 @@
     "ctaTitle": "Ada gerai atau bisnes dari rumah?",
     "ctaBody": "Daftar dan biar orang sekitar kau jumpa kau.",
     "ctaButton": "Daftar sekarang"
+  },
+  "Reviews": {
+    "title": "{count, plural, =0 {Ulasan} other {Ulasan (#)}}",
+    "count": "{count, plural, other {# ulasan}}",
+    "outOf5": "{rating} daripada 5 bintang",
+    "stars": "{count} bintang",
+    "empty": "Belum ada ulasan. Jadi orang pertama!",
+    "anonymous": "Pengguna Tapaulahh",
+    "signInPrompt": "Pernah datang? Log masuk untuk bagi rating dan ulasan.",
+    "signIn": "Log masuk",
+    "yours": "Ulasan kau",
+    "hiddenNote": "Ulasan ni disembunyikan oleh admin, jadi orang lain tak nampak.",
+    "edit": "Edit",
+    "delete": "Padam",
+    "deleteConfirm": "Padam ulasan kau?",
+    "hide": "Sembunyi (admin)",
+    "hideConfirm": "Sembunyikan ulasan ni dari orang ramai?",
+    "yourRating": "Rating kau",
+    "bodyLabel": "Ulasan",
+    "optional": "tak wajib",
+    "bodyPlaceholderPasar": "Apa yang best? Parking senang? Gerai mana wajib cuba?",
+    "bodyPlaceholderVendor": "Sedap tak? Apa yang kau order? Berbaloi dengan harga?",
+    "post": "Hantar ulasan",
+    "save": "Simpan",
+    "posting": "Tengah hantar…",
+    "cancel": "Batal",
+    "errors": {
+      "signIn": "Log masuk dulu untuk bagi ulasan.",
+      "ratingRequired": "Pilih berapa bintang dulu.",
+      "generic": "Tak dapat hantar ulasan. Cuba lagi."
+    }
   }
 }

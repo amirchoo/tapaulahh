@@ -38,7 +38,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ### 4.0 Home (`/`)
 
-- Answers "where can I tapau tonight?" on its own: greeting + search, "Buka malam ni" (pasars running today with live status), entry cards for Pasar malam (amber) and Kedai Rumah (teal), popular food search chips, pasar-by-area list (server-rendered, for SEO), and one "Daftar sekarang" CTA for stalls and home businesses.
+- Answers "where can I tapau tonight?" on its own: greeting + search, "Buka malam ni" (pasars running today with live status), entry cards for Pasar malam (amber) and Peniaga Kecil (teal), popular food search chips, pasar-by-area list (server-rendered, for SEO), and one "Daftar sekarang" CTA for stalls and home businesses.
 
 ### 4.1 Pasar map (`/pasar`)
 
@@ -56,7 +56,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 - Every pasar and vendor has its own shareable URL (SEO matters: people Google "pasar malam Seksyen 7 hari apa").
 - Search by pasar name, area, or food ("apam balik", "burger bakar").
 
-### 4.3 Kedai Rumah (home business section)
+### 4.3 Peniaga Kecil (small home businesses; was "Kedai Rumah")
 
 - Separate menu/tab, visually distinct from the pasar map.
 - List + map view of approved home businesses, filter by category and area.
@@ -74,6 +74,10 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 - Admin can add vendors directly.
 - Logged-in users can **register a new stall** or **claim an existing one**. Both go to `pending` → admin approves.
 - Only approved vendors show publicly.
+
+### 4.4c Community reviews
+
+- **Login required.** 1–5 stars + optional comment on each pasar and stall, one per person (editable). Shown at once; admins can hide any review. Average rating shown at the top of the pasar/stall page.
 
 ### 4.5 Community reports
 
@@ -111,11 +115,12 @@ Built in `supabase/migrations/` (the source of truth; this is a summary). All ge
 - **vendors** — `id`, `pasar_id`, `slug` (unique per pasar, for `/pasar/[slug]/[vendor]`), `name`, `category_id`, `description`, `price_range`, `photos[]`, `position` (point, nullable, unused in P1), `usual_days` (smallint[]), `owner_id` (nullable, for claimed stalls), `status` (`pending` | `active` | `inactive`), timestamps
 - **vendor_items** — `id`, `vendor_id`, `name`, `description`, `price_rm` (numeric, optional), `photo_url`, `is_available`, `sort_order`, timestamps. A stall's menu; editable by admins and the stall's owner. `search_all` matches stalls by their available items.
 - **vendor_claims** — `id`, `vendor_id`, `user_id`, `message`, `status` (`pending` | `approved` | `rejected`), timestamps. Approving a claim sets the stall's `owner_id`.
-- **business_categories** — same shape as vendor_categories, separate list for Kedai Rumah (cakes, catering, frozen food, crafts…). 10 starting categories.
+- **business_categories** — same shape as vendor_categories, separate list for Peniaga Kecil (cakes, catering, frozen food, crafts…). 10 starting categories.
 - **home_businesses** — `id`, `slug`, `owner_id`, `name`, `category_id`, `description`, `district`, `state`, `public_location` (fuzzed point, set by trigger) + `public_lat`/`public_lng`, `whatsapp` (digits with country code), `instagram` (handle), `delivery_notes`, `hours`, `logo_url`, `status` (`pending` | `approved` | `rejected`), timestamps
 - **home_business_locations** — `business_id`, `address`, `location` (exact point). **Private: owner and admins only.** Saving it recomputes `public_location` 300–600 m away, in a direction fixed per business.
 - **catalog_items** — `id`, `business_id`, `name`, `description`, `price_rm` (numeric), `photo_url`, `is_available`, `sort_order`, timestamps
 - **favourites** — `user_id`, `target_type` (`pasar` | `vendor` | `business`), `target_id`
+- **reviews** — `id`, `target_type` (`pasar` | `vendor`; `business` allowed for later), `target_id`, `user_id`, `rating` (1–5), `body` (optional, ≤ 1000), `status` (`visible` | `hidden`), timestamps. One per user per target. Posted instantly; authors edit/delete their own; admins hide. Public list via `reviews_for(type, id)` (returns author name + avatar only, profiles stay private). Removed when the pasar/stall is deleted.
 - **reports** — `id`, `target_type`, `target_id`, `reason`, `details`, `reporter_id` (required), `status` (`open` | `resolved`), `resolved_by`, `resolved_at`, timestamps
 
 RPCs: `pasars_near(lat, lng, radius_m, day_of_week)` and `search_all(query)` (substring + fuzzy match across pasars, stalls, shops and catalog items).
@@ -174,20 +179,20 @@ BM                      English                    Page
 | `--pasar-text` | `#8A5A00` | `#F5A623` | Amber used as text                                           |
 | `--cta`        | `#C8431C` | `#FF6B45` | The one primary button (text on it: `#FFFFFF` / `#12152B`)   |
 | `--open`       | `#2E7D3A` | `#4CC262` | "Open now" status only                                       |
-| `--kedai`      | `#0B7A6E` | `#2EC4B6` | Kedai Rumah section identity                                 |
+| `--kedai`      | `#0B7A6E` | `#2EC4B6` | Peniaga Kecil section identity                               |
 
 - Map tiles must switch with the theme (light style vs dark style).
-- Pasar section = amber identity; Kedai Rumah = teal identity. Users should always know which mode they're in.
+- Pasar section = amber identity; Peniaga Kecil = teal identity. Users should always know which mode they're in.
 - One CTA colour only. Status colours are for status only.
 - **Phone is the main device; desktop is supported.** Design and test at 375px first, then scale up.
   - Breakpoint: `< 768px` = mobile layout, `≥ 1024px` = desktop layout (tablet can use either, keep it usable).
-  - **Mobile:** full-screen map, bottom tab bar (Utama | Pasar | Kedai Rumah | Akaun; search lives at the top of Utama), draggable bottom sheet for details, thumb-reachable controls, 44px min tap targets.
+  - **Mobile:** full-screen map, bottom tab bar (Utama | Pasar | Peniaga Kecil | Akaun; search lives at the top of Utama), draggable bottom sheet for details, thumb-reachable controls, 44px min tap targets.
   - **Desktop:** top nav bar, map on the right with a ~400px left side panel for lists and details (no bottom sheets), hover states, keyboard-friendly search.
   - Same routes and data on both; only the layout changes. Fast on slow 4G.
 
 ## 10. Non-goals for Phase 1
 
-Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native mobile app.
+Riders/delivery, online ordering, in-app payments, chat, native mobile app. (Reviews and ratings were moved into Phase 1 on 2026-10-04.)
 
 ## 11. Conventions
 
@@ -211,7 +216,7 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Reports: login required
 - Domain: tapaulahh.com
 - Logo: Cho provides; use a text wordmark placeholder until then
-- Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Kedai Rumah | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28
+- Home page at `/` added; the pasar map moved to `/pasar`. Tabs: Utama | Pasar | Peniaga Kecil | Akaun (Cari dropped from the tab bar, search is on the home page; `/cari` stays for results) — 2026-09-28
 - Audience widened: tourists and visitors unfamiliar with an area, plus pasar organisers as a user type (scope open) — 2026-09-28
 - English URLs translated (`/en/search`, `/en/account`, `/en/account/shop`); "pasar" and "kedai" kept as brand words in both languages — 2026-09-28
 - Supabase: separate `Tapaulahh` project in the Team Bolahh org (shared Pro plan). Develop against the cloud project for now; add local Docker before launch — 2026-09-28
@@ -220,3 +225,5 @@ Riders/delivery, online ordering, in-app payments, reviews/ratings, chat, native
 - Admin pasar + stall management built ahead of Part 8 (moderation queues still to come). Pasar location is entered by pasting a Google Maps link or coordinates, not a map picker. Photos uploaded now, compressed in the browser — 2026-10-02
 - Accounts get passwords: sign up with name + email + password, confirmed by an emailed code; email-code log-in kept as a fallback; forgot-password flow. Supabase Site URL / redirect URLs fixed (email links went to localhost) — 2026-10-03
 - Stalls get a menu (`vendor_items`): food with photo, description, optional price, sold-out flag, admin-ordered — 2026-10-04
+- Community reviews (stars + optional comment) on pasars and stalls, moved in from the Phase 1 non-goals. Instant, admin can hide — 2026-10-04
+- Section renamed from "Kedai Rumah" to "Peniaga Kecil" (same name in BM and English; URLs stay `/kedai`, tables stay `home_businesses`). `/kedai` map built: approved businesses as ~500 m teal circles around their fuzzed area (no exact pins, max zoom 14.5), category chips, "near me" — 2026-10-04

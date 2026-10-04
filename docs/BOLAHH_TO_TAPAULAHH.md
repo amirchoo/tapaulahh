@@ -267,7 +267,7 @@ Like Bolahh's `var(--accent)`, colours are CSS variables, defined only in `src/a
 | Text / secondary text   | `text-foreground`, `text-muted-foreground`      |
 | Lines                   | `border` (uses the border colour automatically) |
 | Pasar amber             | `bg-pasar text-on-pasar`, `text-pasar-text`     |
-| Kedai Rumah teal        | `bg-kedai text-on-kedai`, `text-kedai`          |
+| Peniaga Kecil teal      | `bg-kedai text-on-kedai`, `text-kedai`          |
 | The one main button     | `bg-cta text-on-cta`                            |
 | "Open now" only         | `text-open`, `bg-open`                          |
 

@@ -8,6 +8,8 @@ import { formatTime } from "@/components/pasar/format";
 import { PasarSpotMapLazy } from "@/components/pasar/pasar-spot-map-lazy";
 import { PasarStatusNow } from "@/components/pasar/pasar-status-now";
 import { PhotoStrip } from "@/components/pasar/photo-strip";
+import { RatingSummary } from "@/components/reviews/rating-summary";
+import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -15,6 +17,7 @@ import { initLocale } from "@/i18n/server";
 import { directionsUrl } from "@/lib/pasar/directions";
 import { getPasarBySlug, getVendors } from "@/lib/pasar/queries";
 import { WEEK, schedulesOn } from "@/lib/pasar/schedule";
+import { getReviews } from "@/lib/reviews/queries";
 import type { PasarDetail, Vendor } from "@/lib/pasar/types";
 
 export async function generateMetadata({
@@ -49,7 +52,10 @@ export default async function PasarPage({
   const { slug } = await params;
   const pasar = await getPasarBySlug(slug);
   if (!pasar) notFound();
-  const vendors = await getVendors(pasar.id);
+  const [vendors, reviews] = await Promise.all([
+    getVendors(pasar.id),
+    getReviews("pasar", pasar.id),
+  ]);
   const t = await getTranslations("Pasar");
 
   return (
@@ -64,8 +70,9 @@ export default async function PasarPage({
           />
           <PanelBody>
             <div className="space-y-6">
-              <div className="-mt-2">
+              <div className="-mt-2 space-y-1">
                 <PasarStatusNow pasar={pasar} />
+                <RatingSummary summary={reviews} />
               </div>
               <PhotoStrip photos={pasar.photos} alt={pasar.name} />
               <Hours pasar={pasar} locale={locale} />
@@ -79,6 +86,11 @@ export default async function PasarPage({
                 </section>
               )}
               <VendorList pasar={pasar} vendors={vendors} locale={locale} />
+              <ReviewsSection
+                targetType="pasar"
+                targetId={pasar.id}
+                summary={reviews}
+              />
             </div>
           </PanelBody>
         </>

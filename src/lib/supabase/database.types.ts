@@ -400,6 +400,50 @@ export type Database = {
           },
         ];
       };
+      reviews: {
+        Row: {
+          body: string | null;
+          created_at: string;
+          id: string;
+          rating: number;
+          status: Database["public"]["Enums"]["review_status"];
+          target_id: string;
+          target_type: Database["public"]["Enums"]["content_type"];
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          body?: string | null;
+          created_at?: string;
+          id?: string;
+          rating: number;
+          status?: Database["public"]["Enums"]["review_status"];
+          target_id: string;
+          target_type: Database["public"]["Enums"]["content_type"];
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          body?: string | null;
+          created_at?: string;
+          id?: string;
+          rating?: number;
+          status?: Database["public"]["Enums"]["review_status"];
+          target_id?: string;
+          target_type?: Database["public"]["Enums"]["content_type"];
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reviews_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       vendor_categories: {
         Row: {
           icon: string | null;
@@ -624,6 +668,21 @@ export type Database = {
           slug: string;
         }[];
       };
+      reviews_for: {
+        Args: {
+          p_target_id: string;
+          p_target_type: Database["public"]["Enums"]["content_type"];
+        };
+        Returns: {
+          author_avatar: string;
+          author_name: string;
+          body: string;
+          created_at: string;
+          id: string;
+          rating: number;
+          updated_at: string;
+        }[];
+      };
       search_all: {
         Args: { query: string };
         Returns: {
@@ -647,6 +706,7 @@ export type Database = {
       content_type: "pasar" | "vendor" | "business";
       pasar_status: "active" | "inactive";
       report_status: "open" | "resolved";
+      review_status: "visible" | "hidden";
       user_role: "user" | "admin";
       vendor_status: "pending" | "active" | "inactive";
     };
@@ -781,6 +841,7 @@ export const Constants = {
       content_type: ["pasar", "vendor", "business"],
       pasar_status: ["active", "inactive"],
       report_status: ["open", "resolved"],
+      review_status: ["visible", "hidden"],
       user_role: ["user", "admin"],
       vendor_status: ["pending", "active", "inactive"],
     },

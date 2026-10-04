@@ -9,7 +9,7 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 - Next.js (App Router) + TypeScript strict, Tailwind, shadcn/ui, ESLint + Prettier
 - Theme: Lampu Malam CSS variable tokens (light + dark) from VISION §9, `next-themes`, system default + manual toggle
 - i18n: next-intl, BM default (no prefix) + `/en`, `messages/ms.json` + `messages/en.json`
-- Responsive app shell (VISION §9): **mobile** = compact header + bottom tab bar (Pasar | Kedai Rumah | Cari | Akaun); **desktop** = top nav with wordmark "tapaulahh", tabs, theme + language toggles, and a left side panel + main area layout
+- Responsive app shell (VISION §9): **mobile** = compact header + bottom tab bar (Pasar | Peniaga Kecil | Cari | Akaun); **desktop** = top nav with wordmark "tapaulahh", tabs, theme + language toggles, and a left side panel + main area layout
 - Placeholder pages for every route in VISION §8
 - `.env.example` with Supabase keys (not connected yet)
 
@@ -50,7 +50,7 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** a user can sign in, favourite things, and sign out.
 
-## Part 6 — Kedai Rumah
+## Part 6 — Peniaga Kecil
 
 - `/kedai` list + map (fuzzed locations only), category/area filters
 - `/kedai/[slug]` business page with catalog, WhatsApp + Instagram buttons

@@ -34,7 +34,8 @@ These were set through the Management API. If anything changes, update both the 
   - Confirm signup → `supabase/templates/confirm-signup.html`, subject `Sahkan akaun Tapaulahh kau: {{ .Token }}`
   - Magic link → `supabase/templates/sign-in.html`, subject `Kod log masuk Tapaulahh: {{ .Token }}`
   - Reset password → `supabase/templates/reset-password.html`, subject `Reset kata laluan Tapaulahh: {{ .Token }}`
-- **Email OTP length:** 6. **Minimum password length:** 8. **Confirm email:** on.
+- **Email OTP length:** 6. **Minimum password length:** 8.
+- **Confirm email: OFF for now (2026-10-04)**, as a stop-gap until custom SMTP is set up. Sign-up logs people straight in; the sign-up page hides the "we'll email you a code" line automatically (it reads Supabase's public settings, cached 5 minutes). Forgot password and the email-code log-in still need SMTP. After SMTP works, turn it back on: Authentication → Sign In / Providers → Email → **Confirm email**.
 
 ## Before real users: email sending (needed)
 

@@ -31,3 +31,27 @@ export function aliasMissingIcons(map: MapLibreMap) {
     map.addImage(id, data, { pixelRatio, sdf });
   });
 }
+
+/**
+ * Opening view: centred on KL (3.139, 101.687), wide enough to cover the Klang
+ * Valley from Setia Alam and Klang in the west to Ampang in the east.
+ * [[west, south], [east, north]]
+ */
+export const START_BOUNDS: [[number, number], [number, number]] = [
+  [101.42, 2.98],
+  [101.95, 3.3],
+];
+
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+/** On mobile the bottom sheet covers the lower half; keep the camera centred above it. */
+export function cameraPadding(container: HTMLElement) {
+  const isDesktop = window.matchMedia(DESKTOP_QUERY).matches;
+  const base = 48;
+  return {
+    top: base,
+    left: base,
+    right: base,
+    bottom: isDesktop ? base : Math.round(container.clientHeight * 0.5) + 24,
+  };
+}

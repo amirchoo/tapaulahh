@@ -5,7 +5,7 @@ import { ContentPage } from "@/components/layout/content-page";
 import { getPathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { safeNextPath } from "@/lib/auth/next-path";
-import { isGoogleEnabled } from "@/lib/auth/providers";
+import { getAuthSettings } from "@/lib/auth/providers";
 import { getCurrentUser } from "@/lib/auth/session";
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -37,7 +37,7 @@ export async function AuthPage({
         <LoginForm
           mode={mode}
           next={next}
-          googleEnabled={await isGoogleEnabled()}
+          {...await getAuthSettings()}
           urlError={urlError}
         />
         <p className="border-t pt-4 text-sm text-muted-foreground">
