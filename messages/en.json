@@ -63,9 +63,21 @@
   },
   "Cari": {
     "title": "Search",
-    "label": "Search pasar, area or food",
-    "placeholder": "E.g. apam balik, Seksyen 7",
-    "hint": "Search is coming soon."
+    "label": "Search pasar, areas, stalls or food",
+    "placeholder": "E.g. apam balik, satay, Seksyen 7",
+    "submit": "Search",
+    "hint": "Search by pasar name, area, stall, seller or food. English food words work too (e.g. satay, chicken rice).",
+    "popularTitle": "Craving something?",
+    "tryInstead": "Or try these",
+    "count": "{count, plural, one {# result} other {# results}} for “{q}”",
+    "empty": "Nothing found for “{q}”. Try another word or an area name.",
+    "seeMap": "See the pasar map",
+    "atPasar": "at {pasar}",
+    "groups": {
+      "pasar": "Pasar malam",
+      "vendor": "Stalls",
+      "business": "Peniaga Kecil"
+    }
   },
   "Auth": {
     "loginTitle": "Log in",

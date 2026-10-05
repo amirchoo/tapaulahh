@@ -63,9 +63,21 @@
   },
   "Cari": {
     "title": "Cari",
-    "label": "Cari pasar, kawasan atau makanan",
+    "label": "Cari pasar, kawasan, gerai atau makanan",
     "placeholder": "Cth. apam balik, Seksyen 7",
-    "hint": "Carian akan berfungsi tak lama lagi."
+    "submit": "Cari",
+    "hint": "Cari ikut nama pasar, kawasan, gerai, peniaga atau makanan.",
+    "popularTitle": "Tengah craving?",
+    "tryInstead": "Atau cuba ni",
+    "count": "{count, plural, other {# hasil}} untuk “{q}”",
+    "empty": "Tak jumpa apa-apa untuk “{q}”. Cuba perkataan lain atau nama kawasan.",
+    "seeMap": "Tengok peta pasar",
+    "atPasar": "di {pasar}",
+    "groups": {
+      "pasar": "Pasar malam",
+      "vendor": "Gerai",
+      "business": "Peniaga Kecil"
+    }
   },
   "Auth": {
     "loginTitle": "Log masuk",
