@@ -31,6 +31,7 @@ export const routing = defineRouting({
     "/akaun/kata-laluan": { ms: "/akaun/kata-laluan", en: "/account/password" },
     "/akaun/kedai": { ms: "/akaun/kedai", en: "/account/shop" },
     "/admin": "/admin",
+    "/admin/peniaga": { ms: "/admin/peniaga", en: "/admin/sellers" },
     "/admin/pasar/baru": { ms: "/admin/pasar/baru", en: "/admin/pasar/new" },
     "/admin/pasar/[id]": "/admin/pasar/[id]",
     "/admin/pasar/[id]/gerai/baru": {

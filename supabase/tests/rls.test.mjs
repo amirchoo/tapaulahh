@@ -26,7 +26,7 @@ const ok = (cond, label, extra = "") => {
   if (cond) pass++;
   else fail++;
   console.log(
-    `${cond ? "PASS" : "FAIL"}  ${label}${extra ? "  — " + extra : ""}`,
+    `${cond ? "PASS" : "FAIL"}  ${label}${extra ? "  · " + extra : ""}`,
   );
 };
 const must = ({ data, error }, what) => {
@@ -245,7 +245,7 @@ try {
   const d1 = dist(home, { lat: pub1.public_lat, lng: pub1.public_lng });
   ok(
     d1 >= 290 && d1 <= 610,
-    "public location fuzzed 300–600 m from real spot",
+    "public location fuzzed 300 to 600 m from real spot",
     `${d1.toFixed(0)} m`,
   );
   must(
@@ -736,6 +736,50 @@ try {
     !bApprove.error && bApprove.data[0]?.status === "approved",
     "admin approves a shop",
   );
+  // ---------- business review: reject with a note, owner resubmits ----------
+  must(
+    await b
+      .from("home_businesses")
+      .update({ status: "rejected", review_note: "Tambah gambar logo" })
+      .eq("id", shop.data.id),
+    "admin rejects",
+  );
+  const noteEdit = await a
+    .from("home_businesses")
+    .update({ review_note: "Approved by me" })
+    .eq("id", shop.data.id)
+    .select("review_note")
+    .single();
+  ok(
+    noteEdit.data?.review_note === "Tambah gambar logo",
+    "owner cannot change the admin's note",
+  );
+  const ownerApprove = await a
+    .from("home_businesses")
+    .update({ status: "approved" })
+    .eq("id", shop.data.id)
+    .select();
+  ok(ownerApprove.error !== null, "owner cannot approve a rejected shop");
+  const resubmit = await a
+    .from("home_businesses")
+    .update({ status: "pending" })
+    .eq("id", shop.data.id)
+    .select("status, review_note")
+    .single();
+  ok(
+    !resubmit.error &&
+      resubmit.data.status === "pending" &&
+      resubmit.data.review_note === null,
+    "owner resubmits a rejected shop (note cleared)",
+    resubmit.error?.message,
+  );
+  const reApprove = await b
+    .from("home_businesses")
+    .update({ status: "approved" })
+    .eq("id", shop.data.id)
+    .select("status");
+  ok(reApprove.data?.[0]?.status === "approved", "admin approves again");
+
   const bPasar = await b
     .from("pasars")
     .update({ parking_notes: "Parking tepi jalan" })
@@ -775,7 +819,7 @@ try {
   const badRating = await a
     .from("reviews")
     .insert({ target_type: "vendor", target_id: vActive.id, rating: 6 });
-  ok(badRating.error !== null, "rating must be 1–5");
+  ok(badRating.error !== null, "rating must be 1 to 5");
   const anonPost = await anon
     .from("reviews")
     .insert({ target_type: "pasar", target_id: active.id, rating: 3 });

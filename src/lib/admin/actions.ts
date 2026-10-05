@@ -6,17 +6,17 @@ import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
 import { getAdminUser } from "@/lib/auth/session";
-import { isInMalaysia, parseLocation } from "@/lib/geo/parse-location";
+import { readLocation } from "@/lib/geo/resolve";
 import { MALAYSIAN_STATES } from "@/lib/pasar/states";
 import type { LatLng } from "@/lib/pasar/types";
 import {
   MAX_PHOTOS,
-  PASAR_PHOTOS_BUCKET,
   itemPhotoFolder,
   photoFolder,
   photoPath,
 } from "@/lib/photos";
 import { SLUG_RE, slugify } from "@/lib/slug";
+import { removePhotos } from "@/lib/photos-server";
 import { PUBLIC_DATA_TAG } from "@/lib/supabase/public";
 import { createClient } from "@/lib/supabase/server";
 
@@ -28,7 +28,10 @@ export type FieldError =
   | "locationOutside"
   | "scheduleRequired"
   | "timeInvalid"
-  | "priceInvalid";
+  | "priceInvalid"
+  | "phoneInvalid"
+  | "instagramInvalid"
+  | "contactRequired";
 
 export type AdminFormState = {
   error?: "forbidden" | "generic";
@@ -64,50 +67,6 @@ function photosFrom(formData: FormData, folder: string): string[] {
     .map(String)
     .filter((url) => photoPath(url, folder))
     .slice(0, MAX_PHOTOS);
-}
-
-/** Deletes files that were in `before` but not in `after`. */
-async function removePhotos(before: string[], after: string[] = []) {
-  const paths = before
-    .filter((url) => !after.includes(url))
-    .flatMap((url) => photoPath(url) ?? []);
-  if (paths.length === 0) return;
-  const supabase = await createClient();
-  const { error } = await supabase.storage
-    .from(PASAR_PHOTOS_BUCKET)
-    .remove(paths);
-  if (error) console.error("Photo cleanup failed:", error.message);
-}
-
-const GOOGLE_HOSTS =
-  /^(maps\.app\.goo\.gl|goo\.gl|g\.co|(www\.|maps\.)?google\.com(\.my)?)$/;
-
-/** maps.app.goo.gl/… → the full google.com/maps link it points to. */
-async function expandMapsLink(input: string): Promise<string> {
-  let url: URL;
-  try {
-    url = new URL(input);
-  } catch {
-    return input; // plain "lat, lng"
-  }
-  for (let hop = 0; hop < 5; hop++) {
-    if (url.protocol !== "https:" || !GOOGLE_HOSTS.test(url.hostname)) break;
-    if (/[!@]|[?&](q|query|ll)=-?\d/.test(url.href)) break;
-    const res = await fetch(url, { redirect: "manual", cache: "no-store" });
-    const next = res.headers.get("location");
-    if (!next) break;
-    url = new URL(next, url);
-  }
-  return url.href;
-}
-
-async function readLocation(
-  input: string,
-): Promise<LatLng | "locationUnreadable" | "locationOutside"> {
-  const location = parseLocation(await expandMapsLink(input));
-  if (!location) return "locationUnreadable";
-  if (!isInMalaysia(location)) return "locationOutside";
-  return location;
 }
 
 /**
@@ -437,7 +396,7 @@ export async function saveVendorItemAction(
   if (!(await getAdminUser())) return { error: "forbidden" };
 
   const id = text(formData, "id");
-  const vendorId = text(formData, "vendorId");
+  const vendorId = text(formData, "parentId");
   const isNew = formData.get("isNew") === "1";
   if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return { error: "generic" };
 
@@ -511,7 +470,7 @@ export async function saveVendorItemAction(
 export async function deleteVendorItemAction(formData: FormData) {
   if (!(await getAdminUser())) return;
   const id = text(formData, "id");
-  const vendorId = text(formData, "vendorId");
+  const vendorId = text(formData, "parentId");
   if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return;
 
   const supabase = await createClient();
@@ -535,7 +494,7 @@ export async function deleteVendorItemAction(formData: FormData) {
 export async function moveVendorItemAction(formData: FormData) {
   if (!(await getAdminUser())) return;
   const id = text(formData, "id");
-  const vendorId = text(formData, "vendorId");
+  const vendorId = text(formData, "parentId");
   const step = formData.get("direction") === "up" ? -1 : 1;
   if (!UUID_RE.test(id) || !UUID_RE.test(vendorId)) return;
 
@@ -563,6 +522,35 @@ export async function moveVendorItemAction(formData: FormData) {
         .eq("vendor_id", vendorId),
     ),
   );
+  updateTag(PUBLIC_DATA_TAG);
+  refresh();
+}
+
+// ---------------------------------------------------------------------------
+// Peniaga Kecil moderation
+// ---------------------------------------------------------------------------
+
+/** Approve (goes public) or reject (with a note the owner sees) a business. */
+export async function reviewBusinessAction(formData: FormData) {
+  if (!(await getAdminUser())) return;
+  const id = text(formData, "id");
+  const decision = formData.get("decision");
+  if (!UUID_RE.test(id) || (decision !== "approve" && decision !== "reject")) {
+    return;
+  }
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("home_businesses")
+    .update(
+      decision === "approve"
+        ? { status: "approved", review_note: null }
+        : {
+            status: "rejected",
+            review_note: orNull(text(formData, "note", 500)),
+          },
+    )
+    .eq("id", id);
+  if (error) console.error("Reviewing business failed:", error.message);
   updateTag(PUBLIC_DATA_TAG);
   refresh();
 }

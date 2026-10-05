@@ -5,11 +5,16 @@ import { getTranslations } from "next-intl/server";
 import { BackLink } from "@/components/admin/back-link";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { VendorForm } from "@/components/admin/vendor-form";
-import { VendorMenuEditor } from "@/components/admin/vendor-menu-editor";
+import { MenuEditor } from "@/components/admin/menu-editor";
 import { ContentPage } from "@/components/layout/content-page";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
-import { deleteVendorAction } from "@/lib/admin/actions";
+import {
+  deleteVendorAction,
+  deleteVendorItemAction,
+  moveVendorItemAction,
+  saveVendorItemAction,
+} from "@/lib/admin/actions";
 import { getAdminPasar, getAdminVendor } from "@/lib/admin/queries";
 import { requireAdmin } from "@/lib/auth/session";
 import { getVendorCategories } from "@/lib/pasar/queries";
@@ -73,7 +78,18 @@ export default async function AdminVendorPage({
           </h2>
           <p className="text-sm text-muted-foreground">{t("menu.subtitle")}</p>
         </div>
-        <VendorMenuEditor vendorId={vendor.id} items={vendor.items} />
+        <MenuEditor
+          parentId={vendor.id}
+          items={vendor.items}
+          actions={{
+            save: saveVendorItemAction,
+            remove: deleteVendorItemAction,
+            move: moveVendorItemAction,
+          }}
+          photoBase={`vendors/${vendor.id}/items`}
+          bucket="pasar-photos"
+          ns="Admin.menu"
+        />
       </section>
 
       <section className="space-y-3 pt-4">

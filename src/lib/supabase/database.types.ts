@@ -121,18 +121,24 @@ export type Database = {
         Row: {
           address: string | null;
           business_id: string;
+          lat: number | null;
+          lng: number | null;
           location: unknown;
           updated_at: string;
         };
         Insert: {
           address?: string | null;
           business_id: string;
+          lat?: number | null;
+          lng?: number | null;
           location: unknown;
           updated_at?: string;
         };
         Update: {
           address?: string | null;
           business_id?: string;
+          lat?: number | null;
+          lng?: number | null;
           location?: unknown;
           updated_at?: string;
         };
@@ -162,6 +168,7 @@ export type Database = {
           public_lat: number | null;
           public_lng: number | null;
           public_location: unknown;
+          review_note: string | null;
           slug: string;
           state: string;
           status: Database["public"]["Enums"]["business_status"];
@@ -183,6 +190,7 @@ export type Database = {
           public_lat?: number | null;
           public_lng?: number | null;
           public_location?: unknown;
+          review_note?: string | null;
           slug: string;
           state?: string;
           status?: Database["public"]["Enums"]["business_status"];
@@ -204,6 +212,7 @@ export type Database = {
           public_lat?: number | null;
           public_lng?: number | null;
           public_location?: unknown;
+          review_note?: string | null;
           slug?: string;
           state?: string;
           status?: Database["public"]["Enums"]["business_status"];

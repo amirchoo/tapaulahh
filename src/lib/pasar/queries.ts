@@ -43,7 +43,7 @@ function toPasar(row: PasarRow): Pasar | null {
     state: row.state,
     location: { lat: row.lat, lng: row.lng },
     schedules: row.pasar_schedules.map((s) => ({
-      // The table's CHECK constraint keeps this within 0–6.
+      // The table's CHECK constraint keeps this within 0 to 6.
       dayOfWeek: s.day_of_week as DayOfWeek,
       startTime: toHHMM(s.start_time),
       endTime: toHHMM(s.end_time),

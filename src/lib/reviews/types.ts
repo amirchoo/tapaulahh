@@ -1,4 +1,4 @@
-export type ReviewTargetType = "pasar" | "vendor";
+export type ReviewTargetType = "pasar" | "vendor" | "business";
 
 export type Review = {
   id: string;

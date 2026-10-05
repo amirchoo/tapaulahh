@@ -127,3 +127,60 @@ export async function getAdminVendor(
     })),
   };
 }
+
+export type AdminBusiness = Pick<
+  Tables["home_businesses"]["Row"],
+  | "id"
+  | "slug"
+  | "name"
+  | "description"
+  | "district"
+  | "state"
+  | "whatsapp"
+  | "instagram"
+  | "hours"
+  | "delivery_notes"
+  | "logo_url"
+  | "status"
+  | "review_note"
+  | "created_at"
+> & {
+  ownerName: string | null;
+  categoryName: string | null;
+  /** The private exact spot, so an admin can check it. */
+  location: { lat: number; lng: number } | null;
+  itemCount: number;
+};
+
+/** All Peniaga Kecil businesses, pending first, then newest. */
+export async function getAdminBusinesses(): Promise<AdminBusiness[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("home_businesses")
+    .select(
+      "id, slug, name, description, district, state, whatsapp, instagram, hours, delivery_notes, logo_url, status, review_note, created_at, profiles (display_name), business_categories (name_ms), home_business_locations (lat, lng), catalog_items (count)",
+    )
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`Failed to load businesses: ${error.message}`);
+  const rank = { pending: 0, rejected: 1, approved: 2 } as const;
+  return data
+    .map(
+      ({
+        profiles,
+        business_categories,
+        home_business_locations: loc,
+        catalog_items,
+        ...b
+      }) => ({
+        ...b,
+        ownerName: profiles?.display_name ?? null,
+        categoryName: business_categories?.name_ms ?? null,
+        location:
+          loc && loc.lat !== null && loc.lng !== null
+            ? { lat: loc.lat, lng: loc.lng }
+            : null,
+        itemCount: catalog_items[0]?.count ?? 0,
+      }),
+    )
+    .sort((a, b) => rank[a.status] - rank[b.status]);
+}

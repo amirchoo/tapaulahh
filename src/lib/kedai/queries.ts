@@ -1,6 +1,6 @@
 import "server-only";
 import { createPublicClient } from "@/lib/supabase/public";
-import type { Business, BusinessCategory } from "./types";
+import type { Business, BusinessCategory, BusinessDetail } from "./types";
 
 type CategoryRow = {
   id: string;
@@ -45,4 +45,57 @@ export async function getBusinesses(): Promise<Business[]> {
         ? { lat: row.public_lat, lng: row.public_lng }
         : null,
   }));
+}
+
+export async function getBusinessCategories(): Promise<BusinessCategory[]> {
+  const { data, error } = await createPublicClient()
+    .from("business_categories")
+    .select("id, slug, name_ms, name_en, icon, sort_order")
+    .order("sort_order");
+  if (error) throw new Error(`Failed to load categories: ${error.message}`);
+  return data.map(toCategory);
+}
+
+/** One approved business by its URL slug, with its catalog. */
+export async function getBusinessBySlug(
+  slug: string,
+): Promise<BusinessDetail | null> {
+  const { data, error } = await createPublicClient()
+    .from("home_businesses")
+    .select(
+      "id, slug, name, description, district, state, logo_url, public_lat, public_lng, whatsapp, instagram, hours, delivery_notes, business_categories (id, slug, name_ms, name_en, icon, sort_order), catalog_items (id, name, description, price_rm, photo_url, is_available, sort_order, created_at)",
+    )
+    .eq("status", "approved")
+    .eq("slug", slug)
+    .order("sort_order", { referencedTable: "catalog_items" })
+    .order("created_at", { referencedTable: "catalog_items" })
+    .maybeSingle();
+  if (error) throw new Error(`Failed to load business: ${error.message}`);
+  if (!data) return null;
+  return {
+    id: data.id,
+    slug: data.slug,
+    name: data.name,
+    description: data.description,
+    district: data.district,
+    state: data.state,
+    logoUrl: data.logo_url,
+    category: data.business_categories && toCategory(data.business_categories),
+    area:
+      data.public_lat !== null && data.public_lng !== null
+        ? { lat: data.public_lat, lng: data.public_lng }
+        : null,
+    whatsapp: data.whatsapp,
+    instagram: data.instagram,
+    hours: data.hours,
+    deliveryNotes: data.delivery_notes,
+    items: data.catalog_items.map((i) => ({
+      id: i.id,
+      name: i.name,
+      description: i.description,
+      priceRm: i.price_rm,
+      photoUrl: i.photo_url,
+      isAvailable: i.is_available,
+    })),
+  };
 }

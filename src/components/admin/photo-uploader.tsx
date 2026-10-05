@@ -3,7 +3,11 @@
 import { ImagePlus, Loader2, Star, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { MAX_PHOTOS, PASAR_PHOTOS_BUCKET } from "@/lib/photos";
+import {
+  MAX_PHOTOS,
+  PASAR_PHOTOS_BUCKET,
+  type PhotoBucket,
+} from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +16,7 @@ const MAX_SIDE = 1600;
 const toBlob = (canvas: HTMLCanvasElement, type: string, quality: number) =>
   new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
 
-/** Shrinks phone photos (often 4–10 MB) to ~200–400 KB before upload. */
+/** Shrinks phone photos (often 4 to 10 MB) to ~200 to 400 KB before upload. */
 async function compress(file: File): Promise<Blob> {
   const bitmap = await createImageBitmap(file, {
     imageOrientation: "from-image",
@@ -43,6 +47,7 @@ export function PhotoUploader({
   onBusyChange,
   max = MAX_PHOTOS,
   name = "photos",
+  bucket = PASAR_PHOTOS_BUCKET,
 }: {
   /** e.g. "pasars/<id>" */
   folder: string;
@@ -52,6 +57,8 @@ export function PhotoUploader({
   max?: number;
   /** Form field name for the URLs. */
   name?: string;
+  /** Storage bucket (Storage rules decide who may upload where). */
+  bucket?: PhotoBucket;
 }) {
   const t = useTranslations("Admin.photos");
   const [photos, setPhotos] = useState(initial);
@@ -65,7 +72,7 @@ export function PhotoUploader({
 
   async function upload(files: File[]) {
     const supabase = createClient();
-    const storage = supabase.storage.from(PASAR_PHOTOS_BUCKET);
+    const storage = supabase.storage.from(bucket);
     const batch = files.slice(0, max - photos.length - uploading);
     setFailed(false);
     setUploading((n) => n + batch.length);
@@ -97,8 +104,8 @@ export function PhotoUploader({
   function remove(url: string) {
     setPhotos((list) => list.filter((p) => p !== url));
     if (fresh.current.delete(url)) {
-      const path = url.split(`/${PASAR_PHOTOS_BUCKET}/`)[1];
-      if (path) createClient().storage.from(PASAR_PHOTOS_BUCKET).remove([path]);
+      const path = url.split(`/${bucket}/`)[1];
+      if (path) createClient().storage.from(bucket).remove([path]);
     }
   }
 

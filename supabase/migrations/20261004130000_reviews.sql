@@ -1,4 +1,4 @@
--- Community reviews: 1–5 stars + optional comment on a pasar or a stall.
+-- Community reviews: 1 to 5 stars + optional comment on a pasar or a stall.
 -- Signed-in users post (visible at once); one per person per target; they can
 -- edit or delete it. Admins can hide any review.
 
