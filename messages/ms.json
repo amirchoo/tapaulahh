@@ -1,6 +1,6 @@
 {
   "Metadata": {
-    "title": "Tapaulahh — pasar malam dekat Anda",
+    "title": "Tapaulahh: pasar malam dekat Anda",
     "description": "Peta pasar malam dan peniaga kecil di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
   },
   "Nav": {
@@ -59,7 +59,14 @@
   },
   "KedaiDetail": {
     "eyebrow": "Peniaga Kecil",
-    "placeholder": "Katalog, waktu operasi dan butang WhatsApp akan muncul di sini."
+    "metaDescription": "{name}, peniaga kecil di {district}. Tengok katalog dan hubungi terus di WhatsApp.",
+    "whatsapp": "WhatsApp",
+    "whatsappMessage": "Hai, saya jumpa {name} di Tapaulahh.",
+    "hours": "Waktu operasi",
+    "delivery": "Penghantaran",
+    "catalog": "Katalog",
+    "catalogEmpty": "Katalog belum ada. Hubungi peniaga untuk tahu apa yang ada.",
+    "soldOut": "Habis buat masa ni"
   },
   "Cari": {
     "title": "Cari",
@@ -184,7 +191,34 @@
   },
   "AkaunKedai": {
     "title": "Kedai saya",
-    "placeholder": "Daftar kedai dan urus katalog Anda di sini."
+    "registerTitle": "Daftar bisnes Anda",
+    "registerSubtitle": "Percuma. Biar orang sekitar Anda jumpa bisnes kecil Anda dan hubungi Anda terus di WhatsApp.",
+    "step1": "Isi maklumat bisnes dan cara orang boleh hubungi Anda.",
+    "step2": "Admin kami semak dan luluskan, biasanya dalam 1 hingga 2 hari.",
+    "step3": "Tambah katalog: barang, harga dan gambar.",
+    "catalogTitle": "{count, plural, =0 {Katalog} other {Katalog (#)}}",
+    "catalogSubtitle": "Barang yang Anda jual, dengan harga dan gambar. Anda boleh tambah sementara menunggu kelulusan.",
+    "detailsTitle": "Maklumat bisnes",
+    "adminNote": "Nota admin",
+    "viewPublic": "Tengok halaman kedai Anda",
+    "deleteTitle": "Padam bisnes",
+    "deleteHint": "Ni padam bisnes, katalog, gambar dan ulasan sekali. Tak boleh undo.",
+    "delete": "Padam bisnes",
+    "deleteConfirm": "Padam {name}? Tak boleh undo.",
+    "status": {
+      "pending": {
+        "title": "Sedang disemak",
+        "body": "Admin kami sedang semak bisnes Anda. Ia akan muncul di Peniaga Kecil sebaik saja diluluskan."
+      },
+      "approved": {
+        "title": "Bisnes Anda dah live",
+        "body": "Orang ramai boleh jumpa Anda di peta dan carian. Perubahan yang Anda simpan terus dipaparkan."
+      },
+      "rejected": {
+        "title": "Belum diluluskan",
+        "body": "Betulkan maklumat di bawah dan tekan \"Simpan dan hantar semula\"."
+      }
+    }
   },
   "Admin": {
     "title": "Admin",
@@ -251,7 +285,8 @@
       "create": "Tambah pasar",
       "delete": "Padam pasar",
       "deleteHint": "Ni padam pasar, jadual, semua gerai dan gambar sekali. Tak boleh undo. Kalau nak sembunyi je, pilih Sembunyi kat atas.",
-      "deleteConfirm": "Padam {name}{count, plural, =0 {} other { dan # gerai dia}}? Tak boleh undo."
+      "deleteConfirm": "Padam {name}{count, plural, =0 {} other { dan # gerai dia}}? Tak boleh undo.",
+      "timeTo": "hingga"
     },
     "vendorForm": {
       "newTitle": "Tambah gerai",
@@ -264,7 +299,7 @@
       "description": "Apa yang dijual",
       "descriptionHint": "Cth. Apam balik nipis dan tebal. Inti kacang, jagung, cheese.",
       "price": "Anggaran harga",
-      "pricePlaceholder": "Cth. RM3 – RM10",
+      "pricePlaceholder": "Cth. RM3 hingga RM10",
       "days": "Hari biasa ada",
       "daysHint": "Hari gerai ni selalu ada di pasar ni.",
       "create": "Tambah gerai",
@@ -289,7 +324,10 @@
       "locationOutside": "Lokasi tu bukan di Malaysia. Semak balik: latitud dulu, lepas tu longitud.",
       "scheduleRequired": "Pilih sekurang-kurangnya satu hari.",
       "timeInvalid": "Semak waktu: masa buka dan tutup tak boleh sama.",
-      "priceInvalid": "Tulis harga dalam RM, cth. 5 atau 5.50."
+      "priceInvalid": "Tulis harga dalam RM, cth. 5 atau 5.50.",
+      "phoneInvalid": "Nombor tu macam tak betul. Cth. 012-345 6789.",
+      "instagramInvalid": "Nama Instagram tak sah. Cth. @kedaianda.",
+      "contactRequired": "Letak sekurang-kurangnya WhatsApp atau Instagram, supaya pelanggan boleh hubungi Anda."
     },
     "errors": {
       "forbidden": "Anda tak ada akses admin.",
@@ -319,7 +357,9 @@
       "edit": "Edit {name}",
       "delete": "Padam {name}",
       "deleteConfirm": "Padam {name} dari menu?"
-    }
+    },
+    "sellersLink": "Peniaga Kecil",
+    "sellersPending": "{count, plural, =0 {Tiada yang menunggu kelulusan} other {# menunggu kelulusan}}"
   },
   "NotFound": {
     "title": "Alamak, halaman ni tak jumpa",
@@ -331,7 +371,7 @@
     "openUntil": "Buka sekarang · tutup {time}",
     "later": "Buka pukul {time}",
     "closed": "Dah tutup hari ni",
-    "hours": "{start} – {end}",
+    "hours": "{start} hingga {end}",
     "notToday": "Tak buka hari ni"
   },
   "Days": {
@@ -420,10 +460,90 @@
       "signIn": "Log masuk dulu untuk bagi ulasan.",
       "ratingRequired": "Pilih berapa bintang dulu.",
       "generic": "Tak dapat hantar ulasan. Cuba lagi."
-    }
+    },
+    "bodyPlaceholderBusiness": "Macam mana barang dia? Penghantaran okay? Berbaloi dengan harga?"
   },
   "Sheet": {
     "expand": "Besarkan panel",
     "collapse": "Kecilkan panel"
+  },
+  "Catalog": {
+    "title": "{count, plural, =0 {Katalog} other {Katalog (#)}}",
+    "subtitle": "Barang atau makanan yang Anda jual, dengan harga dan gambar. Pelanggan nampak ikut susunan ni.",
+    "empty": "Katalog masih kosong. Tambah barang pertama Anda.",
+    "add": "Tambah barang",
+    "addSubmit": "Tambah ke katalog",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "name": "Nama barang",
+    "namePlaceholder": "Cth. Kek batik (1 kg)",
+    "price": "Harga",
+    "description": "Penerangan",
+    "descriptionPlaceholder": "Cth. Saiz, perisa, berapa hari tahan, tempahan awal berapa hari.",
+    "photo": "Gambar",
+    "available": "Ada dijual",
+    "availableHint": "Buang tanda kalau habis atau tak buat sementara. Ia masih nampak, ditanda habis.",
+    "soldOut": "Habis",
+    "noPrice": "Tiada harga",
+    "moveUp": "Naikkan {name}",
+    "moveDown": "Turunkan {name}",
+    "edit": "Edit {name}",
+    "delete": "Padam {name}",
+    "deleteConfirm": "Padam {name} dari katalog?"
+  },
+  "BusinessForm": {
+    "aboutTitle": "Tentang bisnes",
+    "name": "Nama bisnes",
+    "namePlaceholder": "Cth. Kek Mak Ton",
+    "category": "Kategori",
+    "categoryPick": "Pilih kategori",
+    "description": "Penerangan",
+    "descriptionHint": "Apa yang Anda jual, apa yang istimewa, sejak bila.",
+    "logo": "Logo atau gambar utama",
+    "contactTitle": "Cara hubungi",
+    "contactHint": "Pelanggan hubungi Anda terus. Letak sekurang-kurangnya satu.",
+    "whatsapp": "Nombor WhatsApp",
+    "whatsappHint": "Butang \"WhatsApp\" pada halaman kedai Anda buka chat dengan nombor ni.",
+    "instagram": "Instagram",
+    "hours": "Waktu operasi",
+    "hoursPlaceholder": "Cth. Isnin hingga Sabtu, 10 pagi hingga 8 malam",
+    "delivery": "Penghantaran dan ambil sendiri",
+    "deliveryPlaceholder": "Cth. Hantar sekitar Shah Alam (RM5). Ambil sendiri di Seksyen 7.",
+    "areaTitle": "Kawasan",
+    "district": "Kawasan",
+    "districtHint": "Bandar atau daerah, cth. Shah Alam.",
+    "state": "Negeri",
+    "privacy": "Alamat dan lokasi tepat Anda tak akan ditunjuk. Di peta, orang hanya nampak bulatan kawasan anggaran (sekitar 500 m).",
+    "location": "Lokasi (untuk muncul di peta)",
+    "locationHint": "Tampal pautan Google Maps atau koordinat. Tanpa ni, bisnes Anda tetap ada dalam senarai dan carian, cuma tak muncul di peta.",
+    "address": "Alamat",
+    "addressHint": "Peribadi. Hanya Anda dan admin boleh nampak.",
+    "submitNew": "Hantar untuk semakan",
+    "submitSave": "Simpan perubahan",
+    "submitResubmit": "Simpan dan hantar semula"
+  },
+  "AdminSellers": {
+    "title": "Peniaga Kecil",
+    "subtitle": "Semak dan luluskan bisnes yang didaftarkan.",
+    "empty": "Belum ada sesiapa yang daftar.",
+    "groups": {
+      "pending": "Menunggu kelulusan",
+      "rejected": "Ditolak",
+      "approved": "Diluluskan"
+    },
+    "submittedBy": "Oleh {name}, {date}",
+    "noName": "(tiada nama)",
+    "location": "Lokasi",
+    "checkLocation": "Semak di Google Maps (peribadi)",
+    "noLocation": "Tiada (tak muncul di peta)",
+    "catalog": "Katalog",
+    "items": "{count, plural, =0 {Kosong} other {# barang}}",
+    "note": "Nota",
+    "approve": "Luluskan",
+    "reject": "Tolak",
+    "unpublish": "Tarik balik",
+    "noteLabel": "Nota untuk pemilik (tak wajib)",
+    "notePlaceholder": "Cth. Tolong tambah gambar dan penerangan.",
+    "viewPublic": "Tengok halaman awam"
   }
 }

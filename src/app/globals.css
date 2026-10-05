@@ -6,7 +6,7 @@
 
 /*
  * "Lampu Malam" palette (VISION §9). This file is the only place hex values
- * live — components use the semantic utilities below (bg-pasar, text-kedai…).
+ * live. Components use the semantic utilities below (bg-pasar, text-kedai…).
  */
 :root {
   --bg: #fff6e9;

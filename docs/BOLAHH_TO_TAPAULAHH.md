@@ -322,7 +322,7 @@ What's different:
 | `PrivateRoute` / `AdminRoute` wrappers       | `await requireUser(locale, "/akaun")` at the top of the page (section 9)          |
 | No generated types                           | `npm run db:types` writes types for every table; typos in column names are errors |
 | `supabase` CLI, `migrations/`, `db push`     | Same, plus `npm run db:push` and `npm run test:db`                                |
-| Local ports 54321–54329                      | 55321–55329, so both projects can run locally at once                             |
+| Local ports 54321 to 54329                   | 55321 to 55329, so both projects can run locally at once                          |
 
 **Which client do I use?**
 

@@ -1,6 +1,6 @@
 {
   "Metadata": {
-    "title": "Tapaulahh — night markets near you",
+    "title": "Tapaulahh: night markets near you",
     "description": "Map of pasar malam and small home businesses (Peniaga Kecil) in Shah Alam and the Klang Valley. See which pasar is on today and what stalls are there."
   },
   "Nav": {
@@ -59,7 +59,14 @@
   },
   "KedaiDetail": {
     "eyebrow": "Peniaga Kecil",
-    "placeholder": "Catalog, opening hours and a WhatsApp button will show up here."
+    "metaDescription": "{name}, a small home business in {district}. See the catalog and message them on WhatsApp.",
+    "whatsapp": "WhatsApp",
+    "whatsappMessage": "Hi, I found {name} on Tapaulahh.",
+    "hours": "Opening hours",
+    "delivery": "Delivery",
+    "catalog": "Catalog",
+    "catalogEmpty": "No catalog yet. Message the seller to ask what's available.",
+    "soldOut": "Sold out for now"
   },
   "Cari": {
     "title": "Search",
@@ -184,7 +191,34 @@
   },
   "AkaunKedai": {
     "title": "My shop",
-    "placeholder": "Register your shop and manage your catalog here."
+    "registerTitle": "List your business",
+    "registerSubtitle": "It's free. Let people nearby find your small business and message you directly on WhatsApp.",
+    "step1": "Fill in your business details and how people can reach you.",
+    "step2": "Our admin checks and approves it, usually within 1 to 2 days.",
+    "step3": "Add your catalog: items, prices and photos.",
+    "catalogTitle": "{count, plural, =0 {Catalog} other {Catalog (#)}}",
+    "catalogSubtitle": "What you sell, with prices and photos. You can add items while waiting for approval.",
+    "detailsTitle": "Business details",
+    "adminNote": "Note from admin",
+    "viewPublic": "View your shop page",
+    "deleteTitle": "Delete business",
+    "deleteHint": "This deletes your business, catalog, photos and reviews. It can't be undone.",
+    "delete": "Delete business",
+    "deleteConfirm": "Delete {name}? This can't be undone.",
+    "status": {
+      "pending": {
+        "title": "Being reviewed",
+        "body": "Our admin is checking your business. It will appear in Peniaga Kecil once approved."
+      },
+      "approved": {
+        "title": "Your business is live",
+        "body": "People can find you on the map and in search. Changes you save show straight away."
+      },
+      "rejected": {
+        "title": "Not approved yet",
+        "body": "Fix the details below and press \"Save and resubmit\"."
+      }
+    }
   },
   "Admin": {
     "title": "Admin",
@@ -251,7 +285,8 @@
       "create": "Add pasar",
       "delete": "Delete pasar",
       "deleteHint": "This deletes the pasar, its schedule, all its stalls and photos. It can't be undone. To just hide it, choose Hidden above.",
-      "deleteConfirm": "Delete {name}{count, plural, =0 {} one { and its # stall} other { and its # stalls}}? This can't be undone."
+      "deleteConfirm": "Delete {name}{count, plural, =0 {} one { and its # stall} other { and its # stalls}}? This can't be undone.",
+      "timeTo": "to"
     },
     "vendorForm": {
       "newTitle": "Add stall",
@@ -264,7 +299,7 @@
       "description": "What they sell",
       "descriptionHint": "E.g. Thin and thick apam balik. Peanut, corn or cheese filling.",
       "price": "Rough prices",
-      "pricePlaceholder": "E.g. RM3 – RM10",
+      "pricePlaceholder": "E.g. RM3 to RM10",
       "days": "Usual days",
       "daysHint": "The days this stall is usually at this pasar.",
       "create": "Add stall",
@@ -289,7 +324,10 @@
       "locationOutside": "That location isn't in Malaysia. Check it again: latitude first, then longitude.",
       "scheduleRequired": "Pick at least one day.",
       "timeInvalid": "Check the times: opening and closing can't be the same.",
-      "priceInvalid": "Enter the price in RM, e.g. 5 or 5.50."
+      "priceInvalid": "Enter the price in RM, e.g. 5 or 5.50.",
+      "phoneInvalid": "That number doesn't look right. E.g. 012-345 6789.",
+      "instagramInvalid": "That Instagram name isn't valid. E.g. @yourshop.",
+      "contactRequired": "Add at least WhatsApp or Instagram, so customers can reach you."
     },
     "errors": {
       "forbidden": "You don't have admin access.",
@@ -319,7 +357,9 @@
       "edit": "Edit {name}",
       "delete": "Delete {name}",
       "deleteConfirm": "Delete {name} from the menu?"
-    }
+    },
+    "sellersLink": "Peniaga Kecil",
+    "sellersPending": "{count, plural, =0 {Nothing waiting for approval} one {# waiting for approval} other {# waiting for approval}}"
   },
   "NotFound": {
     "title": "Alamak, page not found",
@@ -331,7 +371,7 @@
     "openUntil": "Open now · until {time}",
     "later": "Opens at {time}",
     "closed": "Closed for today",
-    "hours": "{start} – {end}",
+    "hours": "{start} to {end}",
     "notToday": "Not on today"
   },
   "Days": {
@@ -420,10 +460,90 @@
       "signIn": "Log in first to leave a review.",
       "ratingRequired": "Pick how many stars first.",
       "generic": "Couldn't post your review. Please try again."
-    }
+    },
+    "bodyPlaceholderBusiness": "How was it? Was delivery okay? Worth the price?"
   },
   "Sheet": {
     "expand": "Expand panel",
     "collapse": "Shrink panel"
+  },
+  "Catalog": {
+    "title": "{count, plural, =0 {Catalog} other {Catalog (#)}}",
+    "subtitle": "What you sell, with prices and photos. Customers see them in this order.",
+    "empty": "Your catalog is empty. Add your first item.",
+    "add": "Add item",
+    "addSubmit": "Add to catalog",
+    "save": "Save",
+    "cancel": "Cancel",
+    "name": "Item name",
+    "namePlaceholder": "E.g. Kek batik (1 kg)",
+    "price": "Price",
+    "description": "Description",
+    "descriptionPlaceholder": "E.g. Size, flavours, how long it keeps, how many days ahead to order.",
+    "photo": "Photo",
+    "available": "Available",
+    "availableHint": "Untick if it's sold out or paused for now. It stays visible, marked sold out.",
+    "soldOut": "Sold out",
+    "noPrice": "No price",
+    "moveUp": "Move {name} up",
+    "moveDown": "Move {name} down",
+    "edit": "Edit {name}",
+    "delete": "Delete {name}",
+    "deleteConfirm": "Delete {name} from your catalog?"
+  },
+  "BusinessForm": {
+    "aboutTitle": "About your business",
+    "name": "Business name",
+    "namePlaceholder": "E.g. Kek Mak Ton",
+    "category": "Category",
+    "categoryPick": "Pick a category",
+    "description": "Description",
+    "descriptionHint": "What you sell, what's special, how long you've been at it.",
+    "logo": "Logo or main photo",
+    "contactTitle": "How to reach you",
+    "contactHint": "Customers contact you directly. Add at least one.",
+    "whatsapp": "WhatsApp number",
+    "whatsappHint": "The \"WhatsApp\" button on your shop page opens a chat with this number.",
+    "instagram": "Instagram",
+    "hours": "Opening hours",
+    "hoursPlaceholder": "E.g. Monday to Saturday, 10 am to 8 pm",
+    "delivery": "Delivery and pickup",
+    "deliveryPlaceholder": "E.g. Delivery around Shah Alam (RM5). Pickup in Seksyen 7.",
+    "areaTitle": "Area",
+    "district": "Area",
+    "districtHint": "Town or district, e.g. Shah Alam.",
+    "state": "State",
+    "privacy": "Your exact address and location are never shown. On the map, people only see a rough area circle (about 500 m).",
+    "location": "Location (to appear on the map)",
+    "locationHint": "Paste a Google Maps link or coordinates. Without it, your business still shows in the list and search, just not on the map.",
+    "address": "Address",
+    "addressHint": "Private. Only you and our admin can see it.",
+    "submitNew": "Submit for review",
+    "submitSave": "Save changes",
+    "submitResubmit": "Save and resubmit"
+  },
+  "AdminSellers": {
+    "title": "Peniaga Kecil",
+    "subtitle": "Check and approve registered businesses.",
+    "empty": "Nobody has registered yet.",
+    "groups": {
+      "pending": "Waiting for approval",
+      "rejected": "Rejected",
+      "approved": "Approved"
+    },
+    "submittedBy": "By {name}, {date}",
+    "noName": "(no name)",
+    "location": "Location",
+    "checkLocation": "Check on Google Maps (private)",
+    "noLocation": "None (not on the map)",
+    "catalog": "Catalog",
+    "items": "{count, plural, =0 {Empty} one {# item} other {# items}}",
+    "note": "Note",
+    "approve": "Approve",
+    "reject": "Reject",
+    "unpublish": "Unpublish",
+    "noteLabel": "Note for the owner (optional)",
+    "notePlaceholder": "E.g. Please add a photo and a description.",
+    "viewPublic": "View public page"
   }
 }

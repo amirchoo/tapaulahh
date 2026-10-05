@@ -1,10 +1,10 @@
-# Tapaulahh — Build Plan (Phase 1)
+# Tapaulahh: Build Plan (Phase 1)
 
 Read `VISION.md` first. Build **one part at a time**. At the end of each part: make sure it runs, summarise what was built, list anything unfinished, then **stop**. Don't start the next part until asked.
 
 ---
 
-## Part 1 — Foundation
+## Part 1: Foundation
 
 - Next.js (App Router) + TypeScript strict, Tailwind, shadcn/ui, ESLint + Prettier
 - Theme: Lampu Malam CSS variable tokens (light + dark) from VISION §9, `next-themes`, system default + manual toggle
@@ -15,17 +15,17 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** app runs, tabs navigate, theme and language switch and persist, looks right at 375px (mobile) and 1440px (desktop).
 
-## Part 2 — Supabase schema
+## Part 2: Supabase schema
 
 - Supabase CLI in repo, PostGIS enabled
 - Migrations for all tables in VISION §6, RLS policies from §7, storage buckets
 - `pasars_near` and `search_all` RPCs
-- Seed: 5–8 real Shah Alam pasars with schedules + sample vendors
+- Seed: 5 to 8 real Shah Alam pasars with schedules + sample vendors
 - Generate TypeScript types, set up `@supabase/ssr` server + browser clients
 
 **Done when:** `supabase db reset` works, anon can read public rows and cannot write.
 
-## Part 3 — Pasar map
+## Part 3: Pasar map
 
 - MapLibre full-screen map, tiles switch with theme
 - Pasar markers with clustering, "Hari ini" default + day chips
@@ -34,7 +34,7 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** seeded pasars show, day filter and status are correct.
 
-## Part 4 — Pasar detail + public pages
+## Part 4: Pasar detail + public pages
 
 - Tap marker → fly to pasar, show outline, bottom sheet (mobile) / side panel (desktop)
 - Vendor list grouped by category, vendor detail
@@ -42,7 +42,7 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** every pasar and vendor has a shareable, indexable page.
 
-## Part 5 — Auth + account
+## Part 5: Auth + account
 
 - Google sign-in + email magic link, `profiles` auto-created
 - `/login`, `/akaun`, favourites (save/unsave pasar, vendor, business)
@@ -50,7 +50,7 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** a user can sign in, favourite things, and sign out.
 
-## Part 6 — Peniaga Kecil
+## Part 6: Peniaga Kecil
 
 - `/kedai` list + map (fuzzed locations only), category/area filters
 - `/kedai/[slug]` business page with catalog, WhatsApp + Instagram buttons
@@ -58,21 +58,21 @@ Read `VISION.md` first. Build **one part at a time**. At the end of each part: m
 
 **Done when:** a user can create a business + catalog; it appears publicly only after approval.
 
-## Part 7 — Vendor register/claim + reports
+## Part 7: Vendor register/claim + reports
 
 - Logged-in users: register a new stall or claim an existing one (→ pending)
 - "Report wrong info" on pasar/vendor/business pages, login required
 
 **Done when:** claims, new stalls and reports all land in the database as pending/open.
 
-## Part 8 — Admin
+## Part 8: Admin
 
 - `/admin` (admin role only): CRUD pasars, schedules, vendors
-- Queues: pending businesses, vendors, claims, reports — approve/reject/resolve
+- Queues: pending businesses, vendors, claims, reports: approve, reject or resolve
 
-**Done when:** everything from Parts 6–7 can be moderated from the admin area.
+**Done when:** everything from Parts 6 to 7 can be moderated from the admin area.
 
-## Part 9 — Search, SEO, PWA, launch
+## Part 9: Search, SEO, PWA, launch
 
 - `/cari` search (pasar, area, food)
 - Sitemap, robots, Open Graph images, hreflang for BM/EN

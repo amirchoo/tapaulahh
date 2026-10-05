@@ -1,4 +1,4 @@
-import { ChevronRight, Plus } from "lucide-react";
+import { ChevronRight, Plus, Store } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { StatusBadge } from "@/components/admin/back-link";
@@ -7,9 +7,10 @@ import { Placeholder } from "@/components/layout/panel";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { initLocale } from "@/i18n/server";
-import { getAdminPasars } from "@/lib/admin/queries";
+import { getAdminBusinesses, getAdminPasars } from "@/lib/admin/queries";
 import { requireAdmin } from "@/lib/auth/session";
 import { WEEK } from "@/lib/pasar/schedule";
+import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -26,10 +27,30 @@ export default async function AdminPage({
   await requireAdmin(locale, "/admin");
   const t = await getTranslations("Admin");
   const tDays = await getTranslations("Days");
-  const pasars = await getAdminPasars();
+  const [pasars, businesses] = await Promise.all([
+    getAdminPasars(),
+    getAdminBusinesses(),
+  ]);
+  const pending = businesses.filter((b) => b.status === "pending").length;
 
   return (
     <ContentPage title={t("title")} subtitle={t("subtitle")}>
+      <Link
+        href="/admin/peniaga"
+        className={cn(
+          "flex items-center gap-3 border bg-card p-4 outline-none hover:bg-muted focus-visible:bg-muted",
+          pending > 0 && "border-2 border-pasar",
+        )}
+      >
+        <Store className="size-5 text-kedai" aria-hidden />
+        <span className="flex-1">
+          <span className="block font-bold">{t("sellersLink")}</span>
+          <span className="block text-sm text-muted-foreground">
+            {t("sellersPending", { count: pending })}
+          </span>
+        </span>
+        <ChevronRight className="size-5 text-muted-foreground" aria-hidden />
+      </Link>
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-extrabold">
           {t("pasarList.title", { count: pasars.length })}

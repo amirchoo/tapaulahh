@@ -33,7 +33,7 @@ create table public.home_businesses (
   description text,
   district text not null,
   state text not null default 'Selangor',
-  -- Fuzzed ~300–600 m from the real spot. Set by trigger, never by clients.
+  -- Fuzzed ~300 to 600 m from the real spot. Set by trigger, never by clients.
   public_location extensions.geography(Point, 4326),
   public_lat double precision generated always as (extensions.st_y(public_location::extensions.geometry)) stored,
   public_lng double precision generated always as (extensions.st_x(public_location::extensions.geometry)) stored,
@@ -101,7 +101,7 @@ create trigger home_business_locations_set_updated_at
 before update on public.home_business_locations
 for each row execute function public.set_updated_at();
 
--- Moves a point 300–600 m in a direction fixed per business, so saving the
+-- Moves a point 300 to 600 m in a direction fixed per business, so saving the
 -- same location again gives the same fuzzed point (no averaging to the real one).
 create function public.fuzz_location(point extensions.geography, seed uuid)
 returns extensions.geography

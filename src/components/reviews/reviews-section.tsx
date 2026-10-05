@@ -340,9 +340,13 @@ function ReviewForm({
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder={t(
-            targetType === "pasar"
-              ? "bodyPlaceholderPasar"
-              : "bodyPlaceholderVendor",
+            (
+              {
+                pasar: "bodyPlaceholderPasar",
+                vendor: "bodyPlaceholderVendor",
+                business: "bodyPlaceholderBusiness",
+              } as const
+            )[targetType],
           )}
           className="w-full border bg-background px-4 py-3 text-base outline-none placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         />

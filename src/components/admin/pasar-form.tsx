@@ -251,7 +251,9 @@ export function PasarForm({
                     disabled={!on}
                     className={cn(CONTROL_CLASS, "h-11 w-32 px-3")}
                   />
-                  <span aria-hidden>–</span>
+                  <span aria-hidden className="text-sm text-muted-foreground">
+                    {t("pasarForm.timeTo")}
+                  </span>
                   <input
                     type="time"
                     name={`end_${day}`}

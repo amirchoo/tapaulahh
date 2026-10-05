@@ -13,27 +13,44 @@ import { startTransition, useActionState, useEffect, useState } from "react";
 import { formatPrice } from "@/components/pasar/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  deleteVendorItemAction,
-  moveVendorItemAction,
-  saveVendorItemAction,
-  type AdminFormState,
-} from "@/lib/admin/actions";
-import type { AdminVendorItem } from "@/lib/admin/queries";
-import { itemPhotoFolder } from "@/lib/photos";
+import type { AdminFormState } from "@/lib/admin/actions";
+import type { PhotoBucket } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 import { CONTROL_CLASS, Field, describedBy } from "./fields";
 import { PhotoUploader } from "./photo-uploader";
 
-/** The stall's menu: list, add, edit, reorder, delete. One item open at a time. */
-export function VendorMenuEditor({
-  vendorId,
-  items,
-}: {
-  vendorId: string;
-  items: AdminVendorItem[];
-}) {
-  const t = useTranslations("Admin.menu");
+export type MenuItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  price_rm: number | null;
+  photo_url: string | null;
+  is_available: boolean;
+};
+
+/** Server actions for one kind of list (a stall's menu, a shop's catalog). */
+export type MenuActions = {
+  save: (prev: AdminFormState, formData: FormData) => Promise<AdminFormState>;
+  remove: (formData: FormData) => Promise<void>;
+  move: (formData: FormData) => Promise<void>;
+};
+
+type Ctx = {
+  parentId: string;
+  actions: MenuActions;
+  /** Item photos go in `${photoBase}/<item id>/`. */
+  photoBase: string;
+  bucket: PhotoBucket;
+  /** "Admin.menu" for stalls (food), "Catalog" for Peniaga Kecil (any product). */
+  ns: "Admin.menu" | "Catalog";
+};
+
+/**
+ * A list of things for sale: add, edit, reorder, delete, one open at a time.
+ * Used for a stall's menu (admin) and a Peniaga Kecil catalog (owner).
+ */
+export function MenuEditor({ items, ...ctx }: Ctx & { items: MenuItem[] }) {
+  const t = useTranslations(ctx.ns);
   // An item id, "new", or nothing open.
   const [open, setOpen] = useState<string | null>(null);
   const [newId, setNewId] = useState<string | null>(null);
@@ -51,18 +68,13 @@ export function VendorMenuEditor({
           {items.map((item, i) =>
             open === item.id ? (
               <li key={item.id}>
-                <ItemForm
-                  id={item.id}
-                  vendorId={vendorId}
-                  item={item}
-                  onDone={close}
-                />
+                <ItemForm id={item.id} ctx={ctx} item={item} onDone={close} />
               </li>
             ) : (
               <ItemRow
                 key={item.id}
                 item={item}
-                vendorId={vendorId}
+                ctx={ctx}
                 isFirst={i === 0}
                 isLast={i === items.length - 1}
                 onEdit={() => setOpen(item.id)}
@@ -72,13 +84,7 @@ export function VendorMenuEditor({
         </ul>
       )}
       {open === "new" && newId ? (
-        <ItemForm
-          key={newId}
-          id={newId}
-          vendorId={vendorId}
-          item={null}
-          onDone={close}
-        />
+        <ItemForm key={newId} id={newId} ctx={ctx} item={null} onDone={close} />
       ) : (
         <Button
           type="button"
@@ -99,23 +105,24 @@ export function VendorMenuEditor({
 
 function ItemRow({
   item,
-  vendorId,
+  ctx,
   isFirst,
   isLast,
   onEdit,
 }: {
-  item: AdminVendorItem;
-  vendorId: string;
+  item: MenuItem;
+  ctx: Ctx;
   isFirst: boolean;
   isLast: boolean;
   onEdit: () => void;
 }) {
-  const t = useTranslations("Admin.menu");
+  const { parentId, actions } = ctx;
+  const t = useTranslations(ctx.ns);
   const locale = useLocale();
   const ids = (
     <>
       <input type="hidden" name="id" value={item.id} />
-      <input type="hidden" name="vendorId" value={vendorId} />
+      <input type="hidden" name="parentId" value={parentId} />
     </>
   );
   const iconButton =
@@ -161,7 +168,7 @@ function ItemRow({
       </div>
       <div className="flex shrink-0 flex-col items-end justify-between sm:flex-row sm:items-center">
         <div className="flex">
-          <form action={moveVendorItemAction}>
+          <form action={actions.move}>
             {ids}
             <input type="hidden" name="direction" value="up" />
             <button
@@ -173,7 +180,7 @@ function ItemRow({
               <ArrowUp className="size-4" aria-hidden />
             </button>
           </form>
-          <form action={moveVendorItemAction}>
+          <form action={actions.move}>
             {ids}
             <input type="hidden" name="direction" value="down" />
             <button
@@ -196,7 +203,7 @@ function ItemRow({
             <Pencil className="size-4" aria-hidden />
           </button>
           <form
-            action={deleteVendorItemAction}
+            action={actions.remove}
             onSubmit={(e) => {
               if (!window.confirm(t("deleteConfirm", { name: item.name }))) {
                 e.preventDefault();
@@ -220,18 +227,20 @@ function ItemRow({
 
 function ItemForm({
   id,
-  vendorId,
+  ctx,
   item,
   onDone,
 }: {
   id: string;
-  vendorId: string;
-  item: AdminVendorItem | null;
+  ctx: Ctx;
+  item: MenuItem | null;
   onDone: () => void;
 }) {
+  const { parentId } = ctx;
   const t = useTranslations("Admin");
+  const tList = useTranslations(ctx.ns);
   const [state, formAction, pending] = useActionState<AdminFormState, FormData>(
-    saveVendorItemAction,
+    ctx.actions.save,
     {},
   );
   const [uploading, setUploading] = useState(false);
@@ -257,12 +266,12 @@ function ItemForm({
       className="space-y-4 border-2 border-pasar bg-card p-4"
     >
       <input type="hidden" name="id" value={id} />
-      <input type="hidden" name="vendorId" value={vendorId} />
+      <input type="hidden" name="parentId" value={parentId} />
       <input type="hidden" name="isNew" value={item ? "0" : "1"} />
       <input type="hidden" name="is_available" value={available ? "1" : "0"} />
 
       <div className="grid gap-4 sm:grid-cols-[1fr_10rem]">
-        <Field id={field("name")} label={t("menu.name")} error={err("name")}>
+        <Field id={field("name")} label={tList("name")} error={err("name")}>
           <Input
             id={field("name")}
             name="name"
@@ -270,13 +279,13 @@ function ItemForm({
             autoFocus
             maxLength={120}
             defaultValue={item?.name}
-            placeholder={t("menu.namePlaceholder")}
+            placeholder={tList("namePlaceholder")}
             {...describedBy(field("name"), undefined, err("name"))}
           />
         </Field>
         <Field
           id={field("price")}
-          label={t("menu.price")}
+          label={tList("price")}
           error={err("price")}
           optional
           optionalLabel={t("optional")}
@@ -302,7 +311,7 @@ function ItemForm({
 
       <Field
         id={field("description")}
-        label={t("menu.description")}
+        label={tList("description")}
         optional
         optionalLabel={t("optional")}
       >
@@ -312,15 +321,16 @@ function ItemForm({
           rows={2}
           maxLength={500}
           defaultValue={item?.description ?? ""}
-          placeholder={t("menu.descriptionPlaceholder")}
+          placeholder={tList("descriptionPlaceholder")}
           className={cn(CONTROL_CLASS, "py-3")}
         />
       </Field>
 
       <div className="space-y-1.5">
-        <p className="text-sm font-semibold">{t("menu.photo")}</p>
+        <p className="text-sm font-semibold">{tList("photo")}</p>
         <PhotoUploader
-          folder={itemPhotoFolder(vendorId, id)}
+          folder={`${ctx.photoBase}/${id}`}
+          bucket={ctx.bucket}
           initial={item?.photo_url ? [item.photo_url] : []}
           onBusyChange={setUploading}
           max={1}
@@ -336,9 +346,9 @@ function ItemForm({
           className="size-5 accent-pasar"
         />
         <span>
-          <span className="block font-semibold">{t("menu.available")}</span>
+          <span className="block font-semibold">{tList("available")}</span>
           <span className="block text-sm text-muted-foreground">
-            {t("menu.availableHint")}
+            {tList("availableHint")}
           </span>
         </span>
       </label>
@@ -359,8 +369,8 @@ function ItemForm({
             : uploading
               ? t("photos.uploading")
               : item
-                ? t("menu.save")
-                : t("menu.addSubmit")}
+                ? tList("save")
+                : tList("addSubmit")}
         </Button>
         <Button
           type="button"
@@ -369,7 +379,7 @@ function ItemForm({
           disabled={pending}
           className="h-11 px-4"
         >
-          {t("menu.cancel")}
+          {tList("cancel")}
         </Button>
       </div>
     </form>
