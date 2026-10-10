@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Tapaulahh: night markets near you",
-    "description": "Map of pasar malam and small home businesses (Peniaga Kecil) in Shah Alam and the Klang Valley. See which pasar is on today and what stalls are there."
+    "description": "Map of pasar malam and small home businesses (Peniaga Kecil) across Malaysia. See which pasar is on today and what stalls are there."
   },
   "Nav": {
     "main": "Main navigation",
@@ -375,6 +375,7 @@
     "notToday": "Not on today"
   },
   "Days": {
+    "everyDay": "Every day",
     "short": {
       "0": "Sun",
       "1": "Mon",
@@ -404,7 +405,7 @@
   },
   "PasarMap": {
     "title": "Pasar malam",
-    "subtitle": "Find night markets around KL and the Klang Valley.",
+    "subtitle": "Find night markets across Malaysia.",
     "today": "Today",
     "dayFilter": "Pick a day",
     "empty": "No pasar malam in our list for today.",
@@ -416,17 +417,14 @@
   },
   "Landing": {
     "greeting": "What's for tapau tonight?",
-    "intro": "Find pasar malam on today and home businesses around KL and the Klang Valley.",
+    "intro": "Find pasar malam open tonight, the stalls inside, and small home businesses nearby.",
     "searchButton": "Search",
-    "tonightTitle": "On tonight",
+    "tonightTitle": "Tonight",
     "seeMap": "See map",
-    "sectionPasarTitle": "Pasar malam",
-    "sectionPasarBody": "{count} pasar around the Klang Valley, with days and opening times.",
-    "sectionPasarEmpty": "Pasar malam around the Klang Valley, coming soon.",
-    "sectionKedaiBody": "Cakes, lauk, frozen food and more, straight from home kitchens.",
+    "noneTonight": "No pasar malam on our list tonight. Here's what's on tomorrow:",
+    "kedaiBody": "Cakes, lauk, frozen food and more, straight from home kitchens.",
     "foodTitle": "Craving something?",
-    "areasTitle": "Pasar malam by area",
-    "areaCount": "{count} pasar",
+    "areasTitle": "All pasar malam ({count})",
     "ctaTitle": "Got a stall or a home business?",
     "ctaBody": "Sign up and let people nearby find you.",
     "ctaButton": "Sign up now"

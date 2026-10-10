@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Tapaulahh: pasar malam dekat Anda",
-    "description": "Peta pasar malam dan peniaga kecil di Shah Alam dan Lembah Klang. Tengok pasar mana buka hari ni dan gerai apa ada."
+    "description": "Peta pasar malam dan peniaga kecil di seluruh Malaysia. Tengok pasar mana buka hari ni dan gerai apa ada."
   },
   "Nav": {
     "main": "Navigasi utama",
@@ -375,6 +375,7 @@
     "notToday": "Tak buka hari ni"
   },
   "Days": {
+    "everyDay": "Setiap hari",
     "short": {
       "0": "Ahd",
       "1": "Isn",
@@ -404,7 +405,7 @@
   },
   "PasarMap": {
     "title": "Pasar malam",
-    "subtitle": "Cari pasar malam sekitar KL dan Lembah Klang.",
+    "subtitle": "Cari pasar malam di seluruh Malaysia.",
     "today": "Hari ni",
     "dayFilter": "Pilih hari",
     "empty": "Tiada pasar malam dalam senarai kami untuk hari ni.",
@@ -416,19 +417,16 @@
   },
   "Landing": {
     "greeting": "Nak tapau apa malam ni?",
-    "intro": "Cari pasar malam yang buka hari ni dan peniaga kecil sekitar KL dan Lembah Klang.",
+    "intro": "Cari pasar malam yang buka malam ni, gerai di dalamnya, dan peniaga kecil berdekatan.",
     "searchButton": "Cari",
-    "tonightTitle": "Buka malam ni",
+    "tonightTitle": "Malam ni",
     "seeMap": "Tengok peta",
-    "sectionPasarTitle": "Pasar malam",
-    "sectionPasarBody": "{count} pasar sekitar Lembah Klang, lengkap dengan hari dan waktu buka.",
-    "sectionPasarEmpty": "Senarai pasar malam sekitar Lembah Klang akan datang tak lama lagi.",
-    "sectionKedaiBody": "Kek, lauk, frozen food dan macam-macam lagi, terus dari rumah.",
+    "noneTonight": "Tak ada pasar malam dalam senarai kami malam ni. Esok ada yang ni:",
+    "kedaiBody": "Kek, lauk, frozen food dan macam-macam lagi, terus dari rumah.",
     "foodTitle": "Tengah craving?",
-    "areasTitle": "Pasar malam ikut kawasan",
-    "areaCount": "{count} pasar",
+    "areasTitle": "Semua pasar malam ({count})",
     "ctaTitle": "Ada gerai atau bisnes dari rumah?",
-    "ctaBody": "Daftar dan biar orang sekitar Anda jumpa Anda.",
+    "ctaBody": "Daftar, biar orang berdekatan jumpa anda.",
     "ctaButton": "Daftar sekarang"
   },
   "Reviews": {

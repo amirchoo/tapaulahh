@@ -13,7 +13,7 @@ import type {
 const toHHMM = (time: string) => time.slice(0, 5);
 
 const PASAR_FIELDS =
-  "id, slug, name, address, district, state, lat, lng, pasar_schedules (day_of_week, start_time, end_time)";
+  "id, slug, name, address, district, state, lat, lng, photos, pasar_schedules (day_of_week, start_time, end_time)";
 
 type PasarRow = {
   id: string;
@@ -24,6 +24,7 @@ type PasarRow = {
   state: string;
   lat: number | null;
   lng: number | null;
+  photos: string[];
   pasar_schedules: {
     day_of_week: number;
     start_time: string;
@@ -42,6 +43,7 @@ function toPasar(row: PasarRow): Pasar | null {
     district: row.district,
     state: row.state,
     location: { lat: row.lat, lng: row.lng },
+    coverPhoto: row.photos[0] ?? null,
     schedules: row.pasar_schedules.map((s) => ({
       // The table's CHECK constraint keeps this within 0 to 6.
       dayOfWeek: s.day_of_week as DayOfWeek,
@@ -68,7 +70,7 @@ export async function getPasarBySlug(
 ): Promise<PasarDetail | null> {
   const { data, error } = await createPublicClient()
     .from("pasars")
-    .select(`${PASAR_FIELDS}, description, parking_notes, photos`)
+    .select(`${PASAR_FIELDS}, description, parking_notes`)
     .eq("status", "active")
     .eq("slug", slug)
     .maybeSingle();

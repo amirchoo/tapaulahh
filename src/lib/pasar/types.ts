@@ -20,6 +20,8 @@ export type Pasar = {
   state: string;
   location: LatLng;
   schedules: PasarSchedule[];
+  /** First photo, for list cards. */
+  coverPhoto: string | null;
 };
 
 /** Everything the public pasar page shows. */
