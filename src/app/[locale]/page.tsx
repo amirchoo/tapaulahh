@@ -1,4 +1,4 @@
-import { ChevronRight, Map as MapIcon, Search, Store } from "lucide-react";
+import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { TonightPasars } from "@/components/home/tonight-pasars";
 import { Button } from "@/components/ui/button";
@@ -12,17 +12,13 @@ import type { Pasar } from "@/lib/pasar/types";
 // Pasar data comes from Supabase; rebuild the page at most every 5 minutes.
 export const revalidate = 300;
 
-function groupByDistrict(pasars: Pasar[]): [string, Pasar[]][] {
-  const groups: Record<string, Pasar[]> = {};
-  for (const pasar of pasars) (groups[pasar.district] ??= []).push(pasar);
-  return Object.entries(groups)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([district, list]) => [
-      district,
-      list.sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { numeric: true }),
-      ),
-    ]);
+/** Area list order: by district, then name. */
+function byArea(pasars: Pasar[]): Pasar[] {
+  return [...pasars].sort(
+    (a, b) =>
+      a.district.localeCompare(b.district) ||
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+  );
 }
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -36,10 +32,25 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const pasars = await getPasars();
   const searchAction = getPathname({ href: "/cari", locale });
 
-  const days = (pasar: Pasar) =>
-    WEEK.filter((day) => pasar.schedules.some((s) => s.dayOfWeek === day))
-      .map((day) => tDays(`long.${day}`))
-      .join(", ");
+  // "Setiap hari", or short names with runs of 3+ days collapsed ("Isn–Kha, Sab")
+  const days = (pasar: Pasar) => {
+    const on = WEEK.map((day) =>
+      pasar.schedules.some((s) => s.dayOfWeek === day),
+    );
+    if (on.every(Boolean)) return tDays("everyDay");
+    const parts: string[] = [];
+    for (let i = 0; i < WEEK.length; i++) {
+      if (!on[i]) continue;
+      let end = i;
+      while (end + 1 < WEEK.length && on[end + 1]) end++;
+      const first = tDays(`short.${WEEK[i]}`);
+      const last = tDays(`short.${WEEK[end]}`);
+      if (end - i >= 2) parts.push(`${first}–${last}`);
+      else for (let j = i; j <= end; j++) parts.push(tDays(`short.${WEEK[j]}`));
+      i = end;
+    }
+    return parts.join(", ");
+  };
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-10 px-4 pt-6 pb-12 lg:space-y-14 lg:px-6 lg:pt-12">
@@ -101,48 +112,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <TonightPasars pasars={pasars} />
       </section>
 
-      {/* The two sections */}
-      <section className="grid gap-3 sm:grid-cols-2">
-        <Link
-          href="/pasar"
-          className="group border-2 border-pasar bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          <span className="flex size-11 items-center justify-center rounded-full bg-pasar text-on-pasar">
-            <MapIcon className="size-5" aria-hidden />
-          </span>
-          <span className="mt-3 flex items-center gap-1 text-lg font-extrabold">
-            {t("sectionPasarTitle")}
-            <ChevronRight
-              className="size-5 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </span>
-          <span className="mt-1 block text-sm text-muted-foreground">
-            {pasars.length > 0
-              ? t("sectionPasarBody", { count: pasars.length })
-              : t("sectionPasarEmpty")}
-          </span>
-        </Link>
-        <Link
-          href="/kedai"
-          className="group border-2 border-kedai bg-card p-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          <span className="flex size-11 items-center justify-center rounded-full bg-kedai text-on-kedai">
-            <Store className="size-5" aria-hidden />
-          </span>
-          <span className="mt-3 flex items-center gap-1 text-lg font-extrabold">
-            {tNav("kedai")}
-            <ChevronRight
-              className="size-5 transition-transform group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </span>
-          <span className="mt-1 block text-sm text-muted-foreground">
-            {t("sectionKedaiBody")}
-          </span>
-        </Link>
-      </section>
-
       {/* Popular food */}
       <section aria-labelledby="food" className="space-y-3">
         <h2 id="food" className="text-xl font-extrabold tracking-tight">
@@ -162,38 +131,54 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </ul>
       </section>
 
-      {/* Pasar by area: server-rendered text for search engines */}
+      {/* Peniaga Kecil */}
+      <Link
+        href="/kedai"
+        className="group flex items-center justify-between gap-4 bg-kedai p-5 text-on-kedai outline-none focus-visible:ring-3 focus-visible:ring-ring/50 lg:p-8"
+      >
+        <span>
+          <span className="block text-2xl font-extrabold tracking-tight lg:text-3xl">
+            {tNav("kedai")}
+          </span>
+          <span className="mt-1 block max-w-xl">{t("kedaiBody")}</span>
+        </span>
+        <ChevronRight
+          className="size-7 shrink-0 transition-transform group-hover:translate-x-1"
+          aria-hidden
+        />
+      </Link>
+
+      {/* Pasar by area: server-rendered links for search engines, collapsed for people */}
       {pasars.length > 0 && (
-        <section aria-labelledby="areas" className="space-y-4">
-          <h2 id="areas" className="text-xl font-extrabold tracking-tight">
-            {t("areasTitle")}
-          </h2>
-          {groupByDistrict(pasars).map(([district, list]) => (
-            <div key={district}>
-              <h3 className="mb-2 text-sm font-bold text-muted-foreground">
-                {district} · {t("areaCount", { count: list.length })}
-              </h3>
-              <ul className="grid gap-x-6 sm:grid-cols-2">
-                {list.map((pasar) => (
-                  <li key={pasar.id} className="border-b">
-                    <Link
-                      href={{
-                        pathname: "/pasar/[slug]",
-                        params: { slug: pasar.slug },
-                      }}
-                      className="flex min-h-11 items-center justify-between gap-3 py-2 outline-none hover:text-pasar-text focus-visible:ring-3 focus-visible:ring-ring/50"
-                    >
-                      <span className="font-semibold">{pasar.name}</span>
-                      <span className="shrink-0 text-sm text-muted-foreground">
-                        {days(pasar)}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
+        <details className="group border-t">
+          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 py-3 outline-none focus-visible:ring-3 focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
+            <h2 className="text-xl font-extrabold tracking-tight">
+              {t("areasTitle", { count: pasars.length })}
+            </h2>
+            <ChevronDown
+              className="size-5 shrink-0 transition-transform group-open:rotate-180"
+              aria-hidden
+            />
+          </summary>
+          <ul className="grid gap-x-6 pb-2 sm:grid-cols-2">
+            {byArea(pasars).map((pasar) => (
+              <li key={pasar.id} className="border-b">
+                <Link
+                  href={{
+                    pathname: "/pasar/[slug]",
+                    params: { slug: pasar.slug },
+                  }}
+                  className="block min-h-11 py-2.5 outline-none hover:text-pasar-text focus-visible:ring-3 focus-visible:ring-ring/50"
+                >
+                  <span className="block font-semibold">{pasar.name}</span>
+                  <span className="block text-sm text-muted-foreground">
+                    {pasar.district} · {days(pasar)}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
 
       {/* Join */}

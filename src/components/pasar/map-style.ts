@@ -33,13 +33,13 @@ export function aliasMissingIcons(map: MapLibreMap) {
 }
 
 /**
- * Opening view: centred on KL (3.139, 101.687), wide enough to cover the Klang
- * Valley from Setia Alam and Klang in the west to Ampang in the east.
+ * Opening view: all of Malaysia, Peninsular and East (Sabah, Sarawak).
+ * Pins group into clusters until you zoom in.
  * [[west, south], [east, north]]
  */
 export const START_BOUNDS: [[number, number], [number, number]] = [
-  [101.42, 2.98],
-  [101.95, 3.3],
+  [99.6, 0.85],
+  [119.3, 7.4],
 ];
 
 const DESKTOP_QUERY = "(min-width: 1024px)";

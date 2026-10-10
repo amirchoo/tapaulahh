@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -56,19 +57,32 @@ function PasarRow({
         type="button"
         onClick={onSelect}
         aria-pressed={selected}
-        className="w-full px-4 pt-3 pb-2 text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="w-full text-left outline-none hover:bg-muted/60 focus-visible:ring-3 focus-visible:ring-ring/50"
       >
-        <span className="flex items-baseline justify-between gap-3">
-          <span className="font-bold">{pasar.name}</span>
-          {distance !== null && (
-            <span className="shrink-0 text-xs font-semibold text-muted-foreground">
-              {tMap("away", { distance: formatKm(distance, locale) })}
-            </span>
-          )}
-        </span>
-        <StatusLine view={view} />
-        <span className="mt-0.5 block text-sm text-muted-foreground">
-          {pasar.address}
+        {pasar.coverPhoto && (
+          <span className="relative block aspect-[2/1] overflow-hidden bg-muted">
+            <Image
+              src={pasar.coverPhoto}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 352px, 100vw"
+              className="object-cover"
+            />
+          </span>
+        )}
+        <span className="block px-4 pt-3 pb-2">
+          <span className="flex items-baseline justify-between gap-3">
+            <span className="font-bold">{pasar.name}</span>
+            {distance !== null && (
+              <span className="shrink-0 text-xs font-semibold text-muted-foreground">
+                {tMap("away", { distance: formatKm(distance, locale) })}
+              </span>
+            )}
+          </span>
+          <StatusLine view={view} />
+          <span className="mt-0.5 block text-sm text-muted-foreground">
+            {pasar.address}
+          </span>
         </span>
       </button>
       <Link
