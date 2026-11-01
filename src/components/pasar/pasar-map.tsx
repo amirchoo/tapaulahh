@@ -1,6 +1,7 @@
 "use client";
 
 import "maplibre-gl/dist/maplibre-gl.css";
+import { LoaderCircle } from "lucide-react";
 import type { FeatureCollection, Point } from "geojson";
 import type { GeoJSONSource, MapLayerMouseEvent } from "maplibre-gl";
 import { useTranslations } from "next-intl";
@@ -9,6 +10,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   useSyncExternalStore,
 } from "react";
 import Map, {
@@ -22,7 +24,6 @@ import Map, {
 import type { LatLng } from "@/lib/pasar/types";
 import {
   aliasMissingIcons,
-  cameraPadding,
   isDarkClass,
   MAP_STYLES,
   START_BOUNDS,
@@ -36,6 +37,24 @@ const POINT_LAYER = "pasar-points";
 const FONT = ["Noto Sans Bold"];
 
 export type MapFocus = { location: LatLng; zoom: number; key: number };
+export type MapCamera = { longitude: number; latitude: number; zoom: number };
+
+const padding = { top: 48, right: 48, bottom: 48, left: 48 };
+
+function resultBounds(points: string): [[number, number], [number, number]] {
+  const coordinates = JSON.parse(points) as [number, number][];
+  if (!coordinates.length) return START_BOUNDS;
+  return [
+    [
+      Math.min(...coordinates.map(([lng]) => lng)),
+      Math.min(...coordinates.map(([, lat]) => lat)),
+    ],
+    [
+      Math.max(...coordinates.map(([lng]) => lng)),
+      Math.max(...coordinates.map(([, lat]) => lat)),
+    ],
+  ];
+}
 
 type PointProps = {
   id: string;
@@ -64,14 +83,21 @@ export default function PasarMap({
   onSelect,
   focus,
   userLocation,
+  initialCamera,
+  onCameraChange,
 }: {
   views: PasarView[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   focus: MapFocus | null;
   userLocation: LatLng | null;
+  initialCamera: MapCamera | null;
+  onCameraChange: (camera: MapCamera) => void;
 }) {
   const t = useTranslations("Map");
+  const tPasar = useTranslations("PasarMap");
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const isDark = useSyncExternalStore(
     subscribeHtmlClass,
     isDarkClass,
@@ -79,11 +105,25 @@ export default function PasarMap({
   );
   const theme = isDark ? "dark" : "light";
   const mapRef = useRef<MapRef | null>(null);
+  const resizeObserver = useRef<ResizeObserver | null>(null);
+  const lastCommand = useRef("");
+  const points = JSON.stringify(
+    views
+      .map(({ pasar }) => [pasar.location.lng, pasar.location.lat])
+      .sort(([a], [b]) => a - b),
+  );
+  const bounds = useMemo(() => resultBounds(points), [points]);
+  const command = `${points}:${focus ? `${focus.location.lng},${focus.location.lat},${focus.key}` : "all"}`;
 
   // react-map-gl creates the map asynchronously; this runs once it exists.
   const setMapRef = useCallback((ref: MapRef | null) => {
+    resizeObserver.current?.disconnect();
     mapRef.current = ref;
-    if (ref) aliasMissingIcons(ref.getMap());
+    if (ref) {
+      aliasMissingIcons(ref.getMap());
+      resizeObserver.current = new ResizeObserver(() => ref.resize());
+      resizeObserver.current.observe(ref.getContainer());
+    }
   }, []);
 
   // `theme` is a cache key: the values come from the <html> class, now already swapped.
@@ -182,19 +222,29 @@ export default function PasarMap({
     ];
   }, [colors]);
 
-  // A tap that arrives before the map has loaded is applied in onLoad.
-  const pendingFocus = useRef(focus);
   useEffect(() => {
-    pendingFocus.current = focus;
     const map = mapRef.current;
-    if (!map || !focus) return;
-    map.flyTo({
-      center: [focus.location.lng, focus.location.lat],
-      zoom: Math.max(map.getZoom(), focus.zoom),
-      padding: cameraPadding(map.getContainer()),
-      duration: 900,
-    });
-  }, [focus]);
+    if (!map || loading || lastCommand.current === command) return;
+    lastCommand.current = command;
+    const duration = window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+      ? 0
+      : 500;
+    if (focus)
+      map.flyTo({
+        center: [focus.location.lng, focus.location.lat],
+        zoom: focus.zoom,
+        padding,
+        duration,
+      });
+    else map.fitBounds(bounds, { padding, maxZoom: 14, duration });
+  }, [bounds, command, focus, loading]);
+
+  useEffect(() => {
+    if (!loading) return;
+    const timeout = window.setTimeout(() => setFailed(true), 20_000);
+    return () => window.clearTimeout(timeout);
+  }, [loading]);
 
   async function handleClick(event: MapLayerMouseEvent) {
     const feature = event.features?.[0];
@@ -211,7 +261,7 @@ export default function PasarMap({
       map.easeTo({
         center: [lng, lat],
         zoom,
-        padding: cameraPadding(map.getContainer()),
+        padding,
       });
       return;
     }
@@ -220,57 +270,94 @@ export default function PasarMap({
   }
 
   return (
-    <Map
-      ref={setMapRef}
-      mapStyle={MAP_STYLES[theme]}
-      initialViewState={{ bounds: START_BOUNDS }}
-      onLoad={(e) => {
-        const map = e.target;
-        const pending = pendingFocus.current;
-        if (pending) {
-          map.jumpTo({
-            center: [pending.location.lng, pending.location.lat],
-            zoom: pending.zoom,
-            padding: cameraPadding(map.getContainer()),
-          });
-          return;
+    <div className="relative h-full">
+      <Map
+        ref={setMapRef}
+        mapStyle={MAP_STYLES[theme]}
+        initialViewState={
+          initialCamera ?? {
+            bounds,
+            fitBoundsOptions: { padding, maxZoom: 14 },
+          }
         }
-        map.fitBounds(START_BOUNDS, {
-          padding: cameraPadding(map.getContainer()),
-          duration: 0,
-        });
-      }}
-      interactiveLayerIds={[CLUSTER_LAYER, POINT_LAYER]}
-      onClick={handleClick}
-      onMouseEnter={(e) => (e.target.getCanvas().style.cursor = "pointer")}
-      onMouseLeave={(e) => (e.target.getCanvas().style.cursor = "")}
-      attributionControl={false}
-      dragRotate={false}
-      touchPitch={false}
-      style={{ width: "100%", height: "100%" }}
-    >
-      <AttributionControl position="top-right" compact />
-      <Source
-        id={SOURCE_ID}
-        type="geojson"
-        data={data}
-        cluster
-        clusterRadius={45}
-        clusterMaxZoom={13}
+        onLoad={(e) => {
+          const map = e.target;
+          lastCommand.current = command;
+          setLoading(false);
+          setFailed(false);
+          if (focus) {
+            map.jumpTo({
+              center: [focus.location.lng, focus.location.lat],
+              zoom: focus.zoom,
+              padding,
+            });
+            return;
+          }
+          if (!initialCamera)
+            map.fitBounds(bounds, {
+              padding,
+              maxZoom: 14,
+              duration: 0,
+            });
+        }}
+        onMoveEnd={(event) => {
+          const { longitude, latitude, zoom } = event.viewState;
+          onCameraChange({ longitude, latitude, zoom });
+        }}
+        onError={() => setFailed(true)}
+        onIdle={() => {
+          if (mapRef.current?.isStyleLoaded()) setFailed(false);
+        }}
+        interactiveLayerIds={[CLUSTER_LAYER, POINT_LAYER]}
+        onClick={handleClick}
+        onMouseEnter={(e) => (e.target.getCanvas().style.cursor = "pointer")}
+        onMouseLeave={(e) => (e.target.getCanvas().style.cursor = "")}
+        attributionControl={false}
+        dragRotate={false}
+        touchPitch={false}
+        style={{ width: "100%", height: "100%" }}
       >
-        {layers.map((layer) => (
-          <Layer key={layer.id} {...layer} />
-        ))}
-      </Source>
-      {userLocation && (
-        <Marker longitude={userLocation.lng} latitude={userLocation.lat}>
-          <span
-            role="img"
-            aria-label={t("you")}
-            className="block size-4 rounded-full border-3 border-card bg-foreground"
-          />
-        </Marker>
+        <AttributionControl position="top-right" compact />
+        <Source
+          id={SOURCE_ID}
+          type="geojson"
+          data={data}
+          cluster
+          clusterRadius={45}
+          clusterMaxZoom={13}
+        >
+          {layers.map((layer) => (
+            <Layer key={layer.id} {...layer} />
+          ))}
+        </Source>
+        {userLocation && (
+          <Marker longitude={userLocation.lng} latitude={userLocation.lat}>
+            <span
+              role="img"
+              aria-label={t("you")}
+              className="block size-4 rounded-full border-3 border-card bg-foreground"
+            />
+          </Marker>
+        )}
+      </Map>
+      {(loading || failed) && (
+        <div
+          role={failed ? "alert" : "status"}
+          className="absolute inset-0 flex items-center justify-center gap-2 bg-background p-6 text-center text-sm text-muted-foreground"
+        >
+          {failed ? (
+            tPasar("mapError")
+          ) : (
+            <>
+              <LoaderCircle
+                className="size-5 shrink-0 animate-spin"
+                aria-hidden
+              />
+              {tPasar("mapLoading")}
+            </>
+          )}
+        </div>
       )}
-    </Map>
+    </div>
   );
 }
