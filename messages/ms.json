@@ -34,6 +34,17 @@
     "vendorsTitle": "{count, plural, =0 {Gerai} other {Gerai (#)}}",
     "vendorsEmpty": "Senarai gerai belum ada lagi. Ada gerai sini? Daftar dan biar orang jumpa Anda.",
     "otherCategory": "Lain-lain",
+    "backToPasars": "Semua pasar malam",
+    "backToStalls": "Kembali ke gerai",
+    "pageSections": "Terokai pasar ni",
+    "information": "Maklumat pasar",
+    "location": "Lokasi pasar",
+    "showLocation": "Lihat lokasi pasar",
+    "locationMapError": "Tak dapat muat peta. Anda masih boleh guna tunjuk arah atau kembali ke senarai.",
+    "vendorsHint": "Pilih gerai untuk tengok menu dan baca ulasan tentang gerai tu.",
+    "reviewsNav": "Ulasan pasar",
+    "reviewsTitle": "Ulasan pasar ni",
+    "reviewsHint": "Ulasan tentang pasar ni. Untuk ulasan makanan dan gerai, buka gerai di atas.",
     "metaDescription": "{name} di {district}. Buka {days}. Tengok waktu, lokasi dan gerai apa ada."
   },
   "Vendor": {
@@ -43,7 +54,15 @@
     "daysNote": "Gerai kadang-kadang cuti. Hari ni anggaran je.",
     "metaDescription": "{name}, gerai di {pasar}. Tengok apa yang dijual dan hari biasa ada.",
     "menu": "Menu",
-    "soldOut": "Habis buat masa ni"
+    "soldOut": "Habis buat masa ni",
+    "viewDetails": "Menu & ulasan",
+    "pageSections": "Terokai gerai ni",
+    "visitInfo": "Maklumat kunjungan gerai",
+    "atPasar": "Jumpa gerai ni di",
+    "backToStall": "Kembali ke gerai",
+    "marketLocationNote": "Peta tunjuk lokasi pasar, bukan kedudukan tepat gerai ni.",
+    "reviewsTitle": "Ulasan gerai ni",
+    "reviewsHint": "Ulasan tentang gerai ni dan makanannya. Ulasan pasar ada di halaman pasar."
   },
   "Kedai": {
     "title": "Peniaga Kecil",
@@ -413,7 +432,15 @@
     "loading": "Tengah muat…",
     "count": "{count, plural, other {# pasar}}",
     "viewPasar": "Tengok pasar",
-    "metaTitle": "Peta pasar malam"
+    "metaTitle": "Cari pasar malam",
+    "showMap": "Lihat peta",
+    "showOnMap": "Lihat di peta",
+    "showOnMapLabel": "Lihat {name} di peta",
+    "backToList": "Kembali ke senarai",
+    "selectPin": "Tekan pin untuk tengok pasar, waktu dan arah. Anda juga boleh pilih pasar daripada senarai.",
+    "mapLoading": "Tengah muat peta…",
+    "mapError": "Tak dapat muat peta. Kembali ke senarai untuk tengok pasar, atau guna tunjuk arah di bawah untuk pasar yang dipilih.",
+    "locationDenied": "Tak dapat lokasi Anda. Semua pasar masih boleh dilihat."
   },
   "Landing": {
     "greeting": "Nak tapau apa malam ni?",
@@ -433,6 +460,7 @@
     "title": "{count, plural, =0 {Ulasan} other {Ulasan (#)}}",
     "count": "{count, plural, other {# ulasan}}",
     "outOf5": "{rating} daripada 5 bintang",
+    "notRated": "Belum ada rating lagi",
     "stars": "{count} bintang",
     "empty": "Belum ada ulasan. Jadi orang pertama!",
     "anonymous": "Pengguna Tapaulahh",

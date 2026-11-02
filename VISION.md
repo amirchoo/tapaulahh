@@ -40,15 +40,14 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 - Answers "where can I tapau tonight?" on its own: greeting + search, "Buka malam ni" (pasars running today with live status), entry cards for Pasar malam (amber) and Peniaga Kecil (teal), popular food search chips, pasar-by-area list (server-rendered, for SEO), and one "Daftar sekarang" CTA for stalls and home businesses.
 
-### 4.1 Pasar map (`/pasar`)
+### 4.1 Pasar discovery (`/pasar`)
 
-- Full-screen map, pasar markers clustered when zoomed out.
+- List first: compact cards, two columns on desktop and one on phones. An optional map opens in a desktop dialog or full screen on phones, with clustered pasar markers.
 - Default filter: **"Hari ini"** (pasar operating today). Chips for each day of the week.
 - Marker status: open now / opening later today / closed today. Time logic always uses `Asia/Kuala_Lumpur`.
 - "Near me" button (browser geolocation, optional; the map still works if it's denied).
-- **Tap a pasar → map flies/zooms into it** and shows:
-  - Pasar outline (if a boundary polygon exists). **No per-stall pins in Phase 1.** Vendors are shown as a list only.
-  - A bottom sheet (mobile) / side panel (desktop) with: name, days + hours, address, parking/notes, photos, vendor list grouped by category.
+- **Open a pasar → stalls are the main content**, grouped by category in a responsive card grid. Market information (hours, address, parking, description and photos) and pasar reviews follow below. A separate market-location button opens the map only when requested.
+- **Future stall navigation:** plan a dedicated map of stall positions inside a pasar, connected to the stall list and individual stall pages. Exact placement and navigable routes need verified stall coordinates and market layout data. Current market directions lead to the pasar, not to a stall. Do not invent stall positions or show a working navigation control before this exists.
 - Tap a vendor → vendor detail (name, category, what they sell, rough price range, photos, menu with prices and photos, "usually here on" days).
 
 ### 4.2 Pasar & vendor pages
@@ -77,7 +76,7 @@ A map-first website for discovering **pasar malam** (night markets) in Malaysia 
 
 ### 4.4c Community reviews
 
-- **Login required.** 1 to 5 stars + optional comment on each pasar and stall, one per person (editable). Shown at once; admins can hide any review. Average rating shown at the top of the pasar/stall page.
+- **Login required to post.** 1 to 5 stars + optional comment on each pasar and stall, one per person (editable). Shown at once; admins can hide any review. Average rating shown at the top of the pasar/stall page. Pasar reviews cover the market itself and stay on its page; stall reviews cover that stall and appear after opening its page, alongside its menu. Keep their data and averages separate.
 
 ### 4.5 Community reports
 

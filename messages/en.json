@@ -34,6 +34,17 @@
     "vendorsTitle": "{count, plural, =0 {Stalls} other {Stalls (#)}}",
     "vendorsEmpty": "No stall list yet. Got a stall here? Sign up so people can find you.",
     "otherCategory": "Others",
+    "backToPasars": "All pasar malam",
+    "backToStalls": "Back to stalls",
+    "pageSections": "Explore this pasar",
+    "information": "Market information",
+    "location": "Market location",
+    "showLocation": "Show market location",
+    "locationMapError": "Couldn't load the map. You can still get directions or go back to browsing.",
+    "vendorsHint": "Pick a stall to explore its menu and read reviews about that stall.",
+    "reviewsNav": "Pasar reviews",
+    "reviewsTitle": "Reviews of this pasar",
+    "reviewsHint": "Reviews about the market itself. For food and stall reviews, open a stall above.",
     "metaDescription": "{name} in {district}. On {days}. See opening hours, location and which stalls are there."
   },
   "Vendor": {
@@ -43,7 +54,15 @@
     "daysNote": "Stalls sometimes take a day off, so treat these as a guide.",
     "metaDescription": "{name}, a stall at {pasar}. See what they sell and which days they're usually there.",
     "menu": "Menu",
-    "soldOut": "Sold out for now"
+    "soldOut": "Sold out for now",
+    "viewDetails": "Menu & reviews",
+    "pageSections": "Explore this stall",
+    "visitInfo": "Visiting this stall",
+    "atPasar": "Find this stall at",
+    "backToStall": "Back to stall",
+    "marketLocationNote": "The map shows the pasar location, not this stall's exact spot.",
+    "reviewsTitle": "Reviews of this stall",
+    "reviewsHint": "Reviews about this stall and its food. Reviews of the market are on the pasar page."
   },
   "Kedai": {
     "title": "Peniaga Kecil",
@@ -413,7 +432,15 @@
     "loading": "Loading…",
     "count": "{count, plural, one {# pasar} other {# pasar}}",
     "viewPasar": "View pasar",
-    "metaTitle": "Pasar malam map"
+    "metaTitle": "Find pasar malam",
+    "showMap": "Show map",
+    "showOnMap": "Show on map",
+    "showOnMapLabel": "Show {name} on map",
+    "backToList": "Back to list",
+    "selectPin": "Select a pin to see the pasar, its hours and directions. You can also choose a pasar from the list.",
+    "mapLoading": "Loading map…",
+    "mapError": "Couldn't load the map. Go back to the list to browse pasar, or use directions below for your selected pasar.",
+    "locationDenied": "Couldn't get your location. You can still browse all pasar."
   },
   "Landing": {
     "greeting": "What's for tapau tonight?",
@@ -433,6 +460,7 @@
     "title": "{count, plural, =0 {Reviews} other {Reviews (#)}}",
     "count": "{count, plural, one {# review} other {# reviews}}",
     "outOf5": "{rating} out of 5 stars",
+    "notRated": "No ratings yet",
     "stars": "{count, plural, one {# star} other {# stars}}",
     "empty": "No reviews yet. Be the first!",
     "anonymous": "Tapaulahh user",
