@@ -1,4 +1,4 @@
-import { Car, MapPin, Navigation } from "lucide-react";
+import { Car, ChevronDown, MapPin, Navigation } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -57,6 +57,9 @@ export default async function PasarPage({
     getReviews("pasar", pasar.id),
   ]);
   const t = await getTranslations("Pasar");
+  const vendorList = (
+    <VendorList pasar={pasar} vendors={vendors} locale={locale} />
+  );
 
   return (
     <SplitView
@@ -75,17 +78,26 @@ export default async function PasarPage({
                 <RatingSummary summary={reviews} />
               </div>
               <PhotoStrip photos={pasar.photos} alt={pasar.name} />
+              {/* Stalls are the point of the page; until there are some,
+                  hours and directions come first. */}
+              {vendors.length > 0 && vendorList}
               <Hours pasar={pasar} locale={locale} />
               <Where pasar={pasar} />
               {pasar.description && (
-                <section className="space-y-1">
-                  <h2 className="font-extrabold">{t("about")}</h2>
-                  <p className="text-sm whitespace-pre-line">
+                <details className="group border-y">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 font-extrabold [&::-webkit-details-marker]:hidden">
+                    {t("about")}
+                    <ChevronDown
+                      className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+                      aria-hidden
+                    />
+                  </summary>
+                  <p className="pb-3 text-sm whitespace-pre-line">
                     {pasar.description}
                   </p>
-                </section>
+                </details>
               )}
-              <VendorList pasar={pasar} vendors={vendors} locale={locale} />
+              {vendors.length === 0 && vendorList}
               <ReviewsSection
                 targetType="pasar"
                 targetId={pasar.id}

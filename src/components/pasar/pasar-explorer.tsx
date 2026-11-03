@@ -8,6 +8,7 @@ import { PanelBody, PanelHeader, Placeholder } from "@/components/layout/panel";
 import { SplitView } from "@/components/layout/split-view";
 import { Button } from "@/components/ui/button";
 import type { LatLng, Pasar } from "@/lib/pasar/types";
+import { NEAR_ME_ZOOM, useUserLocation } from "./use-user-location";
 import { DayChips, type DayFilter } from "./day-chips";
 import type { MapFocus } from "./pasar-map";
 import { PasarList } from "./pasar-list";
@@ -19,8 +20,6 @@ const PasarMap = dynamic(() => import("./pasar-map"), {
   ssr: false,
   loading: () => <div className="h-full bg-background" />,
 });
-
-type Locating = "idle" | "locating" | "denied";
 
 /** Street level, close enough to see the pasar's own lanes. */
 const PASAR_ZOOM = 17.5;
@@ -34,8 +33,9 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
   const [dayFilter, setDayFilter] = useState<DayFilter>("today");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focus, setFocus] = useState<MapFocus | null>(null);
-  const [userLocation, setUserLocation] = useState<LatLng | null>(null);
-  const [locating, setLocating] = useState<Locating>("idle");
+  const { userLocation, locating, locate } = useUserLocation((location) =>
+    flyTo(location, NEAR_ME_ZOOM),
+  );
 
   const isToday = dayFilter === "today" || dayFilter === now?.day;
   const day = dayFilter === "today" ? (now?.day ?? null) : dayFilter;
@@ -65,24 +65,6 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
   function changeDay(next: DayFilter) {
     setDayFilter(next);
     setSelectedId(null);
-  }
-
-  function locate() {
-    if (!("geolocation" in navigator)) {
-      setLocating("denied");
-      return;
-    }
-    setLocating("locating");
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        const location = { lat: coords.latitude, lng: coords.longitude };
-        setUserLocation(location);
-        setLocating("idle");
-        flyTo(location, 12.5);
-      },
-      () => setLocating("denied"),
-      { enableHighAccuracy: false, timeout: 10_000, maximumAge: 300_000 },
-    );
   }
 
   const emptyText =
@@ -131,9 +113,11 @@ export function PasarExplorer({ pasars }: { pasars: Pasar[] }) {
                 ? tMap("locating")
                 : locating === "denied"
                   ? tMap("locationDenied")
-                  : day !== null && views.length > 0
-                    ? t("count", { count: views.length })
-                    : ""}
+                  : locating === "outside"
+                    ? tMap("outsideMalaysia")
+                    : day !== null && views.length > 0
+                      ? t("count", { count: views.length })
+                      : ""}
             </p>
             <div className="mt-2">
               {day === null ? (

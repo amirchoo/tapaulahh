@@ -67,7 +67,7 @@ export function TonightPasars({ pasars }: { pasars: Pasar[] }) {
 function Cards({ views }: { views: PasarView[] }) {
   return (
     <ul className={RAIL}>
-      {views.map((view) => {
+      {views.map((view, i) => {
         const lightsOff = view.status?.kind === "closed";
         return (
           <li key={view.pasar.id} className={CARD}>
@@ -85,6 +85,7 @@ function Cards({ views }: { views: PasarView[] }) {
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 320px, 78vw"
+                    loading={i === 0 ? "eager" : undefined}
                     className={cn(
                       "object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]",
                       lightsOff && "opacity-50 grayscale",

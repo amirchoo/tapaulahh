@@ -16,7 +16,7 @@ export function PhotoStrip({ photos, alt }: { photos: string[]; alt: string }) {
             fill
             sizes="256px"
             className="object-cover"
-            priority={i === 0}
+            preload={i === 0}
           />
         </li>
       ))}

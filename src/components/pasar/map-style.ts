@@ -32,12 +32,20 @@ export function aliasMissingIcons(map: MapLibreMap) {
   });
 }
 
+type Bounds = [[number, number], [number, number]];
+
 /**
- * Opening view: all of Malaysia, Peninsular and East (Sabah, Sarawak).
- * Pins group into clusters until you zoom in.
- * [[west, south], [east, north]]
+ * Opening view: the Klang Valley (Klang to Ampang, Rawang to Putrajaya),
+ * where the pasars are. The map then flies to the visitor if they share
+ * their location. [[west, south], [east, north]]
  */
-export const START_BOUNDS: [[number, number], [number, number]] = [
+export const START_BOUNDS: Bounds = [
+  [101.35, 2.9],
+  [101.8, 3.3],
+];
+
+/** All of Malaysia, Peninsular and East (Sabah, Sarawak). */
+export const MALAYSIA_BOUNDS: Bounds = [
   [99.6, 0.85],
   [119.3, 7.4],
 ];

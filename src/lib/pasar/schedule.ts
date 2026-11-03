@@ -81,6 +81,24 @@ export function pasarStatus(pasar: Pasar, now: MalaysiaNow): PasarStatus {
   return { kind: "closed" };
 }
 
+/**
+ * The next session that hasn't started yet: later today (daysAhead 0) or on
+ * a coming day, up to the same weekday next week (daysAhead 7).
+ */
+export function nextSession(
+  pasar: Pasar,
+  now: MalaysiaNow,
+): { schedule: PasarSchedule; daysAhead: number } | null {
+  for (let daysAhead = 0; daysAhead <= 7; daysAhead++) {
+    const day = ((now.day + daysAhead) % 7) as DayOfWeek;
+    const upcoming = schedulesOn(pasar, day)
+      .filter((s) => daysAhead > 0 || toMinutes(s.startTime) > now.minutes)
+      .sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime));
+    if (upcoming[0]) return { schedule: upcoming[0], daysAhead };
+  }
+  return null;
+}
+
 /** Straight-line distance in metres. */
 export function distanceMetres(a: LatLng, b: LatLng): number {
   const R = 6_371_000;

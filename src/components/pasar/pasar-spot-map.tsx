@@ -42,7 +42,7 @@ export default function PasarSpotMap({
       initialViewState={{
         longitude: location.lng,
         latitude: location.lat,
-        zoom: 17.5,
+        zoom: 16,
       }}
       onLoad={(e) => {
         // On phones the bottom sheet covers the lower half: show the pin above it.

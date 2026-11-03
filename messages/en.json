@@ -372,7 +372,10 @@
     "later": "Opens at {time}",
     "closed": "Closed for today",
     "hours": "{start} to {end}",
-    "notToday": "Not on today"
+    "notToday": "Not on today",
+    "nextOpen": "Opens {when}, {time}",
+    "tomorrow": "tomorrow",
+    "nextWeek": "next {day}"
   },
   "Days": {
     "everyDay": "Every day",
@@ -400,6 +403,7 @@
     "nearMe": "Near me",
     "locating": "Finding your location…",
     "locationDenied": "Couldn't get your location. The map still works.",
+    "outsideMalaysia": "You're outside Malaysia, so the map shows the Klang Valley.",
     "away": "{distance} km",
     "you": "Your location"
   },

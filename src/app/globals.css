@@ -20,6 +20,8 @@
   --cta: #c8431c;
   --on-cta: #ffffff;
   --open: #2e7d3a;
+  /* Highlight that sweeps across "Buka sekarang" (ShinyText). */
+  --open-shine: #7ed98b;
   --kedai: #0b7a6e;
   --on-kedai: #ffffff;
 
@@ -56,6 +58,7 @@
   --cta: #ff6b45;
   --on-cta: #12152b;
   --open: #4cc262;
+  --open-shine: #d6f7dc;
   --kedai: #2ec4b6;
   --on-kedai: #12152b;
 

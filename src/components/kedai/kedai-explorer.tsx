@@ -13,6 +13,10 @@ import { useMemo, useState } from "react";
 import { PanelBody, PanelHeader } from "@/components/layout/panel";
 import { SplitView } from "@/components/layout/split-view";
 import { formatKm } from "@/components/pasar/format";
+import {
+  NEAR_ME_ZOOM,
+  useUserLocation,
+} from "@/components/pasar/use-user-location";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { Business, BusinessCategory } from "@/lib/kedai/types";
@@ -26,8 +30,6 @@ const KedaiMap = dynamic(() => import("./kedai-map"), {
   ssr: false,
   loading: () => <div className="h-full bg-background" />,
 });
-
-type Locating = "idle" | "locating" | "denied";
 
 export function KedaiExplorer({
   businesses,
@@ -44,8 +46,9 @@ export function KedaiExplorer({
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focus, setFocus] = useState<MapFocus | null>(null);
-  const [userLocation, setUserLocation] = useState<LatLng | null>(null);
-  const [locating, setLocating] = useState<Locating>("idle");
+  const { userLocation, locating, locate } = useUserLocation((location) =>
+    flyTo(location, NEAR_ME_ZOOM),
+  );
 
   // Only categories that have at least one business, in their own order.
   const categories = useMemo(() => {
@@ -84,24 +87,6 @@ export function KedaiExplorer({
     document
       .getElementById(`business-${id}`)
       ?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  }
-
-  function locate() {
-    if (!("geolocation" in navigator)) {
-      setLocating("denied");
-      return;
-    }
-    setLocating("locating");
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        const location = { lat: coords.latitude, lng: coords.longitude };
-        setUserLocation(location);
-        setLocating("idle");
-        flyTo(location, 12.5);
-      },
-      () => setLocating("denied"),
-      { enableHighAccuracy: false, timeout: 10_000, maximumAge: 300_000 },
-    );
   }
 
   const categoryName = (c: BusinessCategory) =>
@@ -185,9 +170,11 @@ export function KedaiExplorer({
                 ? tMap("locating")
                 : locating === "denied"
                   ? tMap("locationDenied")
-                  : shown.length > 0
-                    ? t("count", { count: shown.length })
-                    : ""}
+                  : locating === "outside"
+                    ? tMap("outsideMalaysia")
+                    : shown.length > 0
+                      ? t("count", { count: shown.length })
+                      : ""}
             </p>
 
             {businesses.length === 0 ? (

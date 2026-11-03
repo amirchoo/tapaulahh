@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { formatKm, formatTime } from "./format";
+import { OpenShine } from "./open-shine";
 import type { PasarView } from "./pasar-view";
 
 export function PasarList({
@@ -19,10 +20,11 @@ export function PasarList({
 }) {
   return (
     <ul className="space-y-2">
-      {views.map((view) => (
+      {views.map((view, i) => (
         <PasarRow
           key={view.pasar.id}
           view={view}
+          eager={i === 0}
           selected={view.pasar.id === selectedId}
           onSelect={() => onSelect(view.pasar.id)}
         />
@@ -33,10 +35,13 @@ export function PasarList({
 
 function PasarRow({
   view,
+  eager,
   selected,
   onSelect,
 }: {
   view: PasarView;
+  /** First row's photo is above the fold on load. */
+  eager: boolean;
   selected: boolean;
   onSelect: () => void;
 }) {
@@ -66,6 +71,7 @@ function PasarRow({
               alt=""
               fill
               sizes="(min-width: 1024px) 352px, 100vw"
+              loading={eager ? "eager" : undefined}
               className="object-cover"
             />
           </span>
@@ -117,7 +123,11 @@ export function StatusLine({ view }: { view: PasarView }) {
     return (
       <span className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-open">
         <span aria-hidden className="size-2 rounded-full bg-open" />
-        {t("openUntil", { time: formatTime(status.schedule.endTime, locale) })}
+        <OpenShine>
+          {t("openUntil", {
+            time: formatTime(status.schedule.endTime, locale),
+          })}
+        </OpenShine>
       </span>
     );
   }

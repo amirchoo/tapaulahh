@@ -372,7 +372,10 @@
     "later": "Buka pukul {time}",
     "closed": "Dah tutup hari ni",
     "hours": "{start} hingga {end}",
-    "notToday": "Tak buka hari ni"
+    "notToday": "Tak buka hari ni",
+    "nextOpen": "Buka {when}, {time}",
+    "tomorrow": "esok",
+    "nextWeek": "{day} depan"
   },
   "Days": {
     "everyDay": "Setiap hari",
@@ -400,6 +403,7 @@
     "nearMe": "Dekat saya",
     "locating": "Tengah cari lokasi Anda…",
     "locationDenied": "Tak dapat lokasi. Peta masih boleh guna.",
+    "outsideMalaysia": "Anda di luar Malaysia, jadi peta tunjuk Lembah Klang.",
     "away": "{distance} km",
     "you": "Lokasi Anda"
   },
