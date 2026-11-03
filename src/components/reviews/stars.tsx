@@ -26,7 +26,7 @@ export function Stars({
             // Half a star or more rounds up to a full one.
             n <= Math.round(rating)
               ? "fill-pasar text-pasar"
-              : "fill-transparent text-border",
+              : "fill-transparent text-muted-foreground",
           )}
         />
       ))}

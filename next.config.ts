@@ -7,6 +7,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const ALLOW_SEARCH_INDEXING = false;
 
 const nextConfig: NextConfig = {
+  // Keep next-intl's internal /ms rewrites intact. Normalizing the destination
+  // runs it through locale routing again, which redirects back to the same URL.
+  skipProxyUrlNormalize: true,
   images: {
     // Pasar and stall photos from Supabase Storage (public buckets only).
     remotePatterns: [

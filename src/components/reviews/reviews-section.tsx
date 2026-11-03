@@ -35,10 +35,14 @@ export function ReviewsSection({
   targetType,
   targetId,
   summary,
+  heading,
+  description,
 }: {
   targetType: ReviewTargetType;
   targetId: string;
   summary: ReviewSummary;
+  heading?: string;
+  description?: string;
 }) {
   const t = useTranslations("Reviews");
   // undefined while checking; null when signed out.
@@ -80,7 +84,21 @@ export function ReviewsSection({
 
   return (
     <section id="ulasan" className="scroll-mt-4 space-y-4">
-      <h2 className="font-extrabold">{t("title", { count: summary.count })}</h2>
+      <div>
+        <h2
+          className={cn("font-extrabold", heading && "text-2xl tracking-tight")}
+        >
+          {heading ?? t("title", { count: summary.count })}
+        </h2>
+        {heading && (
+          <p className="mt-1 text-sm font-semibold">
+            {t("count", { count: summary.count })}
+          </p>
+        )}
+        {description && (
+          <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
 
       <Composer
         viewer={viewer}
@@ -317,7 +335,7 @@ function ReviewForm({
                   "size-8 transition-colors",
                   n <= shown
                     ? "fill-pasar text-pasar"
-                    : "fill-transparent text-border",
+                    : "fill-transparent text-muted-foreground",
                 )}
               />
             </label>
